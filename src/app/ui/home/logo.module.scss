@@ -1,26 +1,49 @@
-@import '@/style/_imports.scss';
+@import "@/style/_imports.scss";
 
 .root {
+  --logo-padding: 1px;
+
   display: block;
-  position: relative;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - (var(--logo-padding) * 2));
+  height: calc(100% - (var(--logo-padding) * 2));
+  padding: var(--logo-padding);
   border-radius: 10px;
   background-color: $primary_colour_theme_light;
-  
+
   .link {
     display: block;
-    // position: relative;
+    position: relative;
     height: 100%;
     width: 100%;
-  }
-  
-  .image {
-    // border: 2px solid red;
-    // position: relative;
-    width: '100%';
-    height: 'auto';
-    // padding: 1rem;
+
+    .imageSm {
+      display: block;
+    }
+
+    .imageMd {
+      display: none;
+    }
   }
 }
 
+@include md {
+  .root {
+    --logo-padding: 4px;
+
+    .link {
+      .imageSm {
+        display: none;
+      }
+
+      .imageMd {
+        display: block;
+      }
+    }
+  }
+}
+
+@include lg {
+  .root {
+    --logo-padding: 10px;
+  }
+}

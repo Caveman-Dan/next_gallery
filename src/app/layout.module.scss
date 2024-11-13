@@ -12,13 +12,14 @@
     flex-direction: column;
     width: 10%;
     height: 100%;
+    max-width: 200px;
 
     .logoContainer {
       display: block;
       // position: relative;
       margin: 0;
 
-      height: 6rem;
+      height: 3rem;
       width: 100%;
     }
 
@@ -54,6 +55,8 @@
       width: 15%;
 
       .logoContainer {
+        height: 6rem;
+
         margin-top: var(--nav_spacing);
       }
     }

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import LogoWithName from "@/assets/logoWithName.svg";
 import LogoIcon from "@/assets/logo.svg";
+import LogoWithName from "@/assets/logoWithName.svg";
 
 import styles from "./logo.module.scss";
 

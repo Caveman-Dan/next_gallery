@@ -1,0 +1,9 @@
+@import "@/style/_imports.scss";
+
+.root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: $primary_colour_theme_light;
+}

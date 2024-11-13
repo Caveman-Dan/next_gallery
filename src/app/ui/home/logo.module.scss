@@ -1,0 +1,26 @@
+@import '@/style/_imports.scss';
+
+.root {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: $primary_colour_theme_light;
+  
+  .link {
+    display: block;
+    // position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .image {
+    // border: 2px solid red;
+    // position: relative;
+    width: '100%';
+    height: 'auto';
+    // padding: 1rem;
+  }
+}
+

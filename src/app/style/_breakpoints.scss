@@ -1,11 +1,13 @@
+@import "./breakpoints.json";
+
 // Small tablets and large smartphones (landscape view)
-$screen-sm: 576px;
+$screen-sm: $sm + "px";
 
 // Small tablets (portrait view)
-$screen-md: 768px;
+$screen-md: $md + "px";
 
 // Tablets and small desktops
-$screen-lg: 992px;
+$screen-lg: $lg + "px";
 
 // Large tablets and desktops
-$screen-xl: 1200px;
+$screen-xl: $xl + "px";

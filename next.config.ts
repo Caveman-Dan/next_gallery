@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
+import jsonImporter from "node-sass-json-importer";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  sassOptions: {
+    importer: jsonImporter(),
+  },
 };
 
 export default nextConfig;

@@ -1,0 +1,67 @@
+@import "@/style/_imports.scss";
+
+.root {
+  display: flex;
+  max-width: 100%;
+  margin: 0 auto;
+  // border: 6px solid cyan;
+
+  .sideBarContainer {
+    // border: 2px solid cyan;
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    height: 100%;
+
+    .logoContainer {
+      display: block;
+      // position: relative;
+      margin: 0;
+
+      height: 6rem;
+      width: 100%;
+    }
+
+    .sideNavContainer {
+      // border: 2px solid red;
+      margin-top: var(--nav_spacing);
+      width: 100%;
+      min-height: 80%;
+    }
+  }
+
+  .contentContainer {
+    width: 90%;
+
+    .topBarContainer {
+      margin: 0 0 var(--nav_spacing) var(--nav_spacing);
+      width: calc(100% - var(--nav_spacing));
+      height: 3rem;
+    }
+
+    .pageContainer {
+      width: calc(100% - var(--nav_spacing));
+      margin-left: var(--nav_spacing);
+    }
+  }
+}
+
+@include md {
+  .root {
+    max-width: 80%;
+
+    .sideBarContainer {
+      width: 15%;
+
+      .logoContainer {
+        margin-top: var(--nav_spacing);
+      }
+    }
+
+    .contentContainer {
+      .topBarContainer {
+        margin-top: var(--nav_spacing);
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import '@/style/_imports.scss';
+
+.page {
+  // border: 2px solid green;
+  display: flex;
+  padding: 80px;
+  font-family: var(--font-geist-sans);
+  width: 90%;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   .page {
+//     --gray-rgb: 255, 255, 255;
+//     --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+//     --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+//     --button-primary-hover: #ccc;
+//     --button-secondary-hover: #1a1a1a;
+//   }
+// }
+

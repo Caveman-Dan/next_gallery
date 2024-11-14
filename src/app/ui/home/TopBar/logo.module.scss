@@ -1,13 +1,14 @@
 @import "@/style/_imports.scss";
 
 .root {
-  --logo-padding: 1px;
+  --logo-width: 3rem;
+  --logo-padding: 2px;
 
   display: block;
-  width: calc(100% - (var(--logo-padding) * 2));
+  width: calc(var(--logo-width) - (var(--logo-padding) * 2));
   height: calc(100% - (var(--logo-padding) * 2));
   padding: var(--logo-padding);
-  border-radius: 10px;
+  border-radius: $default_border_radius;
   background-color: $primary_colour_theme_light;
 
   .link {
@@ -23,13 +24,16 @@
     .imageMd {
       display: none;
     }
+
+    .imageLg {
+      display: none;
+    }
   }
 }
 
 @include md {
   .root {
-    --logo-padding: 4px;
-
+    --logo-width: 4rem;
     .link {
       .imageSm {
         display: none;
@@ -44,6 +48,20 @@
 
 @include lg {
   .root {
-    --logo-padding: 10px;
+    --logo-width: 12rem;
+
+    .link {
+      .imageSm {
+        display: none;
+      }
+
+      .imageMd {
+        display: none;
+      }
+
+      .imageLg {
+        display: block;
+      }
+    }
   }
 }

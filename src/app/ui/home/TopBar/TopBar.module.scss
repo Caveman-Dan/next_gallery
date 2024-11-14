@@ -1,0 +1,42 @@
+@import "@/style/_imports.scss";
+
+.root {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: $default_border_radius;
+  background-color: $primary_colour_theme_light;
+
+  .leftSide {
+    display: flex;
+    height: 100%;
+    width: 50%;
+
+    .burgerContainer {
+      height: 36%;
+      width: 2rem;
+      display: flex;
+      margin: auto var(--nav_spacing);
+    }
+
+    // .logoContainer {
+    //   display: block;
+    //   // position: relative;
+    //   margin: 0;
+    //   height: 100%;
+    //   width: 3rem;
+    // }
+  }
+
+  .rightSide {
+    border: 2px solid red;
+    display: flex;
+    justify-content: end;
+    height: 100%;
+    width: 50%;
+
+    .loginButtonContainer {
+      width: 50px;
+    }
+  }
+}

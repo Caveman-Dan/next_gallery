@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import SideNav from "@/ui/home/SideNav";
-import Logo from "@/ui/home/Logo";
-import TopBar from "@/ui/home/TopBar";
+import SideBar from "@/app/ui/home/SideBar/SideBar";
+import TopBar from "@/app/ui/home/TopBar/TopBar";
 
 import "@/style/globals.scss";
 import styles from "./layout.module.scss";
@@ -35,17 +34,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className={styles.root}>
-          <div className={styles.sideBarContainer}>
-            <div className={styles.logoContainer}>
-              <Logo />
-            </div>
-            <div className={styles.sideNavContainer}>
-              <SideNav />
-            </div>
+          <div className={styles.topBarContainer}>
+            <TopBar />
           </div>
           <div className={styles.contentContainer}>
-            <div className={styles.topBarContainer}>
-              <TopBar />
+            <div className={styles.sideBarContainer}>
+              <SideBar />
             </div>
             <div className={styles.pageContainer}>{children}</div>
           </div>

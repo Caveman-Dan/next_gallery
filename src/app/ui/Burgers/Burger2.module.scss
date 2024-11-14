@@ -1,0 +1,113 @@
+@import "@/style/_imports.scss";
+
+$line_width: 2px;
+
+.root {
+  // height: 36%;
+  // width: 52%;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  padding: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+
+  span {
+    display: block;
+    position: absolute;
+    height: $line_width;
+    width: 50%;
+    background: $border_colour;
+    opacity: 1;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.25s ease-in-out;
+    -moz-transition: 0.25s ease-in-out;
+    -o-transition: 0.25s ease-in-out;
+    transition: 0.25s ease-in-out;
+
+    &:nth-child(even) {
+      left: 50%;
+      border-radius: 0 $line_width $line_width 0;
+    }
+
+    &:nth-child(odd) {
+      left: 0px;
+      border-radius: $line_width 0 0 $line_width;
+    }
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      top: 0%;
+    }
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      top: 50%;
+    }
+
+    &:nth-child(5),
+    &:nth-child(6) {
+      top: 100%;
+    }
+  }
+}
+
+.open {
+  span {
+    &:nth-child(1),
+    &:nth-child(6) {
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    &:nth-child(2),
+    &:nth-child(5) {
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+
+    &:nth-child(1) {
+      left: 8%;
+      top: 8%;
+    }
+
+    &:nth-child(2) {
+      left: 42%;
+      top: 8%;
+    }
+
+    &:nth-child(3) {
+      left: -50%;
+      opacity: 0;
+    }
+
+    &:nth-child(4) {
+      left: 100%;
+      opacity: 0;
+    }
+
+    &:nth-child(5) {
+      left: 8%;
+      top: 72%;
+    }
+
+    &:nth-child(6) {
+      left: 42%;
+      top: 72%;
+    }
+  }
+}

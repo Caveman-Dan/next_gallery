@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Burger from "@/app/ui/Burgers/Burger4";
+import Burger from "@/app/ui/Burgers/Burger2";
 import Logo from "./Logo";
 
 import styles from "./TopBar.module.scss";

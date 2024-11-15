@@ -2,11 +2,17 @@
 *   Colours:
 */
 
-// Default theme
+// Dark theme (default)
+$background_colour_theme_dark: #000;
+$foreground_colour_theme_dark: #bbe7ff;
+$primary_colour_theme_dark: #172c42;
+$border_colour_theme_dark: #838db0;
+
+// Light theme
 $background_colour_theme_light: #fff;
 $foreground_colour_theme_light: #bbe7ff;
 $primary_colour_theme_light: #00daab;
-$border_colour: darkslategray;
+$border_colour_theme_light: darkslategray;
 
 /*
 *   Distances

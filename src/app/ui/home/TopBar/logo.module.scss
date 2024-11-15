@@ -9,7 +9,7 @@
   height: calc(100% - (var(--logo-padding) * 2));
   padding: var(--logo-padding);
   border-radius: $default_border_radius;
-  background-color: $primary_colour_theme_light;
+  background-color: var(--primary-colour);
 
   .link {
     display: block;

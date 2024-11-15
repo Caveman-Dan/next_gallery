@@ -24,7 +24,7 @@ $line_width: 2px;
     position: absolute;
     height: $line_width;
     width: 50%;
-    background: $border_colour;
+    background: var(--border-colour);
     opacity: 1;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);

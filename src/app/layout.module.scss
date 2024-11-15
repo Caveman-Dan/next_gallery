@@ -27,7 +27,7 @@
     }
 
     .pageContainer {
-      border: 1px solid $border_colour;
+      border: 1px solid var(--border-colour);
       border-radius: $default_border_radius;
       width: calc(90% - var(--nav_spacing));
       margin-left: var(--nav_spacing);

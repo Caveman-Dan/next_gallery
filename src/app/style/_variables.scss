@@ -1,18 +1,24 @@
 /*
 *   Colours:
 */
-
-// Dark theme (default)
-$background_colour_theme_dark: #000;
-$foreground_colour_theme_dark: #bbe7ff;
-$primary_colour_theme_dark: #172c42;
-$border_colour_theme_dark: #838db0;
-
-// Light theme
-$background_colour_theme_light: #fff;
-$foreground_colour_theme_light: #bbe7ff;
-$primary_colour_theme_light: #00daab;
-$border_colour_theme_light: darkslategray;
+$theme-colours: (
+  dark: (
+    background: #000,
+    foreground: #bbe7ff,
+    borders: #838db0,
+    panels: #172c42,
+    primary: #206cbe,
+    secondary: #5b91cb,
+  ),
+  light: (
+    background: #fff,
+    foreground: #bbe7ff,
+    borders: darkslategray,
+    panels: #00daab,
+    primary: #186e5b,
+    secondary: #406f65,
+  ),
+);
 
 /*
 *   Distances

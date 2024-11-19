@@ -5,7 +5,7 @@
   height: 100%;
   width: 100%;
   border-radius: $default_border_radius;
-  background-color: var(--primary-colour);
+  background-color: var(--panel-colour);
 
   .leftSide {
     display: flex;
@@ -29,14 +29,19 @@
   }
 
   .rightSide {
-    border: 2px solid red;
     display: flex;
     justify-content: end;
-    height: 100%;
+    gap: 2rem;
+    height: 2rem;
     width: 50%;
+    margin: auto 0;
+
+    .themeSelectWrapper {
+      width: 100px;
+    }
 
     .loginButtonContainer {
-      width: 50px;
+      width: 100px;
     }
   }
 }

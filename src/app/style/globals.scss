@@ -1,14 +1,23 @@
 @import "./imports";
 
 :root {
-  --background-colour: #{$background_colour_theme_dark};
-  --foreground-colour: #{$foreground_colour_theme_dark};
-  --primary-colour: #{$primary_colour_theme_dark};
-  --border-colour: #{$border_colour_theme_dark};
+  @include setThemeColours("dark");
+
+  color-scheme: dark;
 
   --nav_spacing: #{$sm_nav_spacer};
+}
 
-  color-scheme: dark light;
+[data-theme="system"] {
+  @media (prefers-color-scheme: light) {
+    @include setThemeColours("light");
+  }
+}
+
+[data-theme="light"] {
+  @include setThemeColours("light");
+
+  color-scheme: light;
 }
 
 html {
@@ -34,27 +43,7 @@ h1 {
   margin: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background-colour: #{$background_colour_theme_light};
-    --foreground-colour: #{$foreground_colour_theme_light};
-    --primary-colour: #{$primary_colour_theme_light};
-    --border-colour: #{$border_colour_theme_light};
-  }
-}
-
-[data-theme="light"] {
-  --background-colour: #{$background_colour_theme_light};
-  --foreground-colour: #{$foreground_colour_theme_light};
-  --primary-colour: #{$primary_colour_theme_light};
-  --border-colour: #{$border_colour_theme_light};
-}
-
-[data-theme="dark"] {
-  --background-colour: #{$background_colour_theme_dark};
-  --foreground-colour: #{$foreground_colour_theme_dark};
-  --primary-colour: #{$primary_colour_theme_dark};
-  --border-colour: #{$border_colour_theme_dark};
+:root {
 }
 
 @include md {

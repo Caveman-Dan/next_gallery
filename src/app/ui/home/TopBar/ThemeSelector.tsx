@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTheme } from "next-themes";
 
-import styles from "./ThemeSelector.module.scss";
+import Select from "@/ui/Select/Select";
+
+// import styles from "./ThemeSelector.module.scss";
 
 const ThemeSelector = () => {
-  const [isMounted, setIsMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   return (
-    <div className={styles.root}>
-      {isMounted && (
-        <select
-          value={theme || "system"}
-          onChange={(event) => setTheme(event.target.value)}
-        >
-          <>
-            <option value="light">Light</option>
-            <option value="dark">dark</option>
-            <option value="system">system</option>
-          </>
-        </select>
-      )}
-    </div>
+    <Select value={theme || "system"} onChange={setTheme}>
+      <option value="light">Light</option>
+      <option value="dark">dark</option>
+      <option value="system">system</option>
+    </Select>
   );
 };
 

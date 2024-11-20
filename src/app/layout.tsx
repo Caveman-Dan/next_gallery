@@ -1,9 +1,6 @@
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 
-import SideBar from "@/app/ui/home/SideBar/SideBar";
-import TopBar from "@/app/ui/home/TopBar/TopBar";
-
 import "@/style/globals.scss";
 import styles from "./layout.module.scss";
 
@@ -34,21 +31,9 @@ const RootLayout = async ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider>
-          <div className={styles.root}>
-            <div className={styles.topBarContainer}>
-              <TopBar />
-            </div>
-            <div className={styles.contentContainer}>
-              <div className={styles.sideBarContainer}>
-                <SideBar />
-              </div>
-              <div className={styles.pageContainer}>{children}</div>
-            </div>
-          </div>
-        </ThemeProvider>
+    <html className={styles.root} lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${styles.body}`}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

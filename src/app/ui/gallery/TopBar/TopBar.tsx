@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import Burger from "@/app/ui/Burgers/Burger2";
-import ThemeSelector from "@/ui/home/TopBar/ThemeSelector";
+import Burger from "@/app/ui/burgers/Burger2";
+import ThemeSelector from "@/app/ui/gallery/TopBar/ThemeSelector";
 import Logo from "./Logo";
 
 import styles from "./TopBar.module.scss";

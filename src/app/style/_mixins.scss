@@ -43,4 +43,5 @@
   --panel-colour: #{map-get(map-get($theme-colours, $themeName), "panels")};
   --primary-colour: #{map-get(map-get($theme-colours, $themeName), "primary")};
   --secondary-colour: #{map-get(map-get($theme-colours, $themeName), "secondary")};
+  --shadow-colour: #{map-get(map-get($theme-colours, $themeName), "shadow")};
 }

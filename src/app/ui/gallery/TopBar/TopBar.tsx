@@ -5,6 +5,7 @@ import React from "react";
 import Burger from "@/app/ui/burgers/Burger2";
 import ThemeSelector from "@/app/ui/gallery/TopBar/ThemeSelector";
 import Logo from "./Logo";
+import Button from "../../components/Button/Button";
 
 import styles from "./TopBar.module.scss";
 
@@ -21,7 +22,7 @@ const TopBar = () => (
         <ThemeSelector />
       </div>
       <div className={styles.loginButtonContainer}>
-        <button>Login</button>
+        <Button>Login</Button>
       </div>
     </div>
   </div>

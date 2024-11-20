@@ -18,7 +18,7 @@ const Home = () => {
         <div className={styles.sidePanel}>
           <h1>Next Gallery</h1>
           <Link className={styles.exploreButton} href="/gallery">
-            <Button>Explore</Button>
+            <Button className={styles.exploreButton}>Explore</Button>
           </Link>
         </div>
         <div className={styles.content}>

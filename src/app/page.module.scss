@@ -18,7 +18,7 @@ $panel-border-radius: 20px;
     height: calc(20% - ($panel-spacing * 2));
     padding: $panel-spacing;
     margin-bottom: $panel-spacing;
-    background-color: var(--primary-colour);
+    background-color: var(--primary-colour-base);
     border-radius: 0 0 0 $panel-border-radius;
 
     .logoContainer {
@@ -29,7 +29,7 @@ $panel-border-radius: 20px;
 
       .logo {
         // width: 200px;
-        background-color: var(--secondary-colour);
+        background-color: var(--primary-colour-dark);
         padding: $panel-spacing / 2;
         border-radius: $panel-border-radius 0 0 0;
       }
@@ -46,9 +46,9 @@ $panel-border-radius: 20px;
       flex-direction: column;
       height: calc(100% - $panel-spacing);
       width: calc(20% - ($panel-spacing * 2));
-      border: 5px solid var(--primary-colour);
+      border: 5px solid var(--primary-colour-base);
       border-radius: $panel-border-radius 0 0 0;
-      background-color: var(--secondary-colour);
+      background-color: var(--primary-colour-dark);
       padding: 1rem;
 
       .exploreButton {
@@ -62,7 +62,7 @@ $panel-border-radius: 20px;
     .content {
       width: calc(100% - $panel-spacing);
       margin-left: $panel-spacing;
-      border: 5px solid var(--secondary-colour);
+      border: 5px solid var(--primary-colour-dark);
       padding: 2rem;
     }
   }

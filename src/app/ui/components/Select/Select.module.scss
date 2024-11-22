@@ -2,7 +2,16 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: var(--primary-colour);
+  transition:
+    background-color 400ms,
+    box-shadow 400ms;
+  background-color: var(--primary-colour-base);
+  border: 1px solid var(--border-colour-base);
   border-radius: $default_border_radius;
-  border: 1px solid var(--border-colour);
+  box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
+
+  &:hover {
+    box-shadow: 0.1rem 0.1rem 0.1rem var(--shadow-colour-base);
+    background-color: var(--highlight-colour-base);
+  }
 }

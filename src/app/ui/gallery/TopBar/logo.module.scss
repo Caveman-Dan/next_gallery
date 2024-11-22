@@ -7,7 +7,7 @@
   height: calc(100% - (var(--logo-padding) * 2));
   padding: var(--logo-padding);
   border-radius: $default_border_radius;
-  background-color: var(--panel-colour);
+  background-color: var(--primary-colour-base);
 
   .link {
     display: block;

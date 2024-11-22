@@ -1,23 +1,92 @@
 /*
 *   Colours:
 */
+// $theme-colours: (
+//   dark: (
+//     background: #000,
+//     foreground: #bbe7ff,
+//     borders: #7c7c8b,
+//     panels: #172c42,
+//     primary: #32303b,
+//     secondary: #201f26,
+//     shadow: #354769a4,
+//   ),
+//   light: (
+//     background: #fff,
+//     foreground: #bbe7ff,
+//     borders: darkslategray,
+//     panels: #00daab,
+//     primary: #186e5b,
+//     secondary: #406f65,
+//   ),
+// );
+
 $theme-colours: (
   dark: (
-    background: #000,
-    foreground: #bbe7ff,
-    borders: #7c7c8b,
-    panels: #172c42,
-    primary: #32303b,
-    secondary: #201f26,
-    shadow: #354769a4,
+    text: (
+      base: darkslategray,
+    ),
+    background: (
+      base: #000,
+    ),
+    foreground: (
+      base: #bbe7ff,
+    ),
+    border: (
+      base: #a2a2c2,
+    ),
+    shadow: (
+      base: #666178,
+    ),
+    highlight: (
+      base: #43404e,
+      alternate: #27262f,
+    ),
+    primary: (
+      lighter: #666178,
+      light: #43404e,
+      base: #32303b,
+      dark: #27262f,
+      darker: #151519,
+    ),
+    secondary: (
+      lighter: #201f26,
+      light: #201f26,
+      base: #201f26,
+      dark: #201f26,
+      darker: #201f26,
+    ),
   ),
   light: (
-    background: #fff,
-    foreground: #bbe7ff,
-    borders: darkslategray,
-    panels: #00daab,
-    primary: #186e5b,
-    secondary: #406f65,
+    background: (
+      base: #fff,
+    ),
+    foreground: (
+      base: #bbe7ff,
+    ),
+    border: (
+      base: darkslategray,
+    ),
+    shadow: (
+      base: #406f65,
+    ),
+    highlight: (
+      base: #63e1c6,
+    ),
+    primary: (
+      lighter: #b3f8e9,
+      light: #63e1c6,
+      base: #00daab,
+      dark: #406f65,
+      darker: #151519,
+    ),
+    secondary: (
+      lighter: #201f26,
+      light: #201f26,
+      base: #201f26,
+      dark: #201f26,
+      darker: #201f26,
+    ),
   ),
 );
 

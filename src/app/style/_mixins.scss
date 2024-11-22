@@ -37,12 +37,15 @@
 }
 
 // Assign theme colours to css variables
-@mixin setThemeColours($themeName) {
-  --background-colour: #{map-get(map-get($theme-colours, $themeName), "background")};
-  --foreground-colour: #{map-get(map-get($theme-colours, $themeName), "foreground")};
-  --border-colour: #{map-get(map-get($theme-colours, $themeName), "borders")};
-  --panel-colour: #{map-get(map-get($theme-colours, $themeName), "panels")};
-  --primary-colour: #{map-get(map-get($theme-colours, $themeName), "primary")};
-  --secondary-colour: #{map-get(map-get($theme-colours, $themeName), "secondary")};
-  --shadow-colour: #{map-get(map-get($theme-colours, $themeName), "shadow")};
+
+@mixin generateCssThemeVariables($themeName) {
+  @each $themeArray, $colourTypeArray in $theme-colours {
+    @if $themeArray == $themeName {
+      @each $colourType, $variationArray in $colourTypeArray {
+        @each $variation, $value in $variationArray {
+          --#{$colourType}-colour-#{$variation}: #{$value};
+        }
+      }
+    }
+  }
 }

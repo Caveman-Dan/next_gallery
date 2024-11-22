@@ -1,36 +1,37 @@
-@import "./breakpoints.json";
+@use "./variables" as *;
+@use "./breakpoints.json" as *;
 
 // Small devices
 @mixin sm {
-  @media (min-width: #{$screen-sm + "px"}) {
+  @media (min-width: ($screen-sm + "px")) {
     @content;
   }
 }
 
 // Medium devices
 @mixin md {
-  @media (min-width: #{$screen-md + "px"}) {
+  @media (min-width: ($screen-md + "px")) {
     @content;
   }
 }
 
 // Large devices
 @mixin lg {
-  @media (min-width: #{$screen-lg + "px"}) {
+  @media (min-width: ($screen-lg + "px")) {
     @content;
   }
 }
 
 // Extra large devices
 @mixin xl {
-  @media (min-width: #{$screen-xl + "px"}) {
+  @media (min-width: ($screen-xl + "px")) {
     @content;
   }
 }
 
 // Custom devices
 @mixin cust($screen) {
-  @media (min-width: $screen + "px") {
+  @media (min-width: ($screen + "px")) {
     @content;
   }
 }

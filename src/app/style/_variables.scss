@@ -24,7 +24,7 @@
 $theme-colours: (
   dark: (
     text: (
-      base: darkslategray,
+      base: #ece9d2,
     ),
     background: (
       base: #000,
@@ -58,6 +58,9 @@ $theme-colours: (
     ),
   ),
   light: (
+    text: (
+      base: lemonchiffon,
+    ),
     background: (
       base: #fff,
     ),
@@ -72,6 +75,7 @@ $theme-colours: (
     ),
     highlight: (
       base: #63e1c6,
+      alternate: #27262f,
     ),
     primary: (
       lighter: #b3f8e9,

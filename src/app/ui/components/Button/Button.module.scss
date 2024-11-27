@@ -1,6 +1,4 @@
 .root {
-  position: relative;
-  overflow: hidden;
   width: 100%;
   height: 100%;
   transition: background-color 400ms;
@@ -14,20 +12,5 @@
   &:hover {
     box-shadow: 0.1rem 0.1rem 0.1rem var(--shadow-colour-base);
     background-color: var(--highlight-colour-base);
-  }
-
-  .ripple {
-    position: absolute; /* The absolute position we mentioned earlier */
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 600ms linear;
-    background-color: var(--secondary-colour);
-  }
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
   }
 }

@@ -4,6 +4,7 @@
   width: 100%;
   border-radius: $default_border_radius;
   background-color: var(--primary-colour-base);
+  transition: background-color $theme_change_transition;
 
   .leftSide {
     display: flex;
@@ -16,14 +17,6 @@
       display: flex;
       margin: auto var(--nav_spacing);
     }
-
-    // .logoContainer {
-    //   display: block;
-    //   // position: relative;
-    //   margin: 0;
-    //   height: 100%;
-    //   width: 3rem;
-    // }
   }
 
   .rightSide {

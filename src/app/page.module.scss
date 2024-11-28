@@ -21,6 +21,8 @@ $panel-border-radius: 20px;
     background-color: var(--primary-colour-base);
     border-radius: 0 0 0 $panel-border-radius;
 
+    transition: background-color $theme_change_transition;
+
     .logoContainer {
       position: relative;
       width: 300px;
@@ -32,6 +34,7 @@ $panel-border-radius: 20px;
         background-color: var(--primary-colour-dark);
         padding: $panel-spacing / 2;
         border-radius: $panel-border-radius 0 0 0;
+        transition: background-color $theme_change_transition;
       }
     }
   }
@@ -50,6 +53,7 @@ $panel-border-radius: 20px;
       border-radius: $panel-border-radius 0 0 0;
       background-color: var(--primary-colour-dark);
       padding: 1rem;
+      transition: background-color $theme_change_transition;
 
       .exploreButton {
         display: flex;
@@ -64,6 +68,7 @@ $panel-border-radius: 20px;
       margin-left: $panel-spacing;
       border: 5px solid var(--primary-colour-dark);
       padding: 2rem;
+      transition: background-color $theme_change_transition;
     }
   }
 }

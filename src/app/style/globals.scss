@@ -28,6 +28,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
     color: var(--text-colour-base);
 
+    transition: background-color $theme_change_transition;
     height: 100vh;
     width: 100vw;
   }
@@ -35,10 +36,14 @@ html {
 
 button {
   color: var(--text-colour-base);
+  transition:
+    color $theme_change_transition,
+    background-color $theme_change_transition;
 }
 
 a {
   color: inherit;
+  transition: color $theme_change_transition;
   text-decoration: none;
 }
 

@@ -1,6 +1,6 @@
 import styles from "./Ripple.module.scss";
 
-const handleRipple = (event: React.MouseEvent<HTMLButtonElement>) => {
+const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
   const element = event.currentTarget;
   element?.classList.add(styles.root);
 
@@ -12,6 +12,7 @@ const handleRipple = (event: React.MouseEvent<HTMLButtonElement>) => {
   circle.style.left = `${event.clientX - (element.offsetLeft + radius)}px`;
   circle.style.top = `${event.clientY - (element.offsetTop + radius)}px`;
   circle.classList.add(styles.ripple);
+  circle.setAttribute("id", "ripple");
 
   const ripple = document.getElementsByClassName(styles.ripple)[0];
 

@@ -17,11 +17,10 @@ const ThemeSelector = () => {
     <div className={styles.root}>
       {isMounted && (
         <>
-          {/* <div className={styles.overlay}>Theme</div> */}
-          <Select value={theme || "system"} onChange={setTheme}>
+          <Select value={theme || "system"} onChange={setTheme} overlayText="Theme">
             <option value="light">Light</option>
-            <option value="dark">dark</option>
-            <option value="system">system</option>
+            <option value="dark">Dark</option>
+            <option value="system">System</option>
           </Select>
         </>
       )}

@@ -14,13 +14,15 @@
     "node-sass-json-importer": "^4.3.0",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
-    "sass": "^1.80.6"
+    "sass": "^1.80.6",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uniqid": "^5.3.4",
     "eslint": "^8",
     "eslint-config-next": "15.0.2",
     "eslint-config-prettier": "^9.1.0",

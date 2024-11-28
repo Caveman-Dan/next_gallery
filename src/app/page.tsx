@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import LogoWithSideName from "@/assets/logoSideNameBig_light.svg";
-import Button from "@/ui/components/Button/Button.tsx";
+import LogoWithSideName from "@/assets/logoSideName.svg?url";
+import Button from "@/ui/components/Button/Button";
 
 import styles from "./page.module.scss";
 

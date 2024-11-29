@@ -8,7 +8,6 @@ $option_padding: 5px;
   height: 100%;
   overflow: hidden;
   transition:
-    height $menu_transition,
     background-color $menu_transition,
     box-shadow $menu_transition;
   background-color: var(--primary-colour-base);

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import uniqid from "uniqid";
+import { animated, useSpring, useSpringRef } from '@react-spring/web';
 
 import handleRipple from "@/ui/components/Ripple/Ripple";
 import DownArrow from "@/assets/arrow-down-s-fill.svg";
@@ -15,20 +16,46 @@ type SelectProps = {
 
 const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText }) => {
   const [open, setOpen] = useState(false);
+  const api = useSpringRef();
+  const springs = useSpring({
+    ref: api,
+    from: { height: '100%' },
+  });
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const openHight = `${100 * children.length + 25}%`;
+  const handleOpenClose = useCallback(async (newState = !open) => {
+    await setOpen(newState);
+    
+    api.start({
+      to: {
+        height: open ? '100%' : openHight,
+      },
+      config: {
+        mass: open ? 80 : 2,
+        tension: 400,
+        friction: 20,
+        precision: 0.00,
+        clamp: open,
+      }
+    });
+  }, [open, api, openHight]);
+
+  const handleClick = (event) => {
     handleRipple(event);
-    setOpen(!open);
+    handleOpenClose();
   };
 
   const handleSelect = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
-      if ((event.target as HTMLElement).id !== "ripple")
-        setTimeout(() => onChange((event.target as HTMLSelectElement).value), 400);
-      if ((event.target as HTMLSelectElement).value !== value) setTimeout(() => setOpen(false), 400);
+      if ((event.target as HTMLElement).id !== "ripple") {
+        setTimeout(() => {
+          onChange((event.target as HTMLSelectElement).value);
+          if ((event.target as HTMLSelectElement).value !== value) handleOpenClose(false);
+        }, 400);
+      }
       handleRipple(event);
     },
-    [onChange, value]
+    [onChange, value, handleOpenClose]
   );
 
   const Options = useMemo(() => {
@@ -44,9 +71,10 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     );
   }, [children, handleSelect, value]);
 
+  // <adiv className={styles.root} style={{ height: open ? `calc(100% * ${children.length} + .6rem)` : "100%" }}>
   return (
-    <div className={styles.root} style={{ height: open ? `calc(100% * ${children.length} + .6rem)` : "100%" }}>
-      <div className={`${styles.clickAway} ${!open ? styles.hide : ""}`} onClick={() => setOpen(false)} />
+    <animated.div className={styles.root} style={{ ...springs }}>
+      <div className={`${styles.clickAway} ${!open ? styles.hide : ""}`} onClick={() => handleOpenClose(false)} />
       <div className={styles.selectBox} onClick={handleClick}>
         <p>{overlayText || value}</p>
         <DownArrow
@@ -54,8 +82,8 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
           alt={`Select box ${open ? "up" : "down"} arrow`}
         />
       </div>
-      <div className={`${styles.optionBox} ${open ? styles.open : ""}`}>{Options}</div>
-    </div>
+      <div className={`${styles.optionBox}`}>{Options}</div>
+    </animated.div>
   );
 };
 

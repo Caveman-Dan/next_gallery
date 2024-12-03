@@ -4,6 +4,7 @@ import { animated, useSpring, useSpringRef } from '@react-spring/web';
 
 import handleRipple from "@/ui/components/Ripple/Ripple";
 import DownArrow from "@/assets/arrow-down-s-fill.svg";
+import ClickAway from '@/ui/components/ClickAway/ClickAway';
 
 import styles from "./Select.module.scss";
 
@@ -74,7 +75,8 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
   // <adiv className={styles.root} style={{ height: open ? `calc(100% * ${children.length} + .6rem)` : "100%" }}>
   return (
     <animated.div className={styles.root} style={{ ...springs }}>
-      <div className={`${styles.clickAway} ${!open ? styles.hide : ""}`} onClick={() => handleOpenClose(false)} />
+      <ClickAway active={open} setActive={handleOpenClose} />
+      {/* <div className={`${styles.clickAway} ${!open ? styles.hide : ""}`} onClick={() => handleOpenClose(false)} /> */}
       <div className={styles.selectBox} onClick={handleClick}>
         <p>{overlayText || value}</p>
         <DownArrow

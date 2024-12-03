@@ -1,4 +1,5 @@
 .clickAway {
+  // background-color: red;
   display: block;
   position: fixed;
   top: 0;
@@ -10,4 +11,12 @@
 
 .hide {
   display: none;
+}
+
+.blur {
+  backdrop-filter: blur(3px);
+}
+
+.raise {
+  z-index: 101;
 }

@@ -11,7 +11,6 @@ $option_padding: 5px;
     background-color $menu_transition,
     box-shadow $menu_transition;
   background-color: var(--primary-colour-base);
-  border: 1px solid var(--border-colour-base);
   border-radius: $default_border_radius;
   box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
 
@@ -23,12 +22,12 @@ $option_padding: 5px;
   .selectBox {
     display: flex;
     justify-content: space-evenly;
-    width: calc(100% - ($option_padding * 2));
-    height: 2rem;
-    min-height: 2rem;
+    width: calc(100% - ($option_padding * 2) - 2px);
+    height: calc(2rem - 2px);
+    min-height: calc(2rem - 2px);
     padding: 0 $option_padding;
+    border: 1px solid var(--border-colour-base);
     border-radius: $default_border_radius;
-    z-index: 101;
 
     p {
       margin: 0;

@@ -26,15 +26,17 @@ const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
   }, [api, sidebarOpen]);
 
   return (
-    <animated.div className={`${styles.root}`} style={{ ...springs }}>
+    <>
       <ClickAway active={sidebarOpen} setActive={setSidebarOpen} />
-      <h1>hello</h1>
-      <h1>hello</h1>
-      <h1>hello</h1>
-      <h1>hello</h1>
-      <h1>hello</h1>
-      <h1>hello</h1>
-    </animated.div>
+      <animated.div className={`${styles.root}`} style={{ ...springs }}>
+        <h1>hello</h1>
+        <h1>hello</h1>
+        <h1>hello</h1>
+        <h1>hello</h1>
+        <h1>hello</h1>
+        <h1>hello</h1>
+      </animated.div>
+    </>
   );
 };
 

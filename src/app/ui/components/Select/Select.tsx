@@ -70,20 +70,20 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     );
   }, [children, handleSelect, value]);
 
-  // <adiv className={styles.root} style={{ height: open ? `calc(100% * ${children.length} + .6rem)` : "100%" }}>
   return (
-    <animated.div className={styles.root} style={{ ...springs }}>
+    <>
       <ClickAway active={open} setActive={handleOpenClose} />
-      {/* <div className={`${styles.clickAway} ${!open ? styles.hide : ""}`} onClick={() => handleOpenClose(false)} /> */}
-      <div className={styles.selectBox} onClick={handleClick}>
-        <p>{overlayText || value}</p>
-        <DownArrow
-          className={`${styles.downArrow} ${open ? styles.upArrow : ""}`}
-          alt={`Select box ${open ? "up" : "down"} arrow`}
-        />
-      </div>
-      <div className={`${styles.optionBox}`}>{Options}</div>
-    </animated.div>
+      <animated.div className={styles.root} style={{ ...springs }}>
+        <div className={styles.selectBox} onClick={handleClick}>
+          <p>{overlayText || value}</p>
+          <DownArrow
+            className={`${styles.downArrow} ${open ? styles.upArrow : ""}`}
+            alt={`Select box ${open ? "up" : "down"} arrow`}
+          />
+        </div>
+        <div className={`${styles.optionBox}`}>{Options}</div>
+      </animated.div>
+    </>
   );
 };
 

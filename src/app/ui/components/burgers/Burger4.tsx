@@ -1,22 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import BurgerProps from "@/lib/definitions";
 
 import styles from "./Burger4.module.scss";
 
-const Burger4 = () => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div
-      className={`${styles.root} ${open ? styles.open : ""}`}
-      onClick={() => setOpen(!open)}
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  );
-};
+const Burger4: React.FC<BurgerProps> = ({ state, setState }) => (
+  <div className={`${styles.root} ${state ? styles.open : ""}`} onClick={() => setState(!state)}>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+);
 
 export default Burger4;

@@ -13,7 +13,7 @@ const TopBar = () => (
   <div className={styles.root}>
     <div className={styles.leftSide}>
       <div className={styles.burgerContainer}>
-        <Burger />
+        <Burger state={sidebarOpen} setState={setSidebarOpen} />
       </div>
       <Logo />
     </div>

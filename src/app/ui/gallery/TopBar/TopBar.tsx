@@ -9,7 +9,13 @@ import Button from "../../components/Button/Button";
 
 import styles from "./TopBar.module.scss";
 
-const TopBar = () => (
+const TopBar = ({
+  sidebarOpen,
+  setSidebarOpen,
+}: {
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => (
   <div className={styles.root}>
     <div className={styles.leftSide}>
       <div className={styles.burgerContainer}>

@@ -4,6 +4,7 @@ import { animated, useSpring, useSpringRef } from "@react-spring/web";
 import ClickAway from "@/ui/components/ClickAway/ClickAway";
 
 import styles from "./SideBar.module.scss";
+import { menuItems as springsConfig } from "@/style/springsConfig";
 
 const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
   const api = useSpringRef();
@@ -18,10 +19,7 @@ const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
         width: sidebarOpen ? "20%" : "0",
       },
       config: {
-        mass: 2,
-        tension: 400,
-        friction: 20,
-        precision: 0.0,
+        ...springsConfig,
         clamp: !sidebarOpen,
       },
     });

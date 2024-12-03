@@ -7,6 +7,7 @@ import DownArrow from "@/assets/arrow-down-s-fill.svg";
 import ClickAway from '@/ui/components/ClickAway/ClickAway';
 
 import styles from "./Select.module.scss";
+import { menuItems as springsConfig } from '@/style/springsConfig';
 
 type SelectProps = {
   children: React.ReactNode[];
@@ -32,10 +33,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
         height: open ? '100%' : openHight,
       },
       config: {
-        mass: open ? 80 : 2,
-        tension: 400,
-        friction: 20,
-        precision: 0.00,
+        ...springsConfig,
         clamp: open,
       }
     });

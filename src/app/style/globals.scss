@@ -3,7 +3,7 @@
 
   color-scheme: dark;
 
-  --nav_spacing: #{$sm_nav_spacer};
+  --nav-spacing: #{$sm_nav_spacer};
 }
 
 [data-theme="system"] {
@@ -56,18 +56,18 @@ h1 {
 
 @include md {
   :root {
-    --nav_spacing: #{$md_nav_spacer};
+    --nav-spacing: #{$md_nav_spacer};
   }
 }
 
 @include lg {
   :root {
-    --nav_spacing: #{$lg_nav_spacer};
+    --nav-spacing: #{$lg_nav_spacer};
   }
 }
 
 @include xl {
   :root {
-    --nav_spacing: #{$xl_nav_spacer};
+    --nav-spacing: #{$xl_nav_spacer};
   }
 }

@@ -21,9 +21,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/assets/*": ["./src/app/assets/*"],
-      "@/ui/*": ["./src/app/ui/*"],
+      "@/hooks/*": ["./src/app/hooks/*"],
+      "@/lib/*": ["./src/app/lib/*"],
       "@/style/*": ["./src/app/style/*"],
-      "@/hooks/*": ["./src/app/hooks/*"]
+      "@/ui/*": ["./src/app/ui/*"]
     }
   },
   "include": ["svgr.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

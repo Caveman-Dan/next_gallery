@@ -1,10 +1,10 @@
 "use client";
 
-import BurgerProps from "@/lib/definitions";
+import { InteractiveToggleProps } from "@/lib/definitions";
 
 import styles from "./Burger3.module.scss";
 
-const Burger3: React.FC<BurgerProps> = ({ state, setState }) => (
+const Burger3: React.FC<InteractiveToggleProps> = ({ state, setState }) => (
   <div className={`${styles.root} ${state ? styles.open : ""}`} onClick={() => setState(!state)}>
     <span></span>
     <span></span>

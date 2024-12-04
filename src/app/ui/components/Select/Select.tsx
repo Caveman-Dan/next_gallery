@@ -11,6 +11,7 @@ import { menuItems as springsConfig } from '@/style/springsConfig';
 
 type SelectProps = {
   children: React.ReactNode[];
+  // children: React.OptionHTMLAttributes<HTMLOptionElement>[];
   value: string;
   onChange: (value: string) => void;
   overlayText: string;
@@ -39,14 +40,14 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     });
   }, [open, api, openHight]);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     handleRipple(event);
     handleOpenClose();
   };
 
   const handleSelect = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      if ((event.target as HTMLElement).id !== "ripple") {
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if ((event.target as HTMLDivElement).id !== "ripple") {
         setTimeout(() => {
           onChange((event.target as HTMLSelectElement).value);
           if ((event.target as HTMLSelectElement).value !== value) handleOpenClose(false);
@@ -57,18 +58,17 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     [onChange, value, handleOpenClose]
   );
 
-  const Options = useMemo(() => {
-    return children.map((option) =>
-      React.cloneElement(option, {
-        key: uniqid(),
-        onClick: handleSelect,
-        className:
-          option?.props.value == value
-            ? `${(option?.props.className && option.props.className + " ") || ""} ${styles.selected}`
-            : `${(option?.props.className && option.props.className + " ") || ""}`,
-      })
-    );
-  }, [children, handleSelect, value]);
+  const Options = useMemo(() => children.map((option) => {
+    // TypeScript type guard (option)
+    if (React.isValidElement(option)) return React.cloneElement((option as React.ReactElement), {
+      key: uniqid(),
+      onClick: handleSelect,
+      className:
+        option?.props.value == value
+          ? `${(option?.props.className && option.props.className + " ") || ""} ${styles.selected}`
+          : `${(option?.props.className && option.props.className + " ") || ""}`,
+    })
+  }), [children, handleSelect, value]);
 
   return (
     <>

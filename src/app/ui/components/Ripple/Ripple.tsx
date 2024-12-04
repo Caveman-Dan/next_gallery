@@ -1,6 +1,6 @@
 import styles from "./Ripple.module.scss";
 
-const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
+const handleRipple = (event: React.MouseEvent<HTMLDivElement>) => {
   const element = event.currentTarget;
   element?.classList.add(styles.root);
 

@@ -6,7 +6,14 @@ import ClickAway from "@/ui/components/ClickAway/ClickAway";
 import styles from "./SideBar.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
-const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
+import { InteractiveToggleProps } from "@/app/lib/definitions";
+
+type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
+  sidebarOpen: InteractiveToggleProps["state"];
+  setSidebarOpen: InteractiveToggleProps["setState"];
+};
+
+const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   const api = useSpringRef();
   const springs = useSpring({
     ref: api,

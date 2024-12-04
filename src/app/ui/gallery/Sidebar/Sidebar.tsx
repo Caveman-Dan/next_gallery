@@ -3,7 +3,7 @@ import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import ClickAway from "@/ui/components/ClickAway/ClickAway";
 
-import styles from "./SideBar.module.scss";
+import styles from "./Sidebar.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
 import { InteractiveToggleProps } from "@/app/lib/definitions";

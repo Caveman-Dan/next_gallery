@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import SideBar from "@/app/ui/gallery/SideBar/SideBar";
+import SideBar from "@/app/ui/gallery/Sidebar/Sidebar";
 import TopBar from "@/app/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";

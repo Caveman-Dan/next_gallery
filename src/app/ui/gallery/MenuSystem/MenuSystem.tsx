@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import SideBar from "@/app/ui/gallery/Sidebar/Sidebar";
+import Sidebar from "@/app/ui/gallery/Sidebar/Sidebar";
 import TopBar from "@/app/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";
@@ -15,7 +15,7 @@ const MenuSystem = () => {
       <div className={styles.topBarContainer}>
         <TopBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
-      <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
     </div>
   );
 };

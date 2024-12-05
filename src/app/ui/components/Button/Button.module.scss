@@ -9,6 +9,7 @@
   border: 1px solid var(--border-colour-base);
   border-radius: $default_border_radius;
   box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
+  overflow: hidden;
 
   &:hover {
     box-shadow: 0.1rem 0.1rem 0.1rem var(--shadow-colour-base);

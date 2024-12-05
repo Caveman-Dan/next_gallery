@@ -12,13 +12,15 @@ import styles from "./TopBar.module.scss";
 const TopBar = ({
   sidebarOpen,
   setSidebarOpen,
+  sideBarButtonClickAwayRef,
 }: {
   sidebarOpen: boolean;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement>;
 }) => (
   <div className={styles.root}>
     <div className={styles.leftSide}>
-      <div className={styles.burgerContainer}>
+      <div className={styles.burgerContainer} ref={sideBarButtonClickAwayRef}>
         <Burger state={sidebarOpen} setState={setSidebarOpen} />
       </div>
       <Logo />

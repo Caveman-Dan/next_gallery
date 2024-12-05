@@ -1,11 +1,24 @@
 .root {
   position: absolute;
   overflow: hidden;
-  // display: block;
   width: 0;
 
-  // height: 100%;
   border-radius: $default_border_radius;
   background-color: var(--primary-colour-base);
   margin-top: var(--nav-spacing);
+
+  .content {
+    .userProfileContainer {
+      width: fit-content;
+    }
+
+    .galleriesMenu {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        margin: 0 1rem 0 auto;
+      }
+    }
+  }
 }

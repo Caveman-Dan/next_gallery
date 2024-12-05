@@ -78,7 +78,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
 
   return (
     <>
-      <ClickAway active={open} setActive={handleOpenClose} parentRef={thisNode} blur />
+      <ClickAway active={open} setActive={handleOpenClose} parentRefs={[thisNode]} blur />
       <animated.div className={styles.root} style={{ ...springs }} ref={thisNode}>
         <div className={styles.selectBox} onClick={handleClick}>
           <p>{overlayText || value}</p>

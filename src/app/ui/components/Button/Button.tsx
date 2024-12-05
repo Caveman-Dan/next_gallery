@@ -7,7 +7,8 @@ import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 import styles from "./Button.module.scss";
 
 type ButtonProps = {
-  children: React.ReactNode;
+  className?: string;
+  children: React.ReactNode[] | string;
 };
 
 const Button: React.FC<ButtonProps> = ({ children }) => {

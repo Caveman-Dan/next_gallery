@@ -23,6 +23,9 @@
 
 $theme-colours: (
   dark: (
+    blurTint: (
+      base: #00000030,
+    ),
     text: (
       base: #ece9d2,
     ),
@@ -59,6 +62,9 @@ $theme-colours: (
     ),
   ),
   light: (
+    blurTint: (
+      base: #00000070,
+    ),
     text: (
       base: lemonchiffon,
     ),

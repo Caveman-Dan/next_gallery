@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import handleRipple from "@/ui/components/Ripple/Ripple";
+import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 
 import styles from "./Button.module.scss";
 
@@ -12,8 +12,9 @@ type ButtonProps = {
 
 const Button: React.FC<ButtonProps> = ({ children }) => {
   return (
-    <button className={styles.root} onClick={handleRipple}>
+    <button className={styles.root}>
       {children}
+      <Ripple />
     </button>
   );
 };

@@ -11,22 +11,33 @@ type ClickAwayProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   parentRefs?: React.RefObject<HTMLDivElement>[];
 };
 
+export const raiseForeground = (parentRefs: React.RefObject<HTMLDivElement>[] | null) => {
+  if (parentRefs?.length)
+    parentRefs.forEach((ref) => {
+      if (ref.current) ref.current.classList.add(styles.raise);
+    });
+};
+
+export const lowerForeground = (parentRefs: React.RefObject<HTMLDivElement>[] | null) => {
+  if (parentRefs?.length)
+    parentRefs.forEach((ref) => {
+      if (ref.current) ref.current.classList.remove(styles.raise);
+    });
+};
+
 // For background blur to work you need parentRefs and blur to be true
 // Attach useRef() to parent node and pass to ClickAway via parentRefs prop
 const ClickAway: React.FC<ClickAwayProps> = ({ active, setActive, blur = false, parentRefs = null }) => {
   useEffect(() => {
-    if (blur && active && parentRefs?.length)
-      parentRefs.forEach((ref) => {
-        if (ref.current) ref.current.classList.add(styles.raise);
-      });
+    if (blur) {
+      if (active) raiseForeground(parentRefs);
+      else lowerForeground(parentRefs);
+    }
   }, [parentRefs, active, blur]);
 
   const handleClick = () => {
     setActive(false);
-    if (blur && parentRefs?.length)
-      parentRefs.forEach((ref) => {
-        if (ref.current) ref.current.classList.remove(styles.raise);
-      });
+    if (blur) lowerForeground(parentRefs);
   };
 
   return (

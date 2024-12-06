@@ -1,5 +1,4 @@
 .clickAway {
-  background-color: var(--blurTint-colour-base);
   display: block;
   position: fixed;
   top: 0;
@@ -14,6 +13,7 @@
 }
 
 .blur {
+  background-color: var(--blurTint-colour-base);
   backdrop-filter: blur(3px);
 }
 

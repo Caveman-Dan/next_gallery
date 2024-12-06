@@ -44,11 +44,6 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     [open, api, openHight]
   );
 
-  const handleClick = () => {
-    console.log("HELLO");
-    handleOpenClose();
-  };
-
   const handleSelect = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if ((event.target as HTMLDivElement).id !== "ripple") {
@@ -80,7 +75,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     <>
       <ClickAway active={open} setActive={handleOpenClose} parentRefs={[thisNode]} blur />
       <animated.div className={styles.root} style={{ ...springs }} ref={thisNode}>
-        <div className={styles.selectBox} onClick={handleClick}>
+        <div className={styles.selectBox} onClick={() => handleOpenClose()}>
           <p>{overlayText || value}</p>
           <DownArrow
             className={`${styles.downArrow} ${open ? styles.upArrow : ""}`}

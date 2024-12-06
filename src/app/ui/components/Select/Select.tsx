@@ -11,7 +11,6 @@ import { menuItems as springsConfig } from "@/style/springsConfig";
 
 type SelectProps = {
   children: React.ReactNode[];
-  // children: React.OptionHTMLAttributes<HTMLOptionElement>[];
   value: string;
   onChange: (value: string) => void;
   overlayText: string;
@@ -56,14 +55,14 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
 
   const Options = useMemo(
     () =>
-      children.map((option) => {
+      React.Children.map(children, (option) => {
         // TypeScript type guard (option)
         if (React.isValidElement(option))
           return React.cloneElement(option as React.ReactElement, {
             key: uniqid(),
             onClick: handleSelect,
             className:
-              option?.props.value == value
+              option?.props.value === value
                 ? `${(option?.props.className && option.props.className + " ") || ""} ${styles.selected}`
                 : `${(option?.props.className && option.props.className + " ") || ""}`,
           });

@@ -1,23 +1,25 @@
-$panel-spacing: 1rem;
 $panel-border-radius: 20px;
 
 .root {
+  --panel-spacing: 0.5rem;
+  --content-padding: 0.5rem;
+  --border-width: 10px;
+
   display: flex;
   flex-direction: column;
-  padding: 80px;
   font-family: var(--font-geist-sans);
-  height: 100%;
-  width: 90%;
+  height: fit-content;
+  // min-height: 100%;
   margin: 0;
-  padding: 0 0 0 10%;
 
   .heroContainer {
     position: relative;
     display: flex;
-    width: calc(100% - ($panel-spacing * 2));
-    height: calc(20% - ($panel-spacing * 2));
-    padding: $panel-spacing;
-    margin-bottom: $panel-spacing;
+    width: 100%;
+    min-height: 58px;
+    padding: var(--content-padding) 0 0 0;
+    margin-bottom: var(--content-padding);
+
     background-color: var(--primary-colour-base);
     border-radius: 0 0 0 $panel-border-radius;
 
@@ -32,7 +34,7 @@ $panel-border-radius: 20px;
       .logo {
         // width: 200px;
         background-color: var(--primary-colour-dark);
-        padding: $panel-spacing / 2;
+        padding: var(--panel-spacing) / 2;
         border-radius: $panel-border-radius 0 0 0;
         transition: background-color $theme_change_transition;
       }
@@ -41,34 +43,95 @@ $panel-border-radius: 20px;
 
   .contentContainer {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
 
     .sidePanel {
+      position: sticky;
+      top: 0;
       display: flex;
-      flex-direction: column;
-      height: calc(100% - $panel-spacing);
-      width: calc(20% - ($panel-spacing * 2));
-      border: 5px solid var(--primary-colour-base);
-      border-radius: $panel-border-radius 0 0 0;
+      justify-content: space-between;
+      align-items: center;
+      height: fit-content;
+      width: calc(100% - (var(--content-padding) * 2) - var(--border-width));
+      border: var(--border-width) solid var(--primary-colour-base);
+      border-right: unset;
+      border-radius: $panel-border-radius 0 0 $panel-border-radius;
       background-color: var(--primary-colour-dark);
-      padding: 1rem;
-      transition: background-color $theme_change_transition;
+      padding: var(--content-padding);
+      transition: background-color $theme_change_transition, opacity $theme_change_transition,
+        border-color $theme_change_transition;
 
-      .exploreButton {
+      .galleryButton {
         display: flex;
         width: 200px;
-        height: 50px;
-        margin-top: 20%;
+        height: 30px;
+        margin: auto 0 auto auto;
       }
     }
 
     .content {
-      width: calc(100% - $panel-spacing);
-      margin-left: $panel-spacing;
-      border: 5px solid var(--primary-colour-dark);
-      padding: 2rem;
+      width: calc(100% - (var(--content-padding) * 2) - 5px);
+      height: fit-content;
+      border: var(--border-width) solid var(--primary-colour-dark);
+      border-bottom: unset;
+      border-right: unset;
+      border-radius: $panel-border-radius 0 0 0;
+      padding: var(--content-padding);
       transition: background-color $theme_change_transition;
+      margin-top: var(--panel-spacing);
+    }
+  }
+}
+
+@include belowMd {
+  .root {
+    .contentContainer {
+      .sticky {
+        background-color: var(--primary-colour-darkOpaque);
+        backdrop-filter: blur(5px);
+        border-color: var(--primary-colour-baseOpaque);
+      }
+    }
+  }
+}
+
+@include md {
+  .root {
+    width: 90%;
+    padding: 0 0 0 10%;
+
+    .heroContainer {
+      height: calc(20% - (var(--panel-spacing) * 2));
+    }
+
+    .contentContainer {
+      flex-direction: row;
+
+      .sidePanel {
+        flex-direction: column;
+        min-height: calc(70vh - var(--panel-spacing));
+        width: calc(15% - (var(--panel-spacing) * 2));
+        border-right: var(--border-width) solid var(--primary-colour-base);
+        border-radius: $panel-border-radius 0 0 0;
+        margin: 0;
+
+        .galleryButton {
+          display: flex;
+          width: 50px;
+          height: 50px;
+          margin-top: 20%;
+        }
+      }
+
+      .content {
+        margin-left: var(--panel-spacing);
+        margin-top: 0;
+        border-radius: 0;
+      }
     }
   }
 }

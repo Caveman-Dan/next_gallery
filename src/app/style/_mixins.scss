@@ -8,9 +8,21 @@
   }
 }
 
+@mixin belowSm {
+  @media (max-width: ($screen-sm - 1 + "px")) {
+    @content;
+  }
+}
+
 // Medium devices
 @mixin md {
   @media (min-width: ($screen-md + "px")) {
+    @content;
+  }
+}
+
+@mixin belowMd {
+  @media (max-width: ($screen-md - 1 + "px")) {
     @content;
   }
 }
@@ -22,9 +34,21 @@
   }
 }
 
+@mixin belowLg {
+  @media (max-width: ($screen-lg - 1 + "px")) {
+    @content;
+  }
+}
+
 // Extra large devices
 @mixin xl {
   @media (min-width: ($screen-xl + "px")) {
+    @content;
+  }
+}
+
+@mixin belowXl {
+  @media (max-width: ($screen-xl - 1 + "px")) {
     @content;
   }
 }
@@ -36,8 +60,13 @@
   }
 }
 
-// Assign theme colours to css variables
+@mixin belowcust($screen) {
+  @media (max-width: ($screen + "px")) {
+    @content;
+  }
+}
 
+// Assign theme colours to css variables
 @mixin generateCssThemeVariables($themeName) {
   @each $themeArray, $colourTypeArray in $theme-colours {
     @if $themeArray == $themeName {

@@ -50,7 +50,9 @@ $theme-colours: (
       lighter: #666178,
       light: #43404e,
       base: #32303b,
+      baseOpaque: #32303bc0,
       dark: #27262f,
+      darkOpaque: #27262fc0,
       darker: #151519,
     ),
     secondary: (
@@ -66,7 +68,7 @@ $theme-colours: (
       base: #ffffff70,
     ),
     text: (
-      base: lemonchiffon,
+      base: #073526,
     ),
     background: (
       base: #fff,
@@ -89,7 +91,9 @@ $theme-colours: (
       lighter: #b3f8e9,
       light: #63e1c6,
       base: #00daab,
+      baseOpaque: #00daab80,
       dark: #406f65,
+      darkOpaque: #406f6580,
       darker: #151519,
     ),
     secondary: (

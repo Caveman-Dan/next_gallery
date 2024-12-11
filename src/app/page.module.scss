@@ -72,31 +72,39 @@ $galleryButtonWidthMobile: 75px;
 
       --wipe-position: 100%;
       --gradient-length: 60%;
+      --leftover-black: 2rem;
+      --leftover-gradient-size: 5rem;
 
-      -webkit-mask: linear-gradient(
-        to left,
-        black,
-        black max(var(--wipe-position), 10%),
-        transparent max(calc(var(--wipe-position) + var(--gradient-length)), 40%),
-        transparent
-      );
+      // -webkit-mask: linear-gradient(
+      //   to left,
+      //   black,
+      //   black max(var(--wipe-position), var(--leftover-black)),
+      //   transparent max(calc(var(--wipe-position) + var(--gradient-length)), var(--leftover-gradient-size)),
+      //   transparent
+      // );
       mask: linear-gradient(
         to left,
         black,
-        black max(var(--wipe-position), 10%),
-        transparent max(calc(var(--wipe-position) + var(--gradient-length)), 40%),
+        black max(var(--wipe-position), var(--leftover-black)),
+        transparent max(calc(var(--wipe-position) + var(--gradient-length)), var(--leftover-gradient-size)),
         transparent
       );
 
       transition: --wipe-position 400ms ease-out, background-color 200ms, width $menu_transition, border-radius 1000ms;
 
       .galleryButton {
-        display: flex;
         width: var(--gallery-button-width);
         height: 30px;
         margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
         padding: var(--content-padding);
         transition: margin 700ms ease-out, width 700ms ease-in-out;
+
+        .galleryButtonIcon {
+          // margin: auto 0;
+          height: 1.5rem;
+          margin-left: 15px;
+          fill: var(--primary-colour-dark);
+        }
       }
     }
 
@@ -105,13 +113,21 @@ $galleryButtonWidthMobile: 75px;
 
       background-color: var(--primary-colour-darkOpaque);
       backdrop-filter: blur(5px);
-      transition: --wipe-position 2000ms ease-out;
+      transition: --wipe-position 2000ms cubic-bezier(0, 0.1, 0, 1);
 
       .galleryButton {
         --gallery-button-width: 2rem;
         width: var(--gallery-button-width);
         margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
         transition: margin 200ms ease-out, width 200ms ease-in;
+
+        p {
+          display: none;
+        }
+
+        .galleryButtonIcon {
+          margin: 0;
+        }
       }
     }
 
@@ -156,7 +172,7 @@ $galleryButtonWidthMobile: 75px;
 
         .galleryButton {
           display: flex;
-          width: var(--gallery-button-width);
+          // width: var(--gallery-button-width);
           margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
           padding: var(--content-padding);
         }
@@ -173,9 +189,9 @@ $galleryButtonWidthMobile: 75px;
         border-radius: 0 0 0 0;
 
         .galleryButton {
-          --gallery-button-width: 75px;
+          // --gallery-button-width: 75px;
 
-          width: var(--gallery-button-width);
+          // width: var(--gallery-button-width);
           margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
         }
       }

@@ -8,6 +8,8 @@ import LogoWithSideName from "@/assets/logoSideName.svg?url";
 import Button from "@/ui/components/Button/Button";
 import useSticky from "./hooks/useSticky";
 
+import ImageIcon from "@/assets/imageIcon.svg";
+
 import styles from "./page.module.scss";
 
 const Home = () => {
@@ -23,7 +25,10 @@ const Home = () => {
       <div className={`${styles.contentContainer}`}>
         <div className={`${styles.underBar} ${isSticky ? styles.underBarSticky : ""}`} ref={stickRef}>
           <Link className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`} href="/gallery">
-            <Button>Gallery</Button>
+            <Button>
+              <p>Gallery -></p>
+              <ImageIcon className={styles.galleryButtonIcon} height="100%" alt="gallery icon" />
+            </Button>
           </Link>
         </div>
         <div className={`${styles.content}`}>

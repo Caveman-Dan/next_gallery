@@ -5,11 +5,8 @@ const onSticky = (element: HTMLElement, callback: (isSticky: boolean) => void) =
     return;
   }
 
-  // console.log("HERE: ", element);
-
   const observer = new IntersectionObserver(
     (entry) => {
-      // console.log("HERE: ", entry[0]);
       callback(entry[0].intersectionRatio < 1);
     },
     {
@@ -32,7 +29,6 @@ const useSticky = <Target extends HTMLElement>() => {
     }
     const sticky = onSticky(ref.current, (isSticky: boolean) => {
       setIsSticky(isSticky);
-      // console.log("CalledMe!");
     });
     return () => sticky?.observer.unobserve(sticky?.element);
   }, []);

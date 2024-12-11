@@ -50,10 +50,10 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Link href={`Gallery/${"Gallery1"}/`}>Gallery1</Link>
-            <Link href={`Gallery/${"Gallery2"}/`}>Gallery2</Link>
-            <Link href={`Gallery/${"Gallery3"}/`}>Gallery3</Link>
-            <Link href={`Gallery/${"Gallery4"}/`}>Gallery4</Link>
+            <Link href={`/gallery/${"album1"}/`}>Album1</Link>
+            <Link href={`/gallery/${"album2"}/`}>Album2</Link>
+            <Link href={`/gallery/${"album3"}/`}>Album3</Link>
+            <Link href={`/gallery/${"album4"}/`}>Album4</Link>
           </div>
           <hr />
           <div className={styles.settings}>

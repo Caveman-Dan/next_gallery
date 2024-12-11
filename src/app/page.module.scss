@@ -100,10 +100,9 @@ $galleryButtonWidthMobile: 75px;
         transition: margin 700ms ease-out, width 700ms ease-in-out;
 
         .galleryButtonIcon {
-          // margin: auto 0;
           height: 1.5rem;
           margin-left: 15px;
-          fill: var(--primary-colour-dark);
+          fill: var(--text-colour-base);
         }
       }
     }

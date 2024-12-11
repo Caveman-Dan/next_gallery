@@ -26,7 +26,7 @@ const Home = () => {
         <div className={`${styles.underBar} ${isSticky ? styles.underBarSticky : ""}`} ref={stickRef}>
           <Link className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`} href="/gallery">
             <Button>
-              <p>Gallery -></p>
+              <b><p>Gallery -></p></b>
               <ImageIcon className={styles.galleryButtonIcon} height="100%" alt="gallery icon" />
             </Button>
           </Link>

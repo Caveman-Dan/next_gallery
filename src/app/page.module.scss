@@ -99,6 +99,10 @@ $galleryButtonWidthMobile: 75px;
         padding: var(--content-padding);
         transition: margin 700ms ease-out, width 700ms ease-in-out;
 
+        P {
+          text-wrap: nowrap;
+        }
+
         .galleryButtonIcon {
           height: 1.5rem;
           margin-left: 15px;

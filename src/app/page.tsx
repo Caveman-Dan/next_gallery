@@ -15,20 +15,20 @@ const Home = () => {
 
   return (
     <main className={`${styles.root}`}>
-      <div className={styles.heroContainer}>
+      <div className={`${styles.heroContainer}  ${isSticky ? styles.stickyHero : ""}`}>
         <div className={styles.logoContainer}>
           <Image className={styles.logo} src={LogoWithSideName} alt="Next Gallery Logo" fill />
         </div>
       </div>
       <div className={`${styles.contentContainer}`}>
-        <div className={`${styles.sidePanel} ${isSticky ? styles.sticky : ""}`} ref={stickRef}>
-          <Link className={styles.galleryButton} href="/gallery">
+        <div className={`${styles.underBar} ${isSticky ? styles.underBarSticky : ""}`} ref={stickRef}>
+          <Link className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`} href="/gallery">
             <Button>Gallery</Button>
           </Link>
         </div>
         <div className={`${styles.content}`}>
-          <h1>Content here</h1>
-          <h1>Content here</h1>
+          <h1>Welcome to Dan's Gallery</h1>
+          <br />
           <h1>Content here</h1>
           <h1>Content here</h1>
           <h1>Content here</h1>

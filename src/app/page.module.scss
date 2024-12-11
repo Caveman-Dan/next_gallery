@@ -1,6 +1,14 @@
-$panel-border-radius: 20px;
+$panel-border-radius: 10px;
+$galleryButtonWidthMobile: 75px;
+
+@property --wipe-position {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
 
 .root {
+  --gallery-button-width: 200px;
   --panel-spacing: 0.5rem;
   --content-padding: 0.5rem;
   --border-width: 10px;
@@ -9,7 +17,6 @@ $panel-border-radius: 20px;
   flex-direction: column;
   font-family: var(--font-geist-sans);
   height: fit-content;
-  // min-height: 100%;
   margin: 0;
 
   .heroContainer {
@@ -18,12 +25,14 @@ $panel-border-radius: 20px;
     width: 100%;
     min-height: 58px;
     padding: var(--content-padding) 0 0 0;
-    margin-bottom: var(--content-padding);
+    // margin-bottom: var(--content-padding);
+    margin: 0 auto;
 
     background-color: var(--primary-colour-base);
-    border-radius: 0 0 0 $panel-border-radius;
+    // border-radius: 0 0 0 $panel-border-radius;
+    border-bottom: 2px solid var(--border-colour-base);
 
-    transition: background-color $theme_change_transition;
+    transition: background-color $theme_change_transition, width $menu_transition;
 
     .logoContainer {
       position: relative;
@@ -35,7 +44,7 @@ $panel-border-radius: 20px;
         // width: 200px;
         background-color: var(--primary-colour-dark);
         padding: var(--panel-spacing) / 2;
-        border-radius: $panel-border-radius 0 0 0;
+        border-radius: 20px 0 0 0;
         transition: background-color $theme_change_transition;
       }
     }
@@ -49,37 +58,68 @@ $panel-border-radius: 20px;
     margin: 0;
     padding: 0;
 
-    .sidePanel {
+    .underBar {
       position: sticky;
       top: 0;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      height: fit-content;
-      width: calc(100% - (var(--content-padding) * 2) - var(--border-width));
-      border: var(--border-width) solid var(--primary-colour-base);
-      border-right: unset;
-      border-radius: $panel-border-radius 0 0 $panel-border-radius;
+      height: 3rem;
+      min-height: fit-content;
+      width: 100%;
+      border-radius: 0;
       background-color: var(--primary-colour-dark);
-      padding: var(--content-padding);
-      transition: background-color $theme_change_transition, opacity $theme_change_transition,
-        border-color $theme_change_transition;
+      margin: 0 auto;
+
+      --wipe-position: 100%;
+      --gradient-length: 60%;
+
+      -webkit-mask: linear-gradient(
+        to left,
+        black,
+        black max(var(--wipe-position), 10%),
+        transparent max(calc(var(--wipe-position) + var(--gradient-length)), 40%),
+        transparent
+      );
+      mask: linear-gradient(
+        to left,
+        black,
+        black max(var(--wipe-position), 10%),
+        transparent max(calc(var(--wipe-position) + var(--gradient-length)), 40%),
+        transparent
+      );
+
+      transition: --wipe-position 400ms ease-out, background-color 200ms, width $menu_transition, border-radius 1000ms;
 
       .galleryButton {
         display: flex;
-        width: 200px;
+        width: var(--gallery-button-width);
         height: 30px;
-        margin: auto 0 auto auto;
+        margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
+        padding: var(--content-padding);
+        transition: margin 700ms ease-out, width 700ms ease-in-out;
+      }
+    }
+
+    .underBar.underBarSticky {
+      --wipe-position: calc(-1 * var(--gradient-length));
+
+      background-color: var(--primary-colour-darkOpaque);
+      backdrop-filter: blur(5px);
+      transition: --wipe-position 2000ms ease-out;
+
+      .galleryButton {
+        --gallery-button-width: 2rem;
+        width: var(--gallery-button-width);
+        margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
+        transition: margin 200ms ease-out, width 200ms ease-in;
       }
     }
 
     .content {
       width: calc(100% - (var(--content-padding) * 2) - 5px);
       height: fit-content;
-      border: var(--border-width) solid var(--primary-colour-dark);
       border-bottom: unset;
       border-right: unset;
-      border-radius: $panel-border-radius 0 0 0;
       padding: var(--content-padding);
       transition: background-color $theme_change_transition;
       margin-top: var(--panel-spacing);
@@ -87,50 +127,57 @@ $panel-border-radius: 20px;
   }
 }
 
-@include belowMd {
+@include sm {
   .root {
     .contentContainer {
-      .sticky {
-        background-color: var(--primary-colour-darkOpaque);
-        backdrop-filter: blur(5px);
-        border-color: var(--primary-colour-baseOpaque);
-      }
     }
   }
 }
 
 @include md {
   .root {
-    width: 90%;
-    padding: 0 0 0 10%;
+    width: 100%;
 
     .heroContainer {
       height: calc(20% - (var(--panel-spacing) * 2));
+      width: 80%;
+    }
+
+    .heroContainer.stickyHero {
+      width: 100%;
     }
 
     .contentContainer {
-      flex-direction: row;
-
-      .sidePanel {
+      .underBar {
         flex-direction: column;
-        min-height: calc(70vh - var(--panel-spacing));
-        width: calc(15% - (var(--panel-spacing) * 2));
-        border-right: var(--border-width) solid var(--primary-colour-base);
-        border-radius: $panel-border-radius 0 0 0;
-        margin: 0;
+        width: 80%;
+        border-radius: 0 0 $panel-border-radius $panel-border-radius;
+        margin: 0 auto;
 
         .galleryButton {
           display: flex;
-          width: 50px;
-          height: 50px;
-          margin-top: 20%;
+          width: var(--gallery-button-width);
+          margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
+          padding: var(--content-padding);
         }
       }
 
       .content {
-        margin-left: var(--panel-spacing);
-        margin-top: 0;
+        margin: 0 auto;
         border-radius: 0;
+        width: calc(80% - (var(--content-padding) * 2) - 10px);
+      }
+
+      .underBar.underBarSticky {
+        width: 100%;
+        border-radius: 0 0 0 0;
+
+        .galleryButton {
+          --gallery-button-width: 75px;
+
+          width: var(--gallery-button-width);
+          margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
+        }
       }
     }
   }

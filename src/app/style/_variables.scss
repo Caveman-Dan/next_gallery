@@ -117,5 +117,10 @@ $xl_nav_spacer: 16px;
 
 $default_border_radius: 7px;
 
+// Timing
+$ease-in: cubic-bezier(1, 0, 1, 1);
+$ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+$ease-in-in-out: cubic-bezier(1, 0, 0.9, 1);
+$ease-out: cubic-bezier(0, 0, 0, 1);
 $menu_transition: 400ms ease-out;
 $theme_change_transition: 2000ms ease-in-out;

@@ -12,6 +12,7 @@ $galleryButtonWidthMobile: 75px;
   --panel-spacing: 0.5rem;
   --content-padding: 0.5rem;
   --border-width: 10px;
+  --content-width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -22,14 +23,12 @@ $galleryButtonWidthMobile: 75px;
   .heroContainer {
     position: relative;
     display: flex;
-    width: 100%;
+    width: var(--content-width);
     min-height: 58px;
     padding: var(--content-padding) 0 0 0;
-    // margin-bottom: var(--content-padding);
     margin: 0 auto;
 
     background-color: var(--primary-colour-base);
-    // border-radius: 0 0 0 $panel-border-radius;
     border-bottom: 2px solid var(--border-colour-base);
 
     transition: background-color $theme_change_transition, width $menu_transition;
@@ -41,7 +40,6 @@ $galleryButtonWidthMobile: 75px;
       margin: auto 0 0 auto;
 
       .logo {
-        // width: 200px;
         background-color: var(--primary-colour-dark);
         padding: var(--panel-spacing) / 2;
         border-radius: 20px 0 0 0;
@@ -53,7 +51,6 @@ $galleryButtonWidthMobile: 75px;
   .contentContainer {
     display: flex;
     flex-direction: column;
-    width: 100%;
     max-height: 100%;
     margin: 0;
     padding: 0;
@@ -65,7 +62,7 @@ $galleryButtonWidthMobile: 75px;
       align-items: center;
       height: 3rem;
       min-height: fit-content;
-      width: 100%;
+      width: var(--content-width);
       border-radius: 0;
       background-color: var(--primary-colour-dark);
       margin: 0 auto;
@@ -73,31 +70,30 @@ $galleryButtonWidthMobile: 75px;
       --wipe-position: 100%;
       --gradient-length: 60%;
       --leftover-black: 2rem;
-      --leftover-gradient-size: 5rem;
 
-      // -webkit-mask: linear-gradient(
-      //   to left,
-      //   black,
-      //   black max(var(--wipe-position), var(--leftover-black)),
-      //   transparent max(calc(var(--wipe-position) + var(--gradient-length)), var(--leftover-gradient-size)),
-      //   transparent
-      // );
+      -webkit-mask: linear-gradient(
+        to left,
+        black,
+        black max(var(--wipe-position), var(--leftover-black)),
+        transparent calc(var(--wipe-position) + var(--gradient-length)),
+        transparent
+      );
       mask: linear-gradient(
         to left,
         black,
         black max(var(--wipe-position), var(--leftover-black)),
-        transparent max(calc(var(--wipe-position) + var(--gradient-length)), var(--leftover-gradient-size)),
+        transparent calc(var(--wipe-position) + var(--gradient-length)),
         transparent
       );
 
-      transition: --wipe-position 400ms ease-out, background-color 200ms, width $menu_transition, border-radius 1000ms;
+      transition: --wipe-position 1000ms $ease-out, background-color 200ms, width $menu_transition, border-radius 1000ms;
 
       .galleryButton {
         width: var(--gallery-button-width);
         height: 30px;
         margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
         padding: var(--content-padding);
-        transition: margin 700ms ease-out, width 700ms ease-in-out;
+        transition: margin 700ms $ease-in-out, width 700ms $ease-in;
 
         P {
           text-wrap: nowrap;
@@ -112,7 +108,7 @@ $galleryButtonWidthMobile: 75px;
     }
 
     .underBar.underBarSticky {
-      --wipe-position: calc(-1 * var(--gradient-length));
+      --wipe-position: calc(-1 * 40%);
 
       background-color: var(--primary-colour-darkOpaque);
       backdrop-filter: blur(5px);
@@ -122,7 +118,7 @@ $galleryButtonWidthMobile: 75px;
         --gallery-button-width: 2rem;
         width: var(--gallery-button-width);
         margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
-        transition: margin 200ms ease-out, width 200ms ease-in;
+        transition: margin 400ms ease-out, width 400ms ease-out;
 
         p {
           display: none;
@@ -135,7 +131,7 @@ $galleryButtonWidthMobile: 75px;
     }
 
     .content {
-      width: calc(100% - (var(--content-padding) * 2) - 5px);
+      width: calc(var(--content-width) - (var(--content-padding) * 2) - 5px);
       height: fit-content;
       border-bottom: unset;
       border-right: unset;
@@ -146,20 +142,12 @@ $galleryButtonWidthMobile: 75px;
   }
 }
 
-@include sm {
-  .root {
-    .contentContainer {
-    }
-  }
-}
-
 @include md {
   .root {
-    width: 100%;
+    --content-width: 80%;
 
     .heroContainer {
       height: calc(20% - (var(--panel-spacing) * 2));
-      width: 80%;
     }
 
     .heroContainer.stickyHero {
@@ -169,13 +157,11 @@ $galleryButtonWidthMobile: 75px;
     .contentContainer {
       .underBar {
         flex-direction: column;
-        width: 80%;
         border-radius: 0 0 $panel-border-radius $panel-border-radius;
         margin: 0 auto;
 
         .galleryButton {
           display: flex;
-          // width: var(--gallery-button-width);
           margin: 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2)) 0 0;
           padding: var(--content-padding);
         }
@@ -184,19 +170,67 @@ $galleryButtonWidthMobile: 75px;
       .content {
         margin: 0 auto;
         border-radius: 0;
-        width: calc(80% - (var(--content-padding) * 2) - 10px);
+        width: calc(var(--content-width) - (var(--content-padding) * 2) - 10px);
       }
 
       .underBar.underBarSticky {
+        --wipe-position: calc(-1 * 50%);
         width: 100%;
         border-radius: 0 0 0 0;
 
         .galleryButton {
-          // --gallery-button-width: 75px;
-
-          // width: var(--gallery-button-width);
           margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
         }
+      }
+    }
+  }
+}
+
+@include md {
+  .root {
+    .contentContainer {
+      .underBar.underBarSticky {
+        --wipe-position: calc(-1 * 50%);
+      }
+    }
+  }
+}
+
+@include lg {
+  .root {
+    .contentContainer {
+      .underBar.underBarSticky {
+        --wipe-position: calc(-1 * 52%);
+      }
+    }
+  }
+}
+
+@include xl {
+  .root {
+    --content-width: 70%;
+
+    .contentContainer {
+      .underBar.underBarSticky {
+        --wipe-position: calc(-1 * 40%);
+      }
+    }
+  }
+}
+
+@include xxl {
+  .root {
+    --content-width: 60%;
+
+    .heroContainer.stickyHero {
+      width: var(--content-width);
+    }
+
+    .contentContainer {
+      .underBar.underBarSticky {
+        --wipe-position: calc(-1 * 20%);
+        width: var(--content-width);
+        border-radius: 0 0 $default_border_radius $default_border_radius;
       }
     }
   }

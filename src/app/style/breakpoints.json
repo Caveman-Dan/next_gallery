@@ -2,5 +2,6 @@
   "screen-sm": 576,
   "screen-md": 768,
   "screen-lg": 992,
-  "screen-xl": 1200
+  "screen-xl": 1200,
+  "screen-xxl": 1600
 }

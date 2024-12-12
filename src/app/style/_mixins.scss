@@ -53,6 +53,19 @@
   }
 }
 
+// Extra extra large devices
+@mixin xxl {
+  @media (min-width: ($screen-xxl + "px")) {
+    @content;
+  }
+}
+
+@mixin belowXxl {
+  @media (max-width: ($screen-xxl - 1 + "px")) {
+    @content;
+  }
+}
+
 // Custom devices
 @mixin cust($screen) {
   @media (min-width: ($screen + "px")) {

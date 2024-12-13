@@ -35,6 +35,7 @@ const nextConfig: NextConfig = {
     // hoistUseStatements: true,
     includePaths: ["./src/app/style"],
     prependData: '@use "global_imports.scss" as *; @use "sass:color";',
+    silenceDeprecations: ["legacy-js-api"],
   },
 };
 

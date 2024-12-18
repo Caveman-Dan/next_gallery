@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-geist-sans);
+  height: fit-content;
+  margin: 0;
+
+  .content {
+    width: calc(100% - (var(--content-padding) * 2));
+    height: fit-content;
+    border-bottom: unset;
+    border-right: unset;
+    padding: var(--content-padding);
+    transition: background-color $theme_change_transition;
+    margin: 0 auto;
+    margin-top: var(--panel-spacing);
+  }
+}

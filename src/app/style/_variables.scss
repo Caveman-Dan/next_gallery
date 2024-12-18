@@ -1,25 +1,6 @@
 /*
 *   Colours:
 */
-// $theme-colours: (
-//   dark: (
-//     background: #000,
-//     foreground: #bbe7ff,
-//     borders: #7c7c8b,
-//     panels: #172c42,
-//     primary: #32303b,
-//     secondary: #201f26,
-//     shadow: #354769a4,
-//   ),
-//   light: (
-//     background: #fff,
-//     foreground: #bbe7ff,
-//     borders: darkslategray,
-//     panels: #00daab,
-//     primary: #186e5b,
-//     secondary: #406f65,
-//   ),
-// );
 
 $theme-colours: (
   dark: (
@@ -117,7 +98,10 @@ $xl_nav_spacer: 16px;
 
 $default_border_radius: 7px;
 
-// Timing
+/*
+* Timing
+*/
+
 $ease-in: cubic-bezier(1, 0, 1, 1);
 $ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
 $ease-in-in-out: cubic-bezier(1, 0, 0.9, 1);

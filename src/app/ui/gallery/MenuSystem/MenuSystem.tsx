@@ -7,7 +7,7 @@ import TopBar from "@/app/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";
 
-const MenuSystem = () => {
+const MenuSystem = ({ albums }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sideBarButtonClickAwayRef = useRef(null);
 
@@ -24,6 +24,7 @@ const MenuSystem = () => {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         riseAboveClickAwayRefs={[sideBarButtonClickAwayRef]}
+        albums={albums}
       />
     </div>
   );

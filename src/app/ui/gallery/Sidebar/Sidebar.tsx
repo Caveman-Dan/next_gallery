@@ -1,9 +1,10 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
-import Link from "next/link";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
+import Accordion from "../../components/Accordion/Accordion";
 import ClickAway from "@/ui/components/ClickAway/ClickAway";
-
 import styles from "./Sidebar.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
@@ -15,7 +16,7 @@ type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   riseAboveClickAwayRefs: React.RefObject<HTMLDivElement>[];
 };
 
-const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs }) => {
+const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs, albums }) => {
   const thisNode = useRef(null);
   const api = useSpringRef();
   const springs = useSpring({
@@ -50,10 +51,7 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Link href={`/gallery/${"album1"}/`}>Album1</Link>
-            <Link href={`/gallery/${"album2"}/`}>Album2</Link>
-            <Link href={`/gallery/${"album3"}/`}>Album3</Link>
-            <Link href={`/gallery/${"album4"}/`}>Album4</Link>
+            <Accordion directories={albums} onSelect={() => setSidebarOpen(false)} />
           </div>
           <hr />
           <div className={styles.settings}>

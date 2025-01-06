@@ -40,4 +40,5 @@ yarn-error.log*
 next-env.d.ts
 
 # Next Gallery
-image_store/*
+ignored_images
+image_store

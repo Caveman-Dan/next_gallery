@@ -1,5 +1,11 @@
 .root {
   height: fit-content;
+  max-height: 80%;
+  overflow: auto;
+}
+
+.expandingLayerContainer {
+  height: fit-content;
 }
 
 .sectionName {
@@ -7,7 +13,12 @@
 }
 
 .collapsingBox {
-  // border: 2px solid blue;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
   height: 0;
+}
+
+.fitContent {
+  height: fit-content !important;
 }

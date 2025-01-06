@@ -9,7 +9,7 @@ import { capitalise } from "@/app/lib/helpers";
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
-const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, ancestors, setAncestors, depth }) => {
+const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen, depth }) => {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [nextChildLength, setNextChildLength] = useState(1);
@@ -55,6 +55,8 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, ancestors, s
     });
   };
 
+  if (!parentIsOpen) return;
+
   return (
     <>
       {!entry.children.length ? (
@@ -77,6 +79,7 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, ancestors, s
                 onSelect={onSelect}
                 expanders={expanders}
                 setExpanders={setExpanders}
+                parentIsOpen={sectionOpen}
                 depth={depth + 1}
               />
             ))}
@@ -99,6 +102,7 @@ const Accordion = ({ directories, onSelect }) => {
           onSelect={onSelect}
           expanders={expanders}
           setExpanders={setExpanders}
+          parentIsOpen={true}
           depth={0}
         />
       ))}

@@ -9,9 +9,10 @@ import { capitalise } from "@/app/lib/helpers";
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
-const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen, depth }) => {
+const ExpandingLayer = ({ entry, onSelect, layerState, setLayerState, renderChildren, depth }) => {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [hasBeenSelected, setHasBeenSelected] = useState(false);
   const [nextChildLength, setNextChildLength] = useState(1);
   const api = useSpringRef();
   const springs = useSpring({
@@ -20,9 +21,12 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen
   });
 
   useLayoutEffect(() => {
-    if (expanders[entry.id]) return;
-    setExpanders({ ...expanders, [entry.id]: { expander: setSectionOpen, selector: setIsSelected, depth } });
-  }, [entry.id, setExpanders, expanders, depth]);
+    if (layerState[entry.id]) return;
+    setLayerState({
+      ...layerState,
+      [entry.id]: { expander: setSectionOpen, selector: setIsSelected, depth },
+    });
+  }, [entry.id, setLayerState, layerState, depth]);
 
   useLayoutEffect(() => {
     if (!entry?.children?.length) return;
@@ -45,17 +49,18 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen
   }, [entry, api, sectionOpen, nextChildLength]);
 
   const handleExpand = () => {
-    expanders[entry.id].expander(!sectionOpen);
-    expanders[entry.id].selector(!isSelected);
-    Object.keys(expanders).forEach((item) => {
+    setHasBeenSelected(true);
+    layerState[entry.id].expander(!sectionOpen);
+    layerState[entry.id].selector(!sectionOpen); // only select if layer is opening
+    Object.keys(layerState).forEach((item) => {
       if (item !== entry.id) {
-        expanders[item].selector(false);
-        if (expanders[item].depth >= depth) expanders[item].expander(false);
+        layerState[item].selector(false);
+        if (layerState[item].depth >= depth) layerState[item].expander(false);
       }
     });
   };
 
-  if (!parentIsOpen) return;
+  if (!renderChildren) return; // Restrict rendering to avoid max render
 
   return (
     <>
@@ -64,23 +69,25 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen
           {capitalise(entry.name)}
         </Link>
       ) : (
-        <div className={styles.expandingLayerContainer}>
-          <div className={styles.sectionName} onClick={handleExpand}>
+        <div className={`${styles.expandingLayerContainer}`}>
+          <div className={`${styles.sectionName}${sectionOpen ? ` ${styles.isOpenLabel}` : ""}`} onClick={handleExpand}>
             {capitalise(entry.name)}
           </div>
           <animated.div
-            className={`${styles.collapsingBox} ${sectionOpen && !isSelected ? styles.fitContent : ""}`}
+            className={`${styles.collapsingBox}${sectionOpen && !isSelected ? ` ${styles.fitContent}` : ""}${
+              sectionOpen && isSelected ? ` ${styles.isOpenList}` : ""
+            }`}
             style={{ ...springs }}
           >
             {entry.children.map((nextEntry) => (
               <ExpandingLayer
                 key={nextEntry.id}
-                entry={nextEntry}
-                onSelect={onSelect}
-                expanders={expanders}
-                setExpanders={setExpanders}
-                parentIsOpen={sectionOpen}
-                depth={depth + 1}
+                entry={nextEntry} // next folder
+                onSelect={onSelect} // callback used to close the sidebar on select
+                layerState={layerState} // array to track stateDispatch for each closure
+                setLayerState={setLayerState}
+                renderChildren={hasBeenSelected} // used to restrict rendering
+                depth={depth + 1} // used to decide which layers to close
               />
             ))}
           </animated.div>
@@ -91,7 +98,7 @@ const ExpandingLayer = ({ entry, onSelect, expanders, setExpanders, parentIsOpen
 };
 
 const Accordion = ({ directories, onSelect }) => {
-  const [expanders, setExpanders] = useState([]);
+  const [layerState, setLayerState] = useState([]);
 
   return (
     <div className={styles.root}>
@@ -100,9 +107,9 @@ const Accordion = ({ directories, onSelect }) => {
           key={entry.id}
           entry={entry}
           onSelect={onSelect}
-          expanders={expanders}
-          setExpanders={setExpanders}
-          parentIsOpen={true}
+          layerState={layerState}
+          setLayerState={setLayerState}
+          renderChildren={true}
           depth={0}
         />
       ))}

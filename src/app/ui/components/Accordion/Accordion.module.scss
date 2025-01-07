@@ -9,16 +9,35 @@
 }
 
 .sectionName {
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 
 .collapsingBox {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
   height: 0;
 }
 
 .fitContent {
   height: fit-content !important;
+  overflow-y: auto;
+}
+
+.isHidden {
+  display: none;
+}
+
+.isOpenList {
+  // border-left: 1px solid var(--border-colour-base);
+  // border-right: 1px solid var(--border-colour-base);
+  // border-bottom: 1px solid var(--border-colour-base);
+  background-color: var(--highlight-colour-alternate2);
+}
+
+.isOpenLabel {
+  // border-left: 1px solid var(--border-colour-base);
+  // border-right: 1px solid var(--border-colour-base);
+  // border-top: 1px solid var(--border-colour-base);
+  background-color: var(--highlight-colour-alternate2);
 }

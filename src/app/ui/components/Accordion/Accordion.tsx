@@ -10,25 +10,22 @@ import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
 const ExpandingLayer = ({
-  entry, // The folder's data object
-  onSelect, // Callback for onSelect
-  stateDispatchArray, // Array of stateDispatch functions for each closure
-  setStateDispatchArray,
-  parentId, // To select parent when closing a layer
-  parentIsOpen, // To determine when to hide items and collapse an open list
-  siblingIsSelected, // To hide an item only when a sibling has been selected
-  setSiblingIsSelected,
-  renderChildren, // To restrict rendering to a single layer at a time
-  listHeight, // Defines the height value for the animated element
+  entry, // the folder's data object
+  onSelect, // callback for onSelect
+  siblingIsFocused, // hide items in list only when a sibling has been focused
+  setSiblingIsFocused,
+  renderChildren, // restrict rendering until parent has been focused
+  listHeight, // height value for the animated element
   setListHeight,
-  parentsListHeight, // When closing a layer the height must be set to that of its parent
-  depth, // To determine which layers to close
-  root = false, // To prevent root items from being hidden in a collapsed list
+  focusedItem, // id & depth of focused item's entry
+  setFocusedItem,
+  parentEntry, // id & depth of parent's entry
+  root = false, // To prevent root items from being hidden
 }) => {
-  const [sectionOpen, setSectionOpen] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-  const [hasBeenSelected, setHasBeenSelected] = useState(false);
-  const [selectionMade, setSelectionMade] = useState(false);
+  const [sectionOpen, setSectionOpen] = useState(false); // when an item is open but not focused
+  const [isFocused, setIsFocused] = useState(false); // when a item is focused and open
+  const [hasBeenFocused, setHasBeenFocused] = useState(false); // when focused trigger rendering in next closure
+  const [siblingItemFocused, setSiblingItemFocused] = useState(false); // identify when a sibling is selected
   const api = useSpringRef();
   const springs = useSpring({
     ref: api,
@@ -37,13 +34,26 @@ const ExpandingLayer = ({
 
   useLayoutEffect(() => {
     if (!renderChildren) return;
-    if (stateDispatchArray[entry.id]) return;
+    if (!entry) return;
+    if (!focusedItem) return;
 
-    setStateDispatchArray({
-      ...stateDispatchArray,
-      [entry.id]: { expand: setSectionOpen, select: setIsSelected, setSiblingIsSelected, depth },
-    });
-  }, [entry.id, setStateDispatchArray, stateDispatchArray, depth, renderChildren, setSiblingIsSelected]);
+    if (entry.id === focusedItem.id) {
+      // if selected
+      setIsFocused(true);
+      setSectionOpen(true);
+      setSiblingIsFocused(true);
+      setListHeight(entry.children.length + entry.depth);
+    } else {
+      // if not selected
+      setIsFocused(false);
+      if (entry.depth > focusedItem.depth) {
+        setSiblingIsFocused(false);
+      }
+      if (entry.depth >= focusedItem.depth) {
+        setSectionOpen(false);
+      }
+    }
+  }, [entry, focusedItem, renderChildren, setListHeight, setSiblingIsFocused]);
 
   useEffect(() => {
     if (!renderChildren) return;
@@ -51,50 +61,25 @@ const ExpandingLayer = ({
 
     api.start({
       to: {
-        height: sectionOpen ? `${(listHeight - depth) * 1.5}em` : "0",
+        height: sectionOpen ? `${(listHeight - entry.depth) * 1.5}em` : "0",
       },
       config: {
         ...springsConfig,
         clamp: !sectionOpen,
       },
     });
-  }, [entry, api, sectionOpen, renderChildren, listHeight, depth]);
+  }, [api, entry, listHeight, renderChildren, sectionOpen]);
 
   if (!renderChildren) return; // Restrict rendering to avoid max render
 
   const handleExpand = () => {
-    // console.log("LayerState: ", stateDispatchArray);
-
-    setHasBeenSelected(true);
-
-    if (sectionOpen) {
-      // Layer closing:
-      setListHeight(parentsListHeight);
-      stateDispatchArray[parentId].select(true);
-      stateDispatchArray[entry.id].select(false);
-      stateDispatchArray[entry.id].expand(false);
-      Object.keys(stateDispatchArray).forEach((id) => {
-        if (stateDispatchArray[id].depth >= depth) stateDispatchArray[id].setSiblingIsSelected(false);
-      });
-    } else {
-      // Layer opening:
-      setListHeight(entry.children.length + depth);
-      stateDispatchArray[entry.id].expand(true);
-      stateDispatchArray[entry.id].select(true);
-      setSiblingIsSelected(true);
-
-      // Deselect and close other layers:
-      Object.keys(stateDispatchArray).forEach((id) => {
-        if (stateDispatchArray[id].depth >= depth + 1) stateDispatchArray[id].setSiblingIsSelected(false);
-        if (id !== entry.id) {
-          stateDispatchArray[id].select(false);
-          if (stateDispatchArray[id].depth >= depth) stateDispatchArray[id].expand(false);
-        }
-      });
-    }
+    setHasBeenFocused(true);
+    setFocusedItem(
+      sectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.id, depth: entry.depth }
+    );
   };
 
-  const hideItem = !root && siblingIsSelected && parentIsOpen && !sectionOpen;
+  const hideItem = !root && siblingIsFocused && !sectionOpen;
 
   return (
     <>
@@ -116,25 +101,22 @@ const ExpandingLayer = ({
             {capitalise(entry.name)}
           </div>
           <animated.div
-            className={`${styles.collapsingBox}${sectionOpen && isSelected ? ` ${styles.isOpenList}` : ""}`}
+            className={`${styles.collapsingBox}${sectionOpen && isFocused ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
             {entry.children.map((nextEntry) => (
               <ExpandingLayer
                 key={nextEntry.id}
-                entry={nextEntry}
+                entry={{ ...nextEntry, depth: entry.depth + 1 }}
                 onSelect={onSelect}
-                stateDispatchArray={stateDispatchArray}
-                setStateDispatchArray={setStateDispatchArray}
-                parentId={entry.id}
-                parentIsOpen={sectionOpen}
-                siblingIsSelected={selectionMade}
-                setSiblingIsSelected={setSelectionMade}
-                renderChildren={hasBeenSelected}
+                siblingIsFocused={siblingItemFocused}
+                setSiblingIsFocused={setSiblingItemFocused}
+                renderChildren={hasBeenFocused}
                 listHeight={listHeight}
                 setListHeight={setListHeight}
-                parentsListHeight={entry.children.length + depth}
-                depth={depth + 1}
+                focusedItem={focusedItem}
+                setFocusedItem={setFocusedItem}
+                parentEntry={{ id: entry.id, depth: entry.depth }}
               />
             ))}
           </animated.div>
@@ -145,29 +127,25 @@ const ExpandingLayer = ({
 };
 
 const Accordion = ({ directories, onSelect }) => {
-  const [stateDispatchArray, setStateDispatchArray] = useState([]);
-  const [selectionMade, setSelectionMade] = useState(false);
+  const [siblingItemFocused, setSiblingItemFocused] = useState(false);
   const [listHeight, setListHeight] = useState(0);
-  // console.log("DIRECTORIES: ", directories);
+  const [focusedItem, setFocusedItem] = useState(null);
 
   return (
     <div className={styles.root}>
-      {directories.map((entry) => (
+      {directories.children.map((entry) => (
         <ExpandingLayer
           key={entry.id}
-          entry={entry}
+          entry={{ ...entry, depth: 0 }}
           onSelect={onSelect}
-          stateDispatchArray={stateDispatchArray}
-          setStateDispatchArray={setStateDispatchArray}
-          parentId={entry.id}
-          parentIsOpen
-          siblingIsSelected={selectionMade}
-          setSiblingIsSelected={setSelectionMade}
+          siblingIsFocused={siblingItemFocused}
+          setSiblingIsFocused={setSiblingItemFocused}
           renderChildren={true}
           listHeight={listHeight}
           setListHeight={setListHeight}
-          parentsListHeight={entry.children.length}
-          depth={0}
+          focusedItem={focusedItem}
+          setFocusedItem={setFocusedItem}
+          parentEntry={{ id: directories.id, depth: 0 }}
           root
         />
       ))}

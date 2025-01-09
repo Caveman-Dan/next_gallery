@@ -22,6 +22,9 @@ const ExpandingLayer = ({
   listHeight, // Defines the height value for the animated element
   setListHeight,
   parentsListHeight, // When closing a layer the height must be set to that of its parent
+  focusedItem,
+  setFocusedItem,
+  parentEntry = null,
   depth, // To determine which layers to close
   root = false, // To prevent root items from being hidden in a collapsed list
 }) => {
@@ -41,9 +44,19 @@ const ExpandingLayer = ({
 
     setStateDispatchArray({
       ...stateDispatchArray,
-      [entry.id]: { expand: setSectionOpen, select: setIsSelected, setSiblingIsSelected, depth },
+      [entry.id]: { expand: setSectionOpen, select: setIsSelected, depth },
     });
-  }, [entry.id, setStateDispatchArray, stateDispatchArray, depth, renderChildren, setSiblingIsSelected]);
+  }, [depth, entry.id, renderChildren, setStateDispatchArray, stateDispatchArray]);
+
+  useLayoutEffect(() => {
+    if (!renderChildren) return;
+    if (!entry) return;
+    if (!focusedItem) return;
+
+    if (entry.id === focusedItem.id) {
+      setSiblingIsSelected(true);
+    } else if (depth > stateDispatchArray[focusedItem.id].depth) setSiblingIsSelected(false);
+  }, [depth, entry, focusedItem, renderChildren, setSiblingIsSelected, stateDispatchArray]);
 
   useEffect(() => {
     if (!renderChildren) return;
@@ -58,7 +71,7 @@ const ExpandingLayer = ({
         clamp: !sectionOpen,
       },
     });
-  }, [entry, api, sectionOpen, renderChildren, listHeight, depth]);
+  }, [api, depth, entry, listHeight, renderChildren, sectionOpen]);
 
   if (!renderChildren) return; // Restrict rendering to avoid max render
 
@@ -69,23 +82,25 @@ const ExpandingLayer = ({
 
     if (sectionOpen) {
       // Layer closing:
+      setFocusedItem(parentEntry);
       setListHeight(parentsListHeight);
       stateDispatchArray[parentId].select(true);
       stateDispatchArray[entry.id].select(false);
       stateDispatchArray[entry.id].expand(false);
-      Object.keys(stateDispatchArray).forEach((id) => {
-        if (stateDispatchArray[id].depth >= depth) stateDispatchArray[id].setSiblingIsSelected(false);
-      });
+      // Object.keys(stateDispatchArray).forEach((id) => {
+      //   if (stateDispatchArray[id].depth >= depth) stateDispatchArray[id].setSiblingIsSelected(false);
+      // });
     } else {
       // Layer opening:
+      setFocusedItem(entry);
       setListHeight(entry.children.length + depth);
       stateDispatchArray[entry.id].expand(true);
       stateDispatchArray[entry.id].select(true);
-      setSiblingIsSelected(true);
+      // setSiblingIsSelected(true);
 
       // Deselect and close other layers:
       Object.keys(stateDispatchArray).forEach((id) => {
-        if (stateDispatchArray[id].depth >= depth + 1) stateDispatchArray[id].setSiblingIsSelected(false);
+        // if (stateDispatchArray[id].depth >= depth + 1) stateDispatchArray[id].setSiblingIsSelected(false);
         if (id !== entry.id) {
           stateDispatchArray[id].select(false);
           if (stateDispatchArray[id].depth >= depth) stateDispatchArray[id].expand(false);
@@ -93,6 +108,8 @@ const ExpandingLayer = ({
       });
     }
   };
+
+  if (renderChildren) console.log("Selected: ", { focusedItem, stateDispatch: stateDispatchArray[focusedItem?.id] });
 
   const hideItem = !root && siblingIsSelected && parentIsOpen && !sectionOpen;
 
@@ -134,6 +151,9 @@ const ExpandingLayer = ({
                 listHeight={listHeight}
                 setListHeight={setListHeight}
                 parentsListHeight={entry.children.length + depth}
+                focusedItem={focusedItem}
+                setFocusedItem={setFocusedItem}
+                parentEntry={entry}
                 depth={depth + 1}
               />
             ))}
@@ -148,6 +168,7 @@ const Accordion = ({ directories, onSelect }) => {
   const [stateDispatchArray, setStateDispatchArray] = useState([]);
   const [selectionMade, setSelectionMade] = useState(false);
   const [listHeight, setListHeight] = useState(0);
+  const [focusedItem, setFocusedItem] = useState(null);
   // console.log("DIRECTORIES: ", directories);
 
   return (
@@ -167,6 +188,8 @@ const Accordion = ({ directories, onSelect }) => {
           listHeight={listHeight}
           setListHeight={setListHeight}
           parentsListHeight={entry.children.length}
+          focusedItem={focusedItem}
+          setFocusedItem={setFocusedItem}
           depth={0}
           root
         />

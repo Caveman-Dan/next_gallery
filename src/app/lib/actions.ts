@@ -5,7 +5,8 @@ import dirTree from "directory-tree";
 import uniqid from "uniqid";
 
 const directoryCallback = (item) => {
-  (item.id = uniqid()), (item.path = item.path.replace(`${process.env.IMAGES_FOLDER}/`, ""));
+  item.id = uniqid();
+  item.path = item.path.replace(`${process.env.IMAGES_FOLDER}/`, "");
 };
 
 export const getAlbums = async () => {

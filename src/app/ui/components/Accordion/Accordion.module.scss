@@ -19,25 +19,21 @@
   height: 0;
 }
 
-.fitContent {
-  height: fit-content !important;
-  overflow-y: auto;
-}
-
 .isHidden {
   display: none;
 }
 
 .isOpenList {
-  // border-left: 1px solid var(--border-colour-base);
-  // border-right: 1px solid var(--border-colour-base);
-  // border-bottom: 1px solid var(--border-colour-base);
+  border-left: 1px solid var(--border-colour-base);
+  border-right: 1px solid var(--border-colour-base);
+  border-bottom: 1px solid var(--border-colour-base);
   background-color: var(--highlight-colour-alternate2);
+  padding-left: 1em;
 }
 
 .isOpenLabel {
-  // border-left: 1px solid var(--border-colour-base);
-  // border-right: 1px solid var(--border-colour-base);
-  // border-top: 1px solid var(--border-colour-base);
+  border-left: 1px solid var(--border-colour-base);
+  border-right: 1px solid var(--border-colour-base);
+  border-top: 1px solid var(--border-colour-base);
   background-color: var(--highlight-colour-alternate2);
 }

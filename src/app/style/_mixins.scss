@@ -83,6 +83,10 @@
   }
 }
 
+/**
+* Colours
+**/
+
 // Assign theme colours to css variables
 @mixin generateCssThemeVariables($themeName) {
   @each $themeArray, $colourTypeArray in $theme-colours {
@@ -90,8 +94,20 @@
       @each $colourType, $variationArray in $colourTypeArray {
         @each $variation, $value in $variationArray {
           --#{$colourType}-colour-#{$variation}: #{$value};
+          --#{$colourType}-colour-#{$variation}Opaque50: #{$value}80;
+          --#{$colourType}-colour-#{$variation}Opaque25: #{$value}40;
+          --#{$colourType}-colour-#{$variation}Opaque75: #{$value}c0;
         }
       }
     }
   }
+}
+
+/**
+* Styling
+**/
+
+@mixin raised() {
+  border: 1px solid var(--border-colour-base);
+  box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
 }

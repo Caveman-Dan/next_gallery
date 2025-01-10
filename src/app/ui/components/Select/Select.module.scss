@@ -10,9 +10,9 @@ $option_padding: 5px;
   overflow: hidden;
   transition: background-color $menu_transition, box-shadow $menu_transition;
   background-color: var(--primary-colour-base);
-  border: 1px solid var(--border-colour-base);
   border-radius: $default_border_radius;
-  box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
+
+  @include raisedContainer();
 
   &:hover {
     box-shadow: 0.1rem 0.1rem 0.1rem var(--shadow-colour-base);

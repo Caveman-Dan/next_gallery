@@ -11,21 +11,20 @@ import { menuItems as springsConfig } from "@/style/springsConfig";
 
 const ExpandingLayer = ({
   entry, // the folder's data object
+  parentEntry, // id & depth of parent's entry
+  renderChildren, // restrict rendering until parent has been focused
   onSelect, // callback for onSelect
   siblingIsFocused, // hide items in list only when a sibling has been focused
   setSiblingIsFocused,
-  renderChildren, // restrict rendering until parent has been focused
   listHeight, // height value for the animated element
   setListHeight,
   focusedItem, // id & depth of focused item's entry
   setFocusedItem,
-  parentEntry, // id & depth of parent's entry
-  root = false, // To prevent root items from being hidden
 }) => {
-  const [sectionOpen, setSectionOpen] = useState(false); // when an item is open but not focused
-  const [isFocused, setIsFocused] = useState(false); // when a item is focused and open
+  const [sectionOpen, setSectionOpen] = useState(false); // distinguish between open and open and focused
   const [hasBeenFocused, setHasBeenFocused] = useState(false); // when focused trigger rendering in next closure
-  const [siblingItemFocused, setSiblingItemFocused] = useState(false); // identify when a sibling is selected
+  const [siblingItemFocused, setSiblingItemFocused] = useState(false); // when a sibling is focused hide item
+
   const api = useSpringRef();
   const springs = useSpring({
     ref: api,
@@ -34,18 +33,15 @@ const ExpandingLayer = ({
 
   useLayoutEffect(() => {
     if (!renderChildren) return;
-    if (!entry) return;
     if (!focusedItem) return;
 
     if (entry.id === focusedItem.id) {
       // if selected
-      setIsFocused(true);
-      setSectionOpen(true);
-      setSiblingIsFocused(true);
       setListHeight(entry.children.length + entry.depth);
+      setSiblingIsFocused(true);
+      setSectionOpen(true);
     } else {
       // if not selected
-      setIsFocused(false);
       if (entry.depth > focusedItem.depth) {
         setSiblingIsFocused(false);
       }
@@ -57,7 +53,6 @@ const ExpandingLayer = ({
 
   useEffect(() => {
     if (!renderChildren) return;
-    if (!entry) return;
 
     api.start({
       to: {
@@ -79,7 +74,8 @@ const ExpandingLayer = ({
     );
   };
 
-  const hideItem = !root && siblingIsFocused && !sectionOpen;
+  const hideItem = entry.depth && siblingIsFocused && !sectionOpen;
+  const isFocused = entry.id === focusedItem?.id;
 
   return (
     <>
@@ -108,15 +104,15 @@ const ExpandingLayer = ({
               <ExpandingLayer
                 key={nextEntry.id}
                 entry={{ ...nextEntry, depth: entry.depth + 1 }}
+                parentEntry={{ id: entry.id, depth: entry.depth }}
+                renderChildren={hasBeenFocused}
                 onSelect={onSelect}
                 siblingIsFocused={siblingItemFocused}
                 setSiblingIsFocused={setSiblingItemFocused}
-                renderChildren={hasBeenFocused}
                 listHeight={listHeight}
                 setListHeight={setListHeight}
                 focusedItem={focusedItem}
                 setFocusedItem={setFocusedItem}
-                parentEntry={{ id: entry.id, depth: entry.depth }}
               />
             ))}
           </animated.div>
@@ -137,16 +133,15 @@ const Accordion = ({ directories, onSelect }) => {
         <ExpandingLayer
           key={entry.id}
           entry={{ ...entry, depth: 0 }}
+          parentEntry={{ id: directories.id, depth: 0 }}
+          renderChildren={true}
           onSelect={onSelect}
           siblingIsFocused={siblingItemFocused}
           setSiblingIsFocused={setSiblingItemFocused}
-          renderChildren={true}
           listHeight={listHeight}
           setListHeight={setListHeight}
           focusedItem={focusedItem}
           setFocusedItem={setFocusedItem}
-          parentEntry={{ id: directories.id, depth: 0 }}
-          root
         />
       ))}
     </div>

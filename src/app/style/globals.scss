@@ -54,19 +54,19 @@ h1 {
 :root {
 }
 
-@include md {
+@include aboveMd {
   :root {
     --nav-spacing: #{$md_nav_spacer};
   }
 }
 
-@include lg {
+@include aboveLg {
   :root {
     --nav-spacing: #{$lg_nav_spacer};
   }
 }
 
-@include xl {
+@include aboveXl {
   :root {
     --nav-spacing: #{$xl_nav_spacer};
   }

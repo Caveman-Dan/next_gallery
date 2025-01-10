@@ -1,8 +1,12 @@
 @use "./variables" as *;
 @use "./breakpoints.json" as *;
 
+/**
+* Breakpoints
+**/
+
 // Small devices
-@mixin sm {
+@mixin aboveSm {
   @media (min-width: ($screen-sm + "px")) {
     @content;
   }
@@ -15,7 +19,7 @@
 }
 
 // Medium devices
-@mixin md {
+@mixin aboveMd {
   @media (min-width: ($screen-md + "px")) {
     @content;
   }
@@ -28,7 +32,7 @@
 }
 
 // Large devices
-@mixin lg {
+@mixin aboveLg {
   @media (min-width: ($screen-lg + "px")) {
     @content;
   }
@@ -41,7 +45,7 @@
 }
 
 // Extra large devices
-@mixin xl {
+@mixin aboveXl {
   @media (min-width: ($screen-xl + "px")) {
     @content;
   }
@@ -54,7 +58,7 @@
 }
 
 // Extra extra large devices
-@mixin xxl {
+@mixin aboveXxl {
   @media (min-width: ($screen-xxl + "px")) {
     @content;
   }
@@ -67,7 +71,7 @@
 }
 
 // Custom devices
-@mixin cust($screen) {
+@mixin aboveCust($screen) {
   @media (min-width: ($screen + "px")) {
     @content;
   }

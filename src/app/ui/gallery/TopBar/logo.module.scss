@@ -36,7 +36,7 @@
   }
 }
 
-@include md {
+@include aboveMd {
   .root {
     --logo-width: 4rem;
     .link {
@@ -51,7 +51,7 @@
   }
 }
 
-@include lg {
+@include aboveLg {
   .root {
     --logo-width: 12rem;
 

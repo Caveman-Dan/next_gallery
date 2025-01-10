@@ -13,19 +13,19 @@
   margin: 0 auto;
 }
 
-@include md {
+@include aboveMd {
   .root {
     --page-width: 80%;
   }
 }
 
-@include xl {
+@include aboveXl {
   .root {
     --page-width: 70%;
   }
 }
 
-@include xxl {
+@include aboveXxl {
   .root {
     --page-width: 60%;
   }

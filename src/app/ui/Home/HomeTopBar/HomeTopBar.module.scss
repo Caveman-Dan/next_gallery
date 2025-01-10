@@ -108,7 +108,7 @@ $galleryButtonWidthMobile: 75px;
   }
 }
 
-@include md {
+@include aboveMd {
   .heroContainer {
     height: calc(20% - (var(--panel-spacing) * 2));
   }
@@ -140,25 +140,25 @@ $galleryButtonWidthMobile: 75px;
   }
 }
 
-@include md {
+@include aboveMd {
   .underBar.underBarSticky {
     --wipe-position: calc(-1 * 50%);
   }
 }
 
-@include lg {
+@include aboveLg {
   .underBar.underBarSticky {
     --wipe-position: calc(-1 * 52%);
   }
 }
 
-@include xl {
+@include aboveXl {
   .underBar.underBarSticky {
     --wipe-position: calc(-1 * 40%);
   }
 }
 
-@include xxl {
+@include aboveXxl {
   .heroContainer.stickyHero {
     width: var(--page-width);
   }

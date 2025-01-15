@@ -36,15 +36,6 @@ $option_padding: 5px;
       text-align: center;
       align-content: center;
     }
-
-    .downArrow {
-      fill: var(--primary-colour-lighter);
-      transition: all $menu_transition;
-    }
-
-    .upArrow {
-      transform: rotate(-180deg);
-    }
   }
 
   .optionBox {
@@ -54,7 +45,6 @@ $option_padding: 5px;
     transition: background-color $menu_transition;
 
     option {
-      // border: 2px solid red;
       overflow: hidden;
       z-index: 1;
       padding: 2px $option_padding;

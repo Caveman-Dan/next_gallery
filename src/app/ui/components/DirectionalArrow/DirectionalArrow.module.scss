@@ -1,0 +1,23 @@
+.root {
+  transition: all $menu_transition;
+  fill: var(--primary-colour-lighter);
+}
+
+.hidden {
+  display: none;
+}
+
+.upArrow {
+  transform: rotate(-180deg);
+}
+
+.downArrow {
+}
+
+.leftArrow {
+  transform: rotate(90deg);
+}
+
+.rightArrow {
+  transform: rotate(-90deg);
+}

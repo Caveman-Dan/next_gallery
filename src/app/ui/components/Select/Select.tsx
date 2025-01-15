@@ -3,7 +3,7 @@ import uniqid from "uniqid";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import Ripple from "@/ui/components/RippleComponent/RippleComponent";
-import DownArrow from "@/assets/arrow-down-s-fill.svg";
+import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 import ClickAway from "@/ui/components/ClickAway/ClickAway";
 
 import styles from "./Select.module.scss";
@@ -73,13 +73,10 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
   return (
     <>
       <ClickAway active={open} setActive={handleOpenClose} parentRefs={[thisNode]} blur />
-      <animated.div className={styles.root} style={{ ...springs }} ref={thisNode}>
-        <div className={styles.selectBox} onClick={() => handleOpenClose()}>
+      <animated.div className={`${styles.root}`} style={{ ...springs }} ref={thisNode}>
+        <div className={`${styles.selectBox}`} onClick={() => handleOpenClose()}>
           <p>{overlayText || value}</p>
-          <DownArrow
-            className={`${styles.downArrow} ${open ? styles.upArrow : ""}`}
-            alt={`Select box ${open ? "up" : "down"} arrow`}
-          />
+          <DirectionalArrow direction={open ? "up" : "down"} />
           <Ripple />
         </div>
         <div className={`${styles.optionBox}`}>{Options}</div>

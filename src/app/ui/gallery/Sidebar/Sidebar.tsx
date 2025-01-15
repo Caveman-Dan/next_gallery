@@ -8,6 +8,9 @@ import ClickAway from "@/ui/components/ClickAway/ClickAway";
 import styles from "./Sidebar.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
+import useWindowSize from "@/hooks/useWindowSize";
+// import breakpoints from "@/style/breakpoints.json";
+
 import { InteractiveToggleProps } from "@/app/lib/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
@@ -17,24 +20,46 @@ type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
 };
 
 const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs, albums }) => {
+  const windowSize = useWindowSize();
   const thisNode = useRef(null);
-  const api = useSpringRef();
-  const springs = useSpring({
-    ref: api,
-    from: { width: "0" },
+  const dropdownApi = useSpringRef();
+  const sideApi = useSpringRef();
+
+  const dropdownSprings = useSpring({
+    ref: dropdownApi,
+    from: {
+      ...{ height: "0" },
+    },
+  });
+
+  const sideSprings = useSpring({
+    ref: sideApi,
+    from: {
+      ...{ width: "0" },
+    },
   });
 
   useEffect(() => {
-    api.start({
+    dropdownApi.start({
       to: {
-        width: sidebarOpen ? "20%" : "0",
+        height: sidebarOpen ? "80vh" : "0",
       },
       config: {
         ...springsConfig,
         clamp: !sidebarOpen,
       },
     });
-  }, [api, sidebarOpen]);
+
+    sideApi.start({
+      to: {
+        width: sidebarOpen ? "400px" : "0",
+      },
+      config: {
+        ...springsConfig,
+        clamp: !sidebarOpen,
+      },
+    });
+  }, [dropdownApi, sideApi, sidebarOpen]);
 
   return (
     <>
@@ -44,14 +69,18 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
         blur
         parentRefs={[...riseAboveClickAwayRefs, thisNode]}
       />
-      <animated.div className={`${styles.root}`} style={{ ...springs }} ref={thisNode}>
+      <animated.div
+        className={`${styles.root} ${sidebarOpen ? "" : styles.isTransparent}`}
+        style={windowSize.aboveMd ? { ...sideSprings } : { ...dropdownSprings }}
+        ref={thisNode}
+      >
         <div className={styles.content}>
           <div className={styles.userProfileContainer}>
             <h2>User Profile</h2>
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Accordion directories={albums} onSelect={() => setSidebarOpen(false)} />
+            <Accordion directories={albums} onSelect={() => setTimeout(() => setSidebarOpen(false), 1000)} />
           </div>
           <hr />
           <div className={styles.settings}>

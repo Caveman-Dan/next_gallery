@@ -5,6 +5,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import { capitalise } from "@/app/lib/helpers";
+import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
@@ -14,7 +15,7 @@ const ExpandingLayer = ({
   parentEntry, // id & depth of parent's entry
   renderChildren, // restrict rendering until parent is open
   onSelect, // callback for onSelect
-  siblingIsOpen, // hide items in list only when a sibling has been focused
+  siblingIsOpen, // hide items in list only when a sibling is open
   setSiblingIsOpen,
   listHeight, // universal height value for the animated elements
   setListHeight,
@@ -57,7 +58,7 @@ const ExpandingLayer = ({
 
     api.start({
       to: {
-        height: sectionOpen ? `${(listHeight - entry.depth) * 1.5}em` : "0",
+        height: sectionOpen ? `${(listHeight - entry.depth) * 2}em` : "0",
       },
       config: {
         ...springsConfig,
@@ -77,28 +78,33 @@ const ExpandingLayer = ({
 
   const hideItem = entry.depth && siblingIsOpen && !sectionOpen;
   const isFocused = entry.id === focusedItem?.id;
+  const isRootLayer = entry.depth === 0;
+  const hideArrow = sectionOpen && !isFocused;
 
   return (
     <>
-      {!entry.children.length ? (
-        <Link className={`${hideItem ? ` ${styles.isHidden}` : ""}`} onClick={onSelect} href={`/gallery/${entry.name}`}>
+      {!entry.children.length ? ( // if no children
+        <Link
+          className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}`}
+          onClick={onSelect}
+          href={`/gallery/${entry.name}`}
+        >
           {capitalise(entry.name)}
+          <DirectionalArrow direction="right" height="28px" />
         </Link>
       ) : (
-        <div
-          className={`${styles.expandingLayerContainer}
-          `}
-        >
+        <div className={`${styles.expandingLayerContainer}`}>
           <div
-            className={`${styles.sectionName}${sectionOpen ? ` ${styles.isOpenLabel}` : ""}${
-              hideItem ? ` ${styles.isHidden}` : ""
-            }`}
+            className={`${styles.sectionLabel}${sectionOpen ? ` ${styles.isOpenLabel}` : ""}${
+              isFocused ? ` ${styles.isFocusedLabel}` : ""
+            }${sectionOpen && isRootLayer ? ` ${styles.isOpenRootLabel}` : ""}${hideItem ? ` ${styles.isHidden}` : ""}`}
             onClick={handleFocus}
           >
             {capitalise(entry.name)}
+            <DirectionalArrow direction={sectionOpen ? "up" : "down"} hide={hideArrow} height={"28px"} />
           </div>
           <animated.div
-            className={`${styles.collapsingBox}${sectionOpen && isFocused ? ` ${styles.isOpenList}` : ""}`}
+            className={`${styles.animatedBox}${sectionOpen && isFocused ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
             {entry.children.map((nextEntry) => (

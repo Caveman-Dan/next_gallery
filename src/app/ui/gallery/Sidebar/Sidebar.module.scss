@@ -1,11 +1,18 @@
 .root {
   position: absolute;
   overflow: hidden;
-  width: 0;
+  width: 100%;
 
-  border-radius: $default_border_radius;
-  background-color: var(--primary-colour-base);
-  margin-top: var(--nav-spacing);
+  background-color: var(--primary-colour-base-opaque1);
+  // @include setBackgroundOpacity(var(--primary-colour-base), 50);
+
+  margin: var(--nav-spacing) auto 0 auto;
+
+  transition: opacity 200ms ease-in-out;
+  opacity: 1;
+
+  left: 50%;
+  transform: translateX(-50%);
 
   .content {
     .userProfileContainer {
@@ -20,5 +27,27 @@
         margin: 0 1rem 0 auto;
       }
     }
+  }
+}
+
+@include aboveSm {
+  .root {
+    width: 80%;
+
+    border-radius: $default_border_radius;
+
+    @include raisedContainer();
+  }
+
+  .isTransparent {
+    opacity: 0;
+  }
+}
+
+@include aboveMd {
+  .root {
+    height: 80vh;
+    left: 0;
+    transform: unset;
   }
 }

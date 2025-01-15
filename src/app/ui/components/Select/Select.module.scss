@@ -9,7 +9,7 @@ $option_padding: 5px;
   height: 100%;
   overflow: hidden;
   transition: background-color $menu_transition, box-shadow $menu_transition;
-  background-color: var(--primary-colour-base);
+  background-color: var(--primary-colour-base-opaque1);
   border-radius: $default_border_radius;
 
   @include raisedContainer();
@@ -50,7 +50,7 @@ $option_padding: 5px;
   .optionBox {
     height: fit-content;
     width: 100%;
-    background-color: var(--primary-colour-base);
+    background-color: var(--primary-colour-base-opaque1);
     transition: background-color $menu_transition;
 
     option {

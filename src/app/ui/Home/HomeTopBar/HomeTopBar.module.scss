@@ -88,7 +88,7 @@ $galleryButtonWidthMobile: 75px;
 .underBar.underBarSticky {
   --wipe-position: calc(-1 * 40%);
 
-  background-color: var(--primary-colour-darkOpaque50);
+  background-color: var(--primary-colour-dark-opaque1);
   backdrop-filter: blur(5px);
   transition: --wipe-position 2000ms cubic-bezier(0, 0.1, 0, 1);
 

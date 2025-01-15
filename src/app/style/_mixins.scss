@@ -94,9 +94,9 @@
       @each $colourType, $variationArray in $colourTypeArray {
         @each $variation, $value in $variationArray {
           --#{$colourType}-colour-#{$variation}: #{$value};
-          --#{$colourType}-colour-#{$variation}Opaque50: #{$value}80;
-          --#{$colourType}-colour-#{$variation}Opaque25: #{$value}40;
-          --#{$colourType}-colour-#{$variation}Opaque75: #{$value}c0;
+          // --#{$colourType}-colour-#{$variation}-opaque50: #{$value}80;
+          // --#{$colourType}-colour-#{$variation}-opaque25: #{$value}40;
+          // --#{$colourType}-colour-#{$variation}-opaque75: #{$value}c0;
         }
       }
     }

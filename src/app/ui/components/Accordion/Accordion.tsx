@@ -79,7 +79,6 @@ const ExpandingLayer = ({
   const hideItem = entry.depth && siblingIsOpen && !sectionOpen;
   const isFocused = entry.id === focusedItem?.id;
   const isRootLayer = entry.depth === 0;
-  const hideArrow = sectionOpen && !isFocused;
 
   return (
     <>
@@ -90,7 +89,7 @@ const ExpandingLayer = ({
           href={`/gallery/${entry.name}`}
         >
           {capitalise(entry.name)}
-          <DirectionalArrow direction="right" height="28px" />
+          <DirectionalArrow direction="right" height="28px" colour={"var(--primary-colour-darker)"} />
         </Link>
       ) : (
         <div className={`${styles.expandingLayerContainer}`}>
@@ -101,7 +100,11 @@ const ExpandingLayer = ({
             onClick={handleFocus}
           >
             {capitalise(entry.name)}
-            <DirectionalArrow direction={sectionOpen ? "up" : "down"} hide={hideArrow} height={"28px"} />
+            <DirectionalArrow
+              direction={sectionOpen ? "up" : "down"}
+              height={"28px"}
+              colour={!sectionOpen ? "var(--primary-colour-darker)" : undefined}
+            />
           </div>
           <animated.div
             className={`${styles.animatedBox}${sectionOpen && isFocused ? ` ${styles.isOpenList}` : ""}`}

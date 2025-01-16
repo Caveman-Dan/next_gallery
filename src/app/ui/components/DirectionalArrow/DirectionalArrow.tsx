@@ -17,11 +17,11 @@ const applyStyle = (direction) => {
   }
 };
 
-const DirectionalArrow = ({ direction, hide = false, height = "32px" }) => {
+const DirectionalArrow = ({ direction, hide = false, height = "32px", colour = "var(--primary-colour-lighter)" }) => {
   return (
     <DownArrow
       className={`${styles.root} ${applyStyle(direction)}${hide ? ` ${styles.hidden}` : ""}`}
-      style={{ height: height }}
+      style={{ height: height, fill: colour }}
       alt={`Select box's ${direction} arrow`}
     />
   );

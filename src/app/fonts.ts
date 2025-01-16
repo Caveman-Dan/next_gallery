@@ -9,4 +9,5 @@ import localFont from "next/font/local";
 export const exo2 = localFont({
   src: "./fonts/Exo2-VariableFont_wght.ttf",
   display: "swap",
+  weight: "400",
 });

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import HomeTopBar from "@/app/ui/Home/HomeTopBar/HomeTopBar";
+import HomeTopBar from "@/ui/Home/HomeTopBar/HomeTopBar";
 
 import styles from "./layout.module.scss";
 

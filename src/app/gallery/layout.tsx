@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { getAlbums } from "@/lib/actions";
 
-import MenuSystem from "@/app/ui/gallery/MenuSystem/MenuSystem";
+import MenuSystem from "@/ui/gallery/MenuSystem/MenuSystem";
 
 import styles from "./layout.module.scss";
 

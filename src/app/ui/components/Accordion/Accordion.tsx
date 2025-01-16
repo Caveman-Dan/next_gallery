@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
-import { capitalise } from "@/app/lib/helpers";
+import { capitalise } from "@/lib/helpers";
 import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 
 import styles from "./Accordion.module.scss";

@@ -11,7 +11,7 @@ import { menuItems as springsConfig } from "@/style/springsConfig";
 import useWindowSize from "@/hooks/useWindowSize";
 // import breakpoints from "@/style/breakpoints.json";
 
-import { InteractiveToggleProps } from "@/app/lib/definitions";
+import { InteractiveToggleProps } from "@/lib/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   sidebarOpen: InteractiveToggleProps["state"];

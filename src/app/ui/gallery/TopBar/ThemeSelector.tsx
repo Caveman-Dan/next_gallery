@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
-import Select from "@/app/ui/components/Select/Select";
+import Select from "@/ui/components/Select/Select";
 
 import styles from "./ThemeSelector.module.scss";
 

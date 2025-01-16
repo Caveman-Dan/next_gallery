@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import Burger from "@/app/ui/components/burgers/Burger2";
-import ThemeSelector from "@/app/ui/gallery/TopBar/ThemeSelector";
+import Burger from "@/ui/components/burgers/Burger2";
+import ThemeSelector from "@/ui/gallery/TopBar/ThemeSelector";
 import Logo from "./Logo";
 import Button from "../../components/Button/Button";
 

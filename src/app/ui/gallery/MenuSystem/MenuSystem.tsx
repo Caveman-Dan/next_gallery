@@ -2,8 +2,8 @@
 
 import React, { useState, useRef } from "react";
 
-import Sidebar from "@/app/ui/gallery/Sidebar/Sidebar";
-import TopBar from "@/app/ui/gallery/TopBar/TopBar";
+import Sidebar from "@/ui/gallery/Sidebar/Sidebar";
+import TopBar from "@/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";
 

@@ -1,74 +1,77 @@
 .root {
   height: fit-content;
   max-height: 80%;
-  overflow: auto;
-}
 
-.link {
-  width: calc(100% - 2em);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 2em;
-
-  &:hover {
-    transition: unset;
-    background-color: var(--highlight-colour-alternate2);
-  }
-}
-
-.expandingLayerContainer {
-  height: fit-content;
-
-  .sectionLabel {
-    height: 1.9em;
+  .link {
+    width: calc(100% - 2em);
+    height: 2em;
     display: flex;
-    justify-content: space-between;
-    padding-left: 1em;
-    cursor: pointer;
     align-items: center;
+    justify-content: space-between;
+    padding-left: 2em;
+    transition: background-color $menu_transition, color $menu_transition;
 
-    transition: background-color $menu_transition;
-
-    &:hover {
-      transition: unset;
-      background-color: var(--highlight-colour-alternate2);
-    }
-  }
-
-  .isOpenRootLabel {
-    border-top: 1px solid var(--border-colour-base);
-    border-radius: $default_border_radius $default_border_radius 0 0;
-  }
-
-  .isOpenLabel {
-    background-color: var(--highlight-colour-alternate1-opaque1);
-  }
-
-  .isFocusedLabel {
-    background-color: var(--highlight-colour-base-opaque1);
-  }
-
-  .animatedBox {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 0;
-  }
-
-  .isOpenList {
-    border-bottom: 1px solid var(--border-colour-base);
-    border-radius: 0 0 $default_border_radius $default_border_radius;
-    background-color: var(--highlight-colour-base-opaque1);
-
-    .expandingLayerContainer {
-      .sectionLabel {
-        padding-left: 2em;
+    @media (any-hover: hover) {
+      &:hover {
+        transition: unset;
+        background-color: var(--highlight-colour-alternate2);
+        color: var(--text-colour-alternate);
       }
     }
   }
 
-  .isHidden {
-    display: none;
+  .isOpenExpandingLayer {
+    border: 3px solid var(--border-colour-base);
+    border-radius: $default_border_radius;
+  }
+
+  .expandingLayerContainer {
+    height: fit-content;
+
+    .sectionLabel {
+      height: 2em;
+      display: flex;
+      justify-content: space-between;
+      padding-left: 1em;
+      cursor: pointer;
+      align-items: center;
+
+      transition: background-color $menu_transition, color $menu_transition;
+
+      @media (any-hover: hover) {
+        // if hover is real and not emulated like on touch devices
+        &:hover {
+          transition: unset;
+          background-color: var(--highlight-colour-alternate2);
+          color: var(--text-colour-alternate);
+        }
+      }
+    }
+
+    .isOpenLabel {
+      background-color: var(--highlight-colour-alternate2);
+      color: var(--text-colour-alternate);
+    }
+
+    .animatedBox {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 0;
+    }
+
+    .isOpenList {
+      background-color: var(--highlight-colour-base-opaque1);
+
+      .expandingLayerContainer {
+        .sectionLabel {
+          padding-left: 2em;
+        }
+      }
+    }
+
+    .isHidden {
+      display: none;
+    }
   }
 }

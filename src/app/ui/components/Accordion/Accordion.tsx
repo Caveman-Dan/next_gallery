@@ -22,7 +22,7 @@ const ExpandingLayer = ({
   focusedItem, // id & depth of focused item's entry
   setFocusedItem,
 }) => {
-  const [sectionOpen, setSectionOpen] = useState(false);
+  const [isSectionOpen, setIsSectionOpen] = useState(false);
   const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render)
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false); // tell child when a sibling is focused so it can hide its self
 
@@ -40,11 +40,11 @@ const ExpandingLayer = ({
       // if in focus
       setListHeight(entry.children.length + entry.depth);
       setSiblingIsOpen(true);
-      setSectionOpen(true);
+      setIsSectionOpen(true);
     } else {
       // if not in focus
       if (entry.depth >= focusedItem.depth) {
-        setSectionOpen(false);
+        setIsSectionOpen(false);
         setRenderNextChild(false);
       }
       if (entry.depth > focusedItem.depth) {
@@ -58,27 +58,27 @@ const ExpandingLayer = ({
 
     api.start({
       to: {
-        height: sectionOpen ? `${(listHeight - entry.depth) * 2}em` : "0",
+        height: isSectionOpen ? `${(listHeight - entry.depth) * 2}em` : "0",
       },
       config: {
         ...springsConfig,
-        clamp: !sectionOpen,
+        clamp: !isSectionOpen,
       },
     });
-  }, [api, entry.depth, listHeight, renderChildren, sectionOpen]);
+  }, [api, entry.depth, listHeight, renderChildren, isSectionOpen]);
 
   if (!renderChildren) return; // Restrict rendering to avoid max render
 
   const handleFocus = () => {
     setRenderNextChild(true);
     setFocusedItem(
-      sectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.id, depth: entry.depth }
+      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.id, depth: entry.depth }
     );
   };
 
-  const hideItem = entry.depth && siblingIsOpen && !sectionOpen;
+  const hideItem = entry.depth && siblingIsOpen && !isSectionOpen;
   const isFocused = entry.id === focusedItem?.id;
-  const isRootLayer = entry.depth === 0;
+  const isRootItem = entry.depth === 0;
 
   return (
     <>
@@ -89,25 +89,29 @@ const ExpandingLayer = ({
           href={`/gallery/${entry.name}`}
         >
           {capitalise(entry.name)}
-          <DirectionalArrow direction="right" height="28px" colour={"var(--primary-colour-darker)"} />
+          <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
         </Link>
       ) : (
-        <div className={`${styles.expandingLayerContainer}`}>
+        <div
+          className={`${styles.expandingLayerContainer}${
+            isSectionOpen && isRootItem ? ` ${styles.isOpenExpandingLayer}` : ""
+          }`}
+        >
           <div
-            className={`${styles.sectionLabel}${sectionOpen ? ` ${styles.isOpenLabel}` : ""}${
-              isFocused ? ` ${styles.isFocusedLabel}` : ""
-            }${sectionOpen && isRootLayer ? ` ${styles.isOpenRootLabel}` : ""}${hideItem ? ` ${styles.isHidden}` : ""}`}
+            className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}${
+              hideItem ? ` ${styles.isHidden}` : ""
+            }`}
             onClick={handleFocus}
           >
             {capitalise(entry.name)}
             <DirectionalArrow
-              direction={sectionOpen ? "up" : "down"}
+              direction={isSectionOpen ? "up" : "down"}
               height={"28px"}
-              colour={!sectionOpen ? "var(--primary-colour-darker)" : undefined}
+              colour={!isSectionOpen ? "var(--highlight-colour-alternate4)" : undefined}
             />
           </div>
           <animated.div
-            className={`${styles.animatedBox}${sectionOpen && isFocused ? ` ${styles.isOpenList}` : ""}`}
+            className={`${styles.animatedBox}${isFocused ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
             {entry.children.map((nextEntry) => (

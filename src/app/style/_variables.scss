@@ -9,6 +9,7 @@ $theme-colours: (
     ),
     text: (
       base: #ece9d2,
+      alternate: #ece9d2,
     ),
     background: (
       base: #000,
@@ -27,8 +28,10 @@ $theme-colours: (
       base-opaque1: #43404ec0,
       alternate1: #5b5470,
       alternate1-opaque1: #5b5470c0,
-      alternate2: #6e6797,
-      alternate2-opaque1: #6e6797c0,
+      alternate2: #484171,
+      alternate2-opaque1: #372a80c0,
+      alternate3: #8176c0,
+      alternate4: #151519,
     ),
     primary: (
       lighter: #6c648b,
@@ -53,6 +56,7 @@ $theme-colours: (
     ),
     text: (
       base: #073526,
+      alternate: #a6deca,
     ),
     background: (
       base: #fff,
@@ -73,6 +77,8 @@ $theme-colours: (
       alternate1-opaque1: #3e8b7a80,
       alternate2: #48766c,
       alternate2-opaque1: #48766c80,
+      alternate3: #b3f8e9,
+      alternate4: #151519,
     ),
     primary: (
       lighter: #b3f8e9,

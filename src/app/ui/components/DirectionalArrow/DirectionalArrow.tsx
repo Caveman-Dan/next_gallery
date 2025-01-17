@@ -17,7 +17,12 @@ const applyStyle = (direction) => {
   }
 };
 
-const DirectionalArrow = ({ direction, hide = false, height = "32px", colour = "var(--primary-colour-lighter)" }) => {
+const DirectionalArrow = ({
+  direction,
+  hide = false,
+  height = "32px",
+  colour = "var(--highlight-colour-alternate3)",
+}) => {
   return (
     <DownArrow
       className={`${styles.root} ${applyStyle(direction)}${hide ? ` ${styles.hidden}` : ""}`}

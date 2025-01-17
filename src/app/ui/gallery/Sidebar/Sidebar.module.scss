@@ -2,12 +2,8 @@
   position: absolute;
   overflow: hidden;
   width: 100%;
-
   background-color: var(--primary-colour-base-opaque1);
-  // @include setBackgroundOpacity(var(--primary-colour-base), 50);
-
   margin: var(--nav-spacing) auto 0 auto;
-
   transition: opacity 200ms ease-in-out;
   opacity: 1;
 
@@ -22,6 +18,8 @@
     .galleriesMenu {
       display: flex;
       flex-direction: column;
+      max-height: 50vh;
+      overflow-y: auto;
 
       a {
         margin: 0 1rem 0 auto;

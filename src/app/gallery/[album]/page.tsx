@@ -1,6 +1,16 @@
 import React from "react";
 
-const Page = async (props) => {
+import { NextPage } from "next";
+
+type AlbumPageParams = {
+  album: string;
+};
+
+type AlbumPageProps = {
+  params: Promise<AlbumPageParams>;
+};
+
+const Page: NextPage<AlbumPageProps> = async (props) => {
   const params = await props.params;
   return (
     <>

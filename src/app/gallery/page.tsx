@@ -1,6 +1,6 @@
 import React from "react";
 
-const Page = async ({ searchPerams }) => {
+const Page = () => {
   return (
     <>
       <h1>HELLOOOO! FOOOBARRR!</h1>

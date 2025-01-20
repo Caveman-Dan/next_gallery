@@ -2,7 +2,7 @@ import DownArrow from "@/assets/arrow-down-s-fill.svg";
 
 import styles from "./DirectionalArrow.module.scss";
 
-const applyStyle = (direction) => {
+const applyStyle = (direction: string | undefined) => {
   switch (direction) {
     case "up":
       return styles.upArrow;
@@ -17,17 +17,23 @@ const applyStyle = (direction) => {
   }
 };
 
+type DirectionalArrowProps = {
+  direction?: string;
+  hide?: boolean;
+  height?: string;
+  colour?: string;
+};
+
 const DirectionalArrow = ({
   direction,
   hide = false,
   height = "32px",
   colour = "var(--highlight-colour-alternate3)",
-}) => {
+}: DirectionalArrowProps) => {
   return (
     <DownArrow
       className={`${styles.root} ${applyStyle(direction)}${hide ? ` ${styles.hidden}` : ""}`}
       style={{ height: height, fill: colour }}
-      alt={`Select box's ${direction} arrow`}
     />
   );
 };

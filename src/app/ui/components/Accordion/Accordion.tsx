@@ -10,6 +10,30 @@ import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow"
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
+import { DirectoryTree } from "directory-tree";
+
+interface PartialEntry {
+  id: string;
+  depth: number;
+}
+
+interface DirectoryEntry extends DirectoryTree {
+  depth: number;
+}
+
+interface ExpandingLayerProps {
+  entry: DirectoryEntry;
+  parentEntry: PartialEntry;
+  renderChildren: boolean;
+  onSelect: () => void;
+  siblingIsOpen: boolean;
+  setSiblingIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  listHeight: number;
+  setListHeight: React.Dispatch<React.SetStateAction<number>>;
+  focusedItem: PartialEntry | null;
+  setFocusedItem: React.Dispatch<React.SetStateAction<PartialEntry | null>>;
+}
+
 const ExpandingLayer = ({
   entry, // the folder's data object
   parentEntry, // id & depth of parent's entry
@@ -21,7 +45,7 @@ const ExpandingLayer = ({
   setListHeight,
   focusedItem, // id & depth of focused item's entry
   setFocusedItem,
-}) => {
+}: ExpandingLayerProps) => {
   const [isSectionOpen, setIsSectionOpen] = useState(false);
   const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render)
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false); // tell child when a sibling is focused so it can hide its self
@@ -36,9 +60,9 @@ const ExpandingLayer = ({
     if (!renderChildren) return;
     if (!focusedItem) return;
 
-    if (entry.id === focusedItem.id) {
+    if (entry.custom.id === focusedItem.id && entry.children?.length) {
       // if in focus
-      setListHeight(entry.children.length + entry.depth);
+      setListHeight(entry.children?.length + entry.depth);
       setSiblingIsOpen(true);
       setIsSectionOpen(true);
     } else {
@@ -51,7 +75,15 @@ const ExpandingLayer = ({
         setSiblingIsOpen(false);
       }
     }
-  }, [entry.children.length, entry.depth, entry.id, focusedItem, renderChildren, setListHeight, setSiblingIsOpen]);
+  }, [
+    entry.children?.length,
+    entry.depth,
+    entry.custom.id,
+    focusedItem,
+    renderChildren,
+    setListHeight,
+    setSiblingIsOpen,
+  ]);
 
   useEffect(() => {
     if (!renderChildren) return;
@@ -72,17 +104,17 @@ const ExpandingLayer = ({
   const handleFocus = () => {
     setRenderNextChild(true);
     setFocusedItem(
-      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.id, depth: entry.depth }
+      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.custom.id, depth: entry.depth }
     );
   };
 
   const hideItem = entry.depth && siblingIsOpen && !isSectionOpen;
-  const isFocused = entry.id === focusedItem?.id;
+  const isFocused = entry.custom.id === focusedItem?.id;
   const isRootItem = entry.depth === 0;
 
   return (
     <>
-      {!entry.children.length ? ( // if no children
+      {!entry.children?.length ? ( // if no children
         <Link
           className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}`}
           onClick={onSelect}
@@ -114,11 +146,11 @@ const ExpandingLayer = ({
             className={`${styles.animatedBox}${isFocused ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
-            {entry.children.map((nextEntry) => (
+            {entry.children.map((nextEntry: DirectoryTree) => (
               <ExpandingLayer
-                key={nextEntry.id}
+                key={nextEntry.custom.id}
                 entry={{ ...nextEntry, depth: entry.depth + 1 }}
-                parentEntry={{ id: entry.id, depth: entry.depth }}
+                parentEntry={{ id: entry.custom.id, depth: entry.depth }}
                 renderChildren={renderNextChild}
                 onSelect={onSelect}
                 siblingIsOpen={childSiblingIsOpen}
@@ -136,18 +168,18 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ directories, onSelect }) => {
+const Accordion = ({ directories, onSelect }: { directories: DirectoryTree; onSelect: () => void }) => {
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false);
   const [listHeight, setListHeight] = useState(0);
-  const [focusedItem, setFocusedItem] = useState(null);
+  const [focusedItem, setFocusedItem] = useState<PartialEntry | null>(null);
 
   return (
     <div className={styles.root}>
-      {directories.children.map((entry) => (
+      {directories.children?.map((entry) => (
         <ExpandingLayer
-          key={entry.id}
+          key={entry.custom.id}
           entry={{ ...entry, depth: 0 }}
-          parentEntry={{ id: directories.id, depth: 0 }}
+          parentEntry={{ id: directories.custom.id, depth: 0 }}
           renderChildren={true}
           onSelect={onSelect}
           siblingIsOpen={childSiblingIsOpen}

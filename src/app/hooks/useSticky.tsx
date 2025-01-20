@@ -19,7 +19,7 @@ const onSticky = (element: HTMLElement, callback: (isSticky: boolean) => void) =
   return { observer, element };
 };
 
-const useSticky = <Target extends HTMLElement>() => {
+const useSticky = <Target extends HTMLDivElement>() => {
   const ref = useRef<Target>(null);
   const [isSticky, setIsSticky] = useState(false);
 

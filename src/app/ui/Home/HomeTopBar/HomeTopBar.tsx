@@ -11,6 +11,7 @@ import useSticky from "@/hooks/useSticky";
 import ImageIcon from "@/assets/imageIcon.svg";
 
 import styles from "./HomeTopBar.module.scss";
+import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 
 const HomeTopBar = () => {
   const { isSticky, ref: stickRef } = useSticky();
@@ -26,9 +27,10 @@ const HomeTopBar = () => {
         <Link className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`} href="/gallery">
           <Button>
             <b>
-              <p>Gallery  -></p>
+              <p>Gallery</p>
             </b>
-            <ImageIcon className={styles.galleryButtonIcon} height="100%" alt="gallery icon" />
+            <DirectionalArrow hide={isSticky} direction="right" colour="var(--text-colour-base)" />
+            <ImageIcon className={styles.galleryButtonIcon} height="100%" />
           </Button>
         </Link>
       </div>

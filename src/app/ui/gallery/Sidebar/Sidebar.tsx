@@ -11,12 +11,14 @@ import { menuItems as springsConfig } from "@/style/springsConfig";
 import useWindowSize from "@/hooks/useWindowSize";
 // import breakpoints from "@/style/breakpoints.json";
 
+import { DirectoryTree } from "directory-tree";
 import { InteractiveToggleProps } from "@/lib/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   sidebarOpen: InteractiveToggleProps["state"];
   setSidebarOpen: InteractiveToggleProps["setState"];
   riseAboveClickAwayRefs: React.RefObject<HTMLDivElement>[];
+  albums: DirectoryTree;
 };
 
 const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs, albums }) => {

@@ -1,12 +1,19 @@
 import type { NextConfig } from "next";
 import jsonImporter from "node-sass-json-importer";
 
+interface Rule {
+  test: RegExp;
+  issuer: Rule[];
+  resourceQuery: { not: RegExp[] };
+  use: string[];
+}
+
 const nextConfig: NextConfig = {
   webpack(config) {
     // Convert SVGs directly in to React components
     // See SVGR https://react-svgr.com/docs/next/
     // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
+    const fileLoaderRule = config.module.rules.find((rule: Rule) => rule.test?.test?.(".svg"));
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url

@@ -1,7 +1,22 @@
 import { useState, useEffect } from "react";
 import breakpoints from "@/style/breakpoints.json";
 
-const useWindowSize = () => {
+type WindowSizeData = {
+  height?: number;
+  width?: number;
+  aboveSm?: boolean;
+  belowSm?: boolean;
+  aboveMd?: boolean;
+  belowMd?: boolean;
+  aboveLg?: boolean;
+  belowLg?: boolean;
+  aboveXl?: boolean;
+  belowXl?: boolean;
+  aboveXxl?: boolean;
+  belowXxl?: boolean;
+};
+
+const useWindowSize = (): WindowSizeData => {
   const [windowSize, setWindowSize] = useState({});
 
   useEffect(() => {

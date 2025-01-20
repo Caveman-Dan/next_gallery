@@ -11,9 +11,9 @@ import styles from "./logo.module.scss";
 const Logo = () => (
   <div className={styles.root}>
     <Link href="/" className={styles.link}>
-      <LogoIcon className={`${styles.logoIcon} ${styles.imageSm}`} hight="100%" alt="Next Gallery Logo" />
-      <LogoWithName className={`${styles.logoIcon} ${styles.imageMd}`} hight="100%" alt="Next Gallery Logo" />
-      <LogoWithSideName className={`${styles.logoIcon} ${styles.imageLg}`} height="100%" alt="Next Gallery Logo" />
+      <LogoIcon className={`${styles.logoIcon} ${styles.imageSm}`} height="100%" />
+      <LogoWithName className={`${styles.logoIcon} ${styles.imageMd}`} height="100%" />
+      <LogoWithSideName className={`${styles.logoIcon} ${styles.imageLg}`} height="100%" />
     </Link>
   </div>
 );

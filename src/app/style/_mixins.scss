@@ -111,3 +111,13 @@
   border: 1px solid var(--border-colour-base);
   box-shadow: 0.1rem 0.1rem 0.2rem var(--shadow-colour-base);
 }
+
+@mixin hover() {
+  // if hover is real and not emulated like on touch devices
+  // (prevents sticky hover on mobile devices)
+  @media (any-hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}

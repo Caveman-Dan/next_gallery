@@ -11,12 +11,10 @@
     padding-left: 2em;
     transition: background-color $menu_transition, color $menu_transition;
 
-    @media (any-hover: hover) {
-      &:hover {
-        transition: unset;
-        background-color: var(--highlight-colour-alternate2);
-        color: var(--text-colour-alternate);
-      }
+    @include hover {
+      transition: unset;
+      background-color: var(--highlight-colour-alternate2);
+      color: var(--text-colour-alternate);
     }
   }
 
@@ -38,13 +36,10 @@
 
       transition: background-color $menu_transition, color $menu_transition;
 
-      @media (any-hover: hover) {
-        // if hover is real and not emulated like on touch devices
-        &:hover {
-          transition: unset;
-          background-color: var(--highlight-colour-alternate2);
-          color: var(--text-colour-alternate);
-        }
+      @include hover {
+        transition: unset;
+        background-color: var(--highlight-colour-alternate2);
+        color: var(--text-colour-alternate);
       }
     }
 

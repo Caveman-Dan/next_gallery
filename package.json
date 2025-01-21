@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "dotenv -c -- next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "dotenv -c -- next start",
     "lint": "next lint"
   },
   "dependencies": {

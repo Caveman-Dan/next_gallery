@@ -3,8 +3,11 @@
 import React, { useEffect, useRef } from "react";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
-import Accordion from "../../components/Accordion/Accordion";
+import Accordion from "@/ui/components/Accordion/Accordion";
 import ClickAway from "@/ui/components/ClickAway/ClickAway";
+import UserProfileLink from "@/ui/gallery/Sidebar/UserProfileLink";
+import SettingsLink from "./SettingsLink";
+
 import styles from "./Sidebar.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
@@ -78,15 +81,15 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
       >
         <div className={styles.content}>
           <div className={styles.userProfileContainer}>
-            <h2>User Profile</h2>
+            <UserProfileLink />
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
             <Accordion directories={albums} onSelect={() => setTimeout(() => setSidebarOpen(false), 1000)} />
           </div>
           <hr />
-          <div className={styles.settings}>
-            <h2>Settings</h2>
+          <div className={styles.settingsLink}>
+            <SettingsLink />
           </div>
         </div>
       </animated.div>

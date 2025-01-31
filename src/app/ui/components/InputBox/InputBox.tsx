@@ -7,15 +7,26 @@ import EyeClosed from "@/assets/eye-off-line.svg";
 
 import styles from "./InputBox.module.scss";
 
-const InputBox = ({ inputState, onChange, label, type = "text" }) => {
+export type InputState = {
+  value: string;
+  error: boolean;
+  message?: string;
+};
+
+type InputBoxProps = {
+  inputState: InputState;
+  label: string;
+  type: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const InputBox: React.FC<InputBoxProps> = ({ inputState, onChange, label, type = "text" }) => {
   const [revealText, setRevealText] = useState(false);
 
-  const handleReveal = (event) => {
+  const handleReveal = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.stopPropagation();
     setRevealText(!revealText);
   };
-
-  // const hideCharacters = value => ;
 
   return (
     <div className={styles.root}>

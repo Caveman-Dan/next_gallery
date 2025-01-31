@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { redirect } from "next/navigation";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
 
+import type { InputState } from "@/ui/components/InputBox/InputBox";
+
 import styles from "./LoginForm.module.scss";
 
-const initialFormState = {
+const initialFormState: { [key: string]: InputState } = {
   email: {
     value: "",
     error: false,
@@ -21,7 +23,7 @@ const initialFormState = {
   },
 };
 
-const LoginForm = ({ closePage }) => {
+const LoginForm = ({ closePage }: { closePage: () => void }) => {
   const [formState, setFormState] = useState(initialFormState);
 
   const handleCancel = () => {
@@ -32,8 +34,8 @@ const LoginForm = ({ closePage }) => {
     }, 150);
   };
 
-  const handleInput = (event, field) => {
-    setFormState({ ...formState, [field]: { value: event.target.value } });
+  const handleInput = (event: React.ChangeEvent<HTMLElement>, field: string) => {
+    setFormState({ ...formState, [field]: { ...formState[field], value: (event.target as HTMLInputElement).value } });
   };
 
   return (

@@ -6,14 +6,14 @@ import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 
 import styles from "./Button.module.scss";
 
-type ButtonProps = {
+type ButtonProps = React.ComponentProps<"button"> & {
   className?: string;
   children: React.ReactNode[] | string;
 };
 
-const Button: React.FC<ButtonProps> = ({ children }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
   return (
-    <button className={styles.root}>
+    <button className={styles.root} onClick={onClick}>
       {children}
       <Ripple />
     </button>

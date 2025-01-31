@@ -33,14 +33,14 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
   const dropdownSprings = useSpring({
     ref: dropdownApi,
     from: {
-      ...{ height: "0" },
+      height: "0",
     },
   });
 
   const sideSprings = useSpring({
     ref: sideApi,
     from: {
-      ...{ width: "0" },
+      width: "0",
     },
   });
 

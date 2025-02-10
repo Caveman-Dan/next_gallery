@@ -44,6 +44,7 @@ const nextConfig: NextConfig = {
     prependData: '@use "global_imports.scss" as *; @use "sass:color";',
     silenceDeprecations: ["legacy-js-api"],
   },
+  basePath: process.env.BASE_PATH,
 };
 
 module.exports = nextConfig;

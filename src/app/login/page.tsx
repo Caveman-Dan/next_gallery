@@ -46,7 +46,6 @@ const LoginPage = () => {
           <div className={styles.formContainer}>
             <LoginForm
               closePage={() => {
-                console.log("hello");
                 setIsMounted(false);
               }}
             />

@@ -120,7 +120,6 @@ $galleryButtonWidthMobile: 75px;
   .underBar {
     flex-direction: column;
     border-radius: 0 0 $panel-border-radius $panel-border-radius;
-    margin: 0 auto;
 
     .galleryButton {
       display: flex;
@@ -132,7 +131,6 @@ $galleryButtonWidthMobile: 75px;
   .underBar.underBarSticky {
     --wipe-position: calc(-1 * 50%);
     width: 100%;
-    border-radius: 0 0 0 0;
 
     .galleryButton {
       margin: 0 0 0 calc(100% - var(--gallery-button-width) - (var(--content-padding) * 2));
@@ -159,13 +157,15 @@ $galleryButtonWidthMobile: 75px;
 }
 
 @include aboveXxl {
-  .heroContainer.stickyHero {
-    width: var(--page-width);
+  .heroContainer {
+    max-width: 1600px;
   }
 
-  .underBar.underBarSticky {
-    --wipe-position: calc(-1 * 20%);
-    width: var(--page-width);
-    border-radius: 0 0 $default_border_radius $default_border_radius;
+  .underBar {
+    max-width: 1600px;
+
+    .underBarSticky {
+      --wipe-position: calc(-1 * 20%);
+    }
   }
 }

@@ -11,8 +11,12 @@ This project has been created solely by Dan Marston for the purpose of providing
 ## Features
 
 - Infrastructure
+  - Mobile first responsive design
+  
   - Built with Next.js and React
+  
   - Styling uses Next.js Modules implemented with SCSS
+  
   - Switchable themes
 - All home made components
   - Spring Physics

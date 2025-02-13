@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import uniqid from "uniqid";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
@@ -46,29 +46,32 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
   const handleSelect = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if ((event.target as HTMLDivElement).id !== "ripple") {
-        onChange((event.target as HTMLSelectElement).value);
-        if ((event.target as HTMLSelectElement).value !== value) handleOpenClose(false);
+        onChange((event.target as HTMLSelectElement).getAttribute("data-value") || "system");
+        if ((event.target as HTMLSelectElement).getAttribute("data-value") !== value) handleOpenClose(false);
       }
     },
     [onChange, value, handleOpenClose]
   );
 
-  const Options = useMemo(
-    () =>
-      React.Children.map(children, (option) => {
-        // TypeScript type guard (option)
-        if (React.isValidElement(option))
-          return React.cloneElement(option as React.ReactElement, {
-            key: uniqid(),
-            onClick: handleSelect,
-            className:
-              option?.props.value === value
-                ? `${(option?.props.className && option.props.className + " ") || ""} ${styles.selected}`
-                : `${(option?.props.className && option.props.className + " ") || ""}`,
-          });
-      }),
-    [children, handleSelect, value]
-  );
+  const Options = children.map((OptionElement) => {
+    // TypeScript type guard (OptionElement)
+    if (React.isValidElement(OptionElement)) {
+      return (
+        <div
+          {...OptionElement.props}
+          key={uniqid()}
+          onClick={handleSelect}
+          className={`
+                ${styles.option}
+                ${OptionElement?.props.className ? ` ${OptionElement.props.className}` : ""}
+                ${OptionElement?.props["data-value"] === value ? ` ${styles.selected}` : ""}
+              `}
+        >
+          {OptionElement.props.children}
+        </div>
+      );
+    }
+  });
 
   return (
     <>

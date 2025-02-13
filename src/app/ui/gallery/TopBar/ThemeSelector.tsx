@@ -19,9 +19,9 @@ const ThemeSelector = () => {
       {isMounted ? (
         <>
           <Select value={theme || "system"} onChange={setTheme} overlayText="Theme">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="system">System</option>
+            <div data-value="light">Light</div>
+            <div data-value="dark">Dark</div>
+            <div data-value="system">System</div>
           </Select>
         </>
       ) : (

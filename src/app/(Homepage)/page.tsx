@@ -2,9 +2,11 @@
 
 import React from "react";
 
+import type { NextPage } from "next";
+
 import styles from "./page.module.scss";
 
-const Home = () => {
+const Home: NextPage = () => {
   return (
     <main className={`${styles.root}`}>
       <div className={`${styles.content}`}>

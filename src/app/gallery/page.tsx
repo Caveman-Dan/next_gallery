@@ -1,6 +1,8 @@
 import React from "react";
 
-const Page = () => {
+import type { NextPage } from "next";
+
+const Page: NextPage = () => {
   return (
     <>
       <h1>HELLOOOO! FOOOBARRR!</h1>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 type AlbumPageParams = {
   album: string;

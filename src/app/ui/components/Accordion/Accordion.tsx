@@ -118,7 +118,7 @@ const ExpandingLayer = ({
         <Link
           className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}`}
           onClick={onSelect}
-          href={`/gallery/${entry.name}`}
+          href={`/gallery/${entry.path}`}
         >
           {capitalise(entry.name)}
           <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />

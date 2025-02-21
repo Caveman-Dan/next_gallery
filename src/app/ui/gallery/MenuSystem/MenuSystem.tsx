@@ -7,9 +7,10 @@ import TopBar from "@/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";
 
-import { DirectoryTree } from "directory-tree";
+import type { NextPage } from "next";
+import type { DirectoryTree } from "directory-tree";
 
-const MenuSystem = ({ albums }: { albums: DirectoryTree }) => {
+const MenuSystem: NextPage<{ albums: DirectoryTree }> = ({ albums }: { albums: DirectoryTree }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sideBarButtonClickAwayRef = useRef(null);
 

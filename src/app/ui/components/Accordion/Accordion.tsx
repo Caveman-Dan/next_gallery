@@ -10,14 +10,14 @@ import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow"
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
-import { DirectoryTree } from "directory-tree";
+import { GetAlbumsInterface } from "@/lib/actions";
 
 interface PartialEntry {
   id: string;
   depth: number;
 }
 
-interface DirectoryEntry extends DirectoryTree {
+interface DirectoryEntry extends GetAlbumsInterface {
   depth: number;
 }
 
@@ -146,10 +146,10 @@ const ExpandingLayer = ({
             className={`${styles.animatedBox}${isFocused ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
-            {entry.children.map((nextEntry: DirectoryTree) => (
+            {entry.children.map((nextEntry) => (
               <ExpandingLayer
                 key={nextEntry.custom.id}
-                entry={{ ...nextEntry, depth: entry.depth + 1 }}
+                entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
                 parentEntry={{ id: entry.custom.id, depth: entry.depth }}
                 renderChildren={renderNextChild}
                 onSelect={onSelect}
@@ -168,7 +168,7 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ directories, onSelect }: { directories: DirectoryTree; onSelect: () => void }) => {
+const Accordion = ({ directories, onSelect }: { directories: GetAlbumsInterface; onSelect: () => void }) => {
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false);
   const [listHeight, setListHeight] = useState(0);
   const [focusedItem, setFocusedItem] = useState<PartialEntry | null>(null);
@@ -178,7 +178,7 @@ const Accordion = ({ directories, onSelect }: { directories: DirectoryTree; onSe
       {directories.children?.map((entry) => (
         <ExpandingLayer
           key={entry.custom.id}
-          entry={{ ...entry, depth: 0 }}
+          entry={{ ...JSON.parse(JSON.stringify(entry)), depth: 0 }}
           parentEntry={{ id: directories.custom.id, depth: 0 }}
           renderChildren={true}
           onSelect={onSelect}

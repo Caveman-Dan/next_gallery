@@ -10,7 +10,7 @@ import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow"
 import styles from "./Accordion.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
 
-import { GetAlbumsInterface } from "@/lib/actions";
+import type { GetAlbumsInterface } from "@/lib/definitions";
 
 interface PartialEntry {
   id: string;

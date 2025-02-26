@@ -8,8 +8,8 @@ import type { GetAlbumsInterface } from "@/lib/definitions";
 export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   let albumsTree;
 
-  if (process.env.CDN && process.env.CDN_GET_ALBUMS) {
-    const requestUrl = new URL(`${process.env.CDN}${process.env.CDN_GET_ALBUMS}`);
+  if (process.env.API && process.env.API_GET_ALBUMS) {
+    const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
     albumsTree = await fetch(requestUrl).then((response) => response.json());
   } else console.error("API config error!");
 
@@ -19,9 +19,9 @@ export const getAlbums = async (): Promise<GetAlbumsInterface> => {
 export const getImages = async (imageDirectory: string) => {
   let images;
 
-  if (process.env.CDN && process.env.CDN_GET_IMAGES) {
+  if (process.env.API && process.env.API_GET_IMAGES) {
     const searchParams = new URLSearchParams({ locate: imageDirectory });
-    const requestUrl = new URL(`${process.env.CDN}${process.env.CDN_GET_IMAGES}`);
+    const requestUrl = new URL(`${process.env.API}${process.env.API_GET_IMAGES}`);
     requestUrl.search = searchParams.toString();
 
     images = await fetch(requestUrl.href).then((response) => response.json());

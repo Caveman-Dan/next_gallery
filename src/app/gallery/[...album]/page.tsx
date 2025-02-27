@@ -1,6 +1,6 @@
 "use server";
 
-import { Image } from "next/image";
+import Image from "next/image";
 import React from "react";
 import path from "path";
 import uniqid from "uniqid";
@@ -9,13 +9,13 @@ import { getImages } from "@/lib/actions";
 
 import type { NextPage } from "next";
 
-// const imageLoader = ({src, width, quality }) => `http://localhost:`
-
 const Page: NextPage<{
   params: Promise<{
     album: [];
   }>;
 }> = async ({ params }) => {
+  "use server";
+
   const nextParams = await params;
   const albumPath = nextParams.album.reduce((accPath, item) => path.join(accPath, decodeURIComponent(item)), "");
   const images = await getImages(albumPath);
@@ -25,16 +25,10 @@ const Page: NextPage<{
       <h1>{decodeURIComponent(nextParams.album[nextParams.album.length - 1])}</h1>
       <p>{albumPath}</p>
       <div>
-        {images?.map((item) => (
-          <h6 key={uniqid()}>{item}</h6>
-          // <Image
-          //   key={uniqid()}
-          //   // src={path.join("/image_store/", albumPath, item)}
-          //   src={"/image_store/Travelling 2004/Thailand & Laos/11 - Traveling through Laos/Picture 260.jpg"}
-          //   fill
-          //   alt={`image for file - ${item}`}
-          // />
-        ))}
+        {images?.map((item: string) => {
+          const imageUrl = new URL(`${process.env.API_GET_IMAGE}/${albumPath}/${item}`, process.env.API);
+          return <Image key={uniqid()} src={imageUrl.href} width={200} height={200} alt={`image for file - ${item}`} />;
+        })}
       </div>
     </>
   );

@@ -14,8 +14,6 @@ const Page: NextPage<{
     album: [];
   }>;
 }> = async ({ params }) => {
-  "use server";
-
   const nextParams = await params;
   const albumPath = nextParams.album.reduce((accPath, item) => path.join(accPath, decodeURIComponent(item)), "");
   const images = await getImages(albumPath);

@@ -3,7 +3,7 @@
 import "dotenv/config";
 
 import type { InputState } from "@/ui/components/InputBox/InputBox";
-import type { GetAlbumsInterface } from "@/lib/definitions";
+import type { GetAlbumsInterface } from "@/definitions/definitions";
 
 export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   let albumsTree;

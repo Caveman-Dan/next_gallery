@@ -15,7 +15,7 @@ import useWindowSize from "@/hooks/useWindowSize";
 // import breakpoints from "@/style/breakpoints.json";
 
 import { DirectoryTree } from "directory-tree";
-import { InteractiveToggleProps } from "@/lib/definitions";
+import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   sidebarOpen: InteractiveToggleProps["state"];

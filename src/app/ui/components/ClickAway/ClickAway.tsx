@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { InteractiveToggleProps } from "@/lib/definitions";
+import { InteractiveToggleProps } from "@/definitions/definitions";
 
 import styles from "./ClickAway.module.scss";
 

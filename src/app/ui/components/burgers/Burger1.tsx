@@ -1,6 +1,6 @@
 "use client";
 
-import { InteractiveToggleProps } from "@/lib/definitions";
+import { InteractiveToggleProps } from "@/definitions/definitions";
 
 import styles from "./Burger1.module.scss";
 

@@ -2,8 +2,10 @@
 
 import "dotenv/config";
 
-import type { InputState } from "@/ui/components/InputBox/InputBox";
-import type { GetAlbumsInterface } from "@/definitions/definitions";
+import { handleServerError } from "./errorHandling";
+
+import { InputState } from "@/ui/components/InputBox/InputBox";
+import { GetAlbumsInterface } from "@/definitions/definitions";
 
 export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   let albumsTree;
@@ -11,7 +13,7 @@ export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   if (process.env.API && process.env.API_GET_ALBUMS) {
     const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
     albumsTree = await fetch(requestUrl).then((response) => response.json());
-  } else console.error("API config error!");
+  } else handleServerError({ message: "API config error!" });
 
   return albumsTree;
 };
@@ -25,7 +27,7 @@ export const getImages = async (imageDirectory: string) => {
     requestUrl.search = searchParams.toString();
 
     images = await fetch(requestUrl.href).then((response) => response.json());
-  } else console.error("CDN is missing in environment config!");
+  } else handleServerError({ message: "CDN is missing in environment config!" });
 
   return images;
 };

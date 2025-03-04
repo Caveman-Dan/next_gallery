@@ -34,3 +34,19 @@ export interface NextImageProps {
   fill?: boolean;
   sizes?: string;
 }
+
+export type ApiErrorResponse = {
+  status: number;
+  error: boolean;
+  message: string;
+};
+
+export type ImageDetails = {
+  fileName: string;
+  details: {
+    height: number;
+    orientation: number;
+    width: number;
+    type: string;
+  };
+};

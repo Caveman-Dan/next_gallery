@@ -21,7 +21,7 @@ const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageProps) => 
   return (
     <NextImage
       alt={alt}
-      onError={() => {
+      onError={(e) => {
         // console.log("ERROR: ", e.target);
         setError(e);
       }}

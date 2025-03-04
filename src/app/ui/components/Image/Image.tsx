@@ -18,7 +18,17 @@ const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageProps) => 
     setError(null);
   }, [src]);
 
-  return <NextImage alt={alt} onError={setError} src={error ? fallback : src} {...props} />;
+  return (
+    <NextImage
+      alt={alt}
+      onError={() => {
+        // console.log("ERROR: ", e.target);
+        setError(e);
+      }}
+      src={error ? fallback : src}
+      {...props}
+    />
+  );
 };
 
 export default Image;

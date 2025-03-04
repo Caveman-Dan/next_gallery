@@ -1,8 +1,9 @@
 "use client"; // Error boundaries must be Client Components
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+// export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function Error({ error }: { error: Error & { digest?: string } }) {
   // const [ error, setError ] = useState({ error: null, status: null, message: null });
 
   // useEffect(() => {

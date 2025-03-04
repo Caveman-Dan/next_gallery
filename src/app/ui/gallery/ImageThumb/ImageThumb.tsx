@@ -2,7 +2,7 @@ import Image from "@/ui/components/Image/Image";
 
 import styles from "./ImageThumb.module.scss";
 
-const ImageThumb = (src, width, height, alt) => {
+const ImageThumb = ({ src, width, height, alt }: { src: string; width: number; height: number; alt: string }) => {
   const MAX_WIDTH = 200;
   const newHeight = (height / width) * MAX_WIDTH;
 

@@ -18,7 +18,7 @@ export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   return albumsTree;
 };
 
-export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | Promise<ApiErrorResponse> | null> => {
+export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse | null> => {
   // let getImagesResponse: GetImagesResponse;
 
   if (process.env.API && process.env.API_GET_IMAGES) {
@@ -34,7 +34,7 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
 };
 
 export const authenticate = async (prevState: { [key: string]: InputState } | undefined, formData: FormData) => {
-  await console.log("Authenticating", { prevState, formData });
+  console.log("Authenticating", { prevState, formData });
 
   return { message: "Authenticating" };
 };

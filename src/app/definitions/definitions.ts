@@ -25,4 +25,8 @@ export type ImageDetails = {
     width: number;
     type: string;
   };
+  placeholder: {
+    error: boolean;
+    blurData: string;
+  };
 };

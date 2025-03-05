@@ -19,8 +19,6 @@ export const getAlbums = async (): Promise<GetAlbumsInterface> => {
 };
 
 export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse | null> => {
-  // let getImagesResponse: GetImagesResponse;
-
   if (process.env.API && process.env.API_GET_IMAGES) {
     const searchParams = new URLSearchParams({ locate: imageDirectory });
     const requestUrl = new URL(`${process.env.API}${process.env.API_GET_IMAGES}`);
@@ -29,7 +27,6 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
     return await fetch(requestUrl.href).then((response) => response.json());
   } else handleServerError({ message: "CDN is missing in environment config!" });
 
-  // return getImagesResponse;
   return null;
 };
 

@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 
 import fallbackImage from "@/assets/alert-triangle.svg?url";
 
-interface ImageWithFalbackProps extends ImageProps {
+export interface ImageWithFallbackProps extends ImageProps {
   fallback?: string;
 }
 
-const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFalbackProps) => {
+const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallbackProps) => {
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {

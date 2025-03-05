@@ -39,6 +39,8 @@ const Page: NextPage<{
                 width={item.details.width}
                 height={item.details.height}
                 alt={`image for file - ${item.fileName}`}
+                placeholder="blur"
+                blurDataURL={item.placeholder.blurData}
               />
             </>
           );

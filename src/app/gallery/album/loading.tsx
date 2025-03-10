@@ -1,5 +1,7 @@
+import AlbumSkeleton from "@/ui/skeletons/AlbumSkeleton/AlbumSkeleton";
+
 const Loading = () => {
-  return <h1>Loading...</h1>;
+  return <AlbumSkeleton />;
 };
 
 export default Loading;

@@ -1,0 +1,19 @@
+.root {
+  // border: 2px solid red;
+  width: fit-content;
+  height: 100%;
+  overflow: hidden;
+
+  .blurContainer {
+    // border: 2px solid green;
+
+    transition: filter ease-in-out 300ms;
+
+    width: fit-content;
+    height: inherit;
+  }
+
+  .blurred {
+    filter: blur(40px);
+  }
+}

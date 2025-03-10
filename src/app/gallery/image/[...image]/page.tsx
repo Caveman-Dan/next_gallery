@@ -3,7 +3,6 @@ import Image, { ImageWithFallbackProps } from "@/ui/components/Image/Image";
 
 import styles from "./page.module.scss";
 import path from "path";
-import { StringOptionsWithImporter } from "sass";
 
 const SingleImageView = async ({
   params,
@@ -26,18 +25,22 @@ const SingleImageView = async ({
   const filename = path.basename(imagePath);
 
   return (
-    <>
-      <h1>{filename}</h1>
-      <Image
-        className={styles.image}
-        src={imageUrl.href}
-        width={width as number}
-        height={height as number}
-        alt={`Image of ${filename}`}
-        placeholder="blur"
-        blurDataURL={blurData}
-      />
-    </>
+    <div className={styles.root}>
+      <div className={styles.title}>
+        <h1>{filename}</h1>
+      </div>
+      <div className={styles.imageContainer}>
+        <Image
+          className={styles.image}
+          src={imageUrl.href}
+          width={width as number}
+          height={height as number}
+          alt={`Image of ${filename}`}
+          placeholder="blur"
+          blurDataURL={blurData}
+        />
+      </div>
+    </div>
   );
 };
 

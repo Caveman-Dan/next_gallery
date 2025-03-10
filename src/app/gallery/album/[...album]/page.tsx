@@ -38,9 +38,11 @@ const Page: NextPage<{
                 src={imageUrl.href}
                 width={item.details.width}
                 height={item.details.height}
-                alt={`image for file - ${item.fileName}`}
+                alt={`image of ${item.fileName}`}
                 placeholder="blur"
                 blurDataURL={item.placeholder.blurData}
+                albumPath={albumPath}
+                fileName={item.fileName}
               />
             </>
           );

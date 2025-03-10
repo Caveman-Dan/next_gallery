@@ -1,5 +1,5 @@
 import base64url from "base64url";
-import Image, { ImageWithFallbackProps } from "@/ui/components/Image/Image";
+import Image from "@/ui/components/Image/Image";
 
 import styles from "./page.module.scss";
 import path from "path";

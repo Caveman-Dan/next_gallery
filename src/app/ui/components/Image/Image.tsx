@@ -15,7 +15,7 @@ const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallba
   const [error, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const adjustedWidth = useEffect(() => {
+  useEffect(() => {
     setError(false);
   }, [src]);
 

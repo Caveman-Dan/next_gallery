@@ -10,8 +10,8 @@ import { GetAlbumsInterface, ImageDetails, ApiErrorResponse } from "@/definition
 export const getAlbums = async (): Promise<GetAlbumsInterface> => {
   let albumsTree;
 
-  if (process.env.API && process.env.API_GET_ALBUMS) {
-    const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
+  if (process.env.NEXT_PUBLIC_API && process.env.NEXT_PUBLIC_API_GET_ALBUMS) {
+    const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
     albumsTree = await fetch(requestUrl).then((response) => response.json());
   } else handleServerError({ message: "API config error!" });
 
@@ -19,9 +19,9 @@ export const getAlbums = async (): Promise<GetAlbumsInterface> => {
 };
 
 export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse | null> => {
-  if (process.env.API && process.env.API_GET_IMAGES) {
+  if (process.env.NEXT_PUBLIC_API && process.env.NEXT_PUBLIC_API_GET_IMAGES) {
     const searchParams = new URLSearchParams({ locate: imageDirectory });
-    const requestUrl = new URL(`${process.env.API}${process.env.API_GET_IMAGES}`);
+    const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGES}`);
     requestUrl.search = searchParams.toString();
 
     return await fetch(requestUrl.href).then((response) => response.json());

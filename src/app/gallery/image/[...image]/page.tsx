@@ -18,7 +18,7 @@ const SingleImageView = async ({
     width = 200,
     height = 200,
   } = await searchParams;
-  const imageUrl = new URL(`${process.env.API_GET_IMAGE}/${imagePath}`, process.env.API);
+  const imageUrl = new URL(`${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`, process.env.NEXT_PUBLIC_API);
 
   // Had to trim the last two "=" from the output of base64url.toBase64()
   const blurData = base64url.toBase64(blurDataUrl as string).slice(0, -2);

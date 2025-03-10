@@ -29,7 +29,10 @@ const Page: NextPage<{
       <p>{albumPath}</p>
       <div className={styles.imagesContainer}>
         {(images as ImageDetails[])?.map(async (item: ImageDetails) => {
-          const imageUrl = new URL(`${process.env.API_GET_IMAGE}/${albumPath}/${item.fileName}`, process.env.API);
+          const imageUrl = new URL(
+            `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${item.fileName}`,
+            process.env.NEXT_PUBLIC_API
+          );
 
           return (
             <>

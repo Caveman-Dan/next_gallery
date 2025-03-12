@@ -10,8 +10,8 @@ interface Rule {
   use: string[];
 }
 
-const nextConfig: NextConfig = {
-  webpack(config) {
+const webpackConfig: NextConfig = {
+  webpack: (config) => {
     // Convert SVGs directly in to React components
     // See SVGR https://react-svgr.com/docs/next/
     // Grab the existing rule that handles SVG imports
@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+};
+
+const nextConfig: NextConfig = {
+  basePath: process.env.BASE_PATH,
   sassOptions: {
     importer: jsonImporter(),
     modules: true,
@@ -45,7 +49,6 @@ const nextConfig: NextConfig = {
     prependData: '@use "global_imports.scss" as *; @use "sass:color";',
     silenceDeprecations: ["legacy-js-api"],
   },
-  basePath: process.env.BASE_PATH,
   images: {
     remotePatterns: [
       // This is the get_image endpoint at the remote API
@@ -58,6 +61,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  ...webpackConfig,
 };
 
 // console.log("NEXT-CONFIG: ", JSON.stringify(nextConfig));

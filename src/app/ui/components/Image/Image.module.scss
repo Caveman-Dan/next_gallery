@@ -6,14 +6,18 @@
 
   .blurContainer {
     // border: 2px solid green;
-
-    transition: filter ease-in-out 300ms;
+    opacity: 0;
+    transition: filter ease-in-out 500ms, opacity ease-in-out 5000ms;
 
     width: fit-content;
     height: inherit;
   }
 
-  .blurred {
+  .isVisible {
+    opacity: 1;
+  }
+
+  .isBlurred {
     filter: blur(40px);
   }
 }

@@ -14,14 +14,20 @@ export interface ImageWithFallbackProps extends ImageProps {
 const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallbackProps) => {
   const [error, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setError(false);
+    setIsMounted(true);
   }, [src]);
 
   return (
     <div className={styles.root}>
-      <div className={`${styles.blurContainer}${isLoading ? ` ${styles.blurred}` : ""}`}>
+      <div
+        className={`${styles.blurContainer}${isLoading ? ` ${styles.isBlurred}` : ""}${
+          isMounted ? ` ${styles.isVisible}` : ""
+        }`}
+      >
         <NextImage
           loading="lazy"
           onLoad={() => setIsLoading(false)}

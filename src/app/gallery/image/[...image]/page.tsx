@@ -14,8 +14,8 @@ const SingleImageView = async ({
   const imagePath = decodeURIComponent((await params).image.join("/"));
   const {
     blurDataUrl = "data:image_png;base64,_9j_2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj_2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj_wAARCAABAAEDASIAAhEBAxEB_8QAFQABAQAAAAAAAAAAAAAAAAAAAAP_xAAUEAEAAAAAAAAAAAAAAAAAAAAA_8QAFAEBAAAAAAAAAAAAAAAAAAAAAf_EABQRAQAAAAAAAAAAAAAAAAAAAAD_2gAMAwEAAhEDEQA_AKgAv__Z",
-    width = 200,
-    height = 200,
+    width = 4000,
+    height = 4000,
   } = await searchParams;
   const imageUrl = new URL(`${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`, process.env.NEXT_PUBLIC_API);
 

@@ -1,6 +1,6 @@
 # Next Gallery
 
-## [Click here](http://www.waxworlds.org/dan/next_gallery) to see project
+## [Click here](http://www.waxworlds.org:8984/dan/next_gallery) to see project
 
 ## !! This project is a work in progress !!
 
@@ -11,6 +11,7 @@ This project has been created solely by Dan Marston for the purpose of providing
 ## Features
 
 - Infrastructure
+  
   - Mobile first responsive design
   
   - Built with Next.js and React
@@ -18,16 +19,18 @@ This project has been created solely by Dan Marston for the purpose of providing
   - Styling uses Next.js Modules implemented with SCSS
   
   - Switchable themes
+
 - All home made components
+  
   - Spring Physics
-  - Animated select box (see [/gallery](www.waxworlds.org/dan/next_gallery/gallery))
-  - Animated side bar (see [/gallery](www.waxworlds.org/dan/next_gallery/gallery))
-  - Animated accordion menu (see sidebar at [/gallery](www.waxworlds.org/dan/next_gallery/gallery))
+  - Animated select box (see [/gallery](www.waxworlds.org:8984/dan/next_gallery/gallery))
+  - Animated side bar (see [/gallery](www.waxworlds.org:8984/dan/next_gallery/gallery))
+  - Animated accordion menu (see sidebar at [/gallery](www.waxworlds.org:8984/dan/next_gallery/gallery))
     - Recursively generated from folder structure
     - Can handle unlimited depth
-  - Animated text Input boxes (see [/login](www.waxworlds.org/dan/next_gallery/login))
+  - Animated text Input boxes (see [/login](www.waxworlds.org:8984/dan/next_gallery/login))
   - Animated rippling Buttons
-  - Animated sticky sliding menu on scroll down (see [home](www.waxworlds.org/dan/next_gallery))
+  - Animated sticky sliding menu on scroll down (see [home](www.waxworlds.org:8984/dan/next_gallery))
 
 ## Coming soon
 

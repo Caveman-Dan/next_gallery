@@ -1,6 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import breakpoints from "@/style/breakpoints.json";
 
+/**
+ *    Breakpoints:
+ *
+ *    screen-sm: 576
+ *    screen-md: 768
+ *    screen-lg: 992
+ *    screen-xl: 1200
+ *    screen-xxl: 1600
+ */
+
 type WindowSizeData = {
   height?: number;
   width?: number;

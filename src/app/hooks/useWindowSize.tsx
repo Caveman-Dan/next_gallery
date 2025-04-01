@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import breakpoints from "@/style/breakpoints.json";
 
 type WindowSizeData = {
@@ -19,8 +19,8 @@ type WindowSizeData = {
 const useWindowSize = (): WindowSizeData => {
   const [windowSize, setWindowSize] = useState({});
 
-  useEffect(() => {
-    const handleResize = () =>
+  const handleResize = useCallback(
+    () =>
       setWindowSize({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -34,13 +34,16 @@ const useWindowSize = (): WindowSizeData => {
         belowXl: window.innerWidth < breakpoints["screen-xl"],
         aboveXxl: window.innerWidth >= breakpoints["screen-xxl"],
         belowXxl: window.innerWidth < breakpoints["screen-xxl"],
-      });
+      }),
+    []
+  );
 
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [handleResize]);
 
   return windowSize;
 };

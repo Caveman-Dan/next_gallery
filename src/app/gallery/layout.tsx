@@ -18,7 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = async ({ children }) => 
       <MenuSystem albums={albums} />
       <div className={`${styles.contentContainer}`}>
         <div className={`${styles.pageBorder}`}>
-          <div className={`${styles.pageContainer} ${styles.open}`}>{children}</div>
+          <div className={styles.pageContainer}>{children}</div>
         </div>
       </div>
     </div>

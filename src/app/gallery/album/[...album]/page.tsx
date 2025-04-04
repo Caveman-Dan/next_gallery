@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 
 import useElementSize from "@/hooks/useElementSize";
@@ -19,7 +19,7 @@ const Page: NextPage = () => {
   const albumPath = decodeURIComponent(useParams<{ album: string[] }>().album.join("/"));
   const [images, setImages] = useState<ImageDetails[] | []>([]);
 
-  const { clientWidth: containerWidth, clientHeight: containerHeight } = useElementSize(containerRef?.current);
+  const { clientWidth: containerWidth } = useElementSize(containerRef?.current);
 
   useLayoutEffect(() => {
     if (images.length && containerWidth) return;
@@ -41,12 +41,7 @@ const Page: NextPage = () => {
         <h1>{albumPath.split("/").reverse()[0]}</h1>
         <p>{albumPath}</p>
       </div>
-      <ImageSequencer
-        images={images}
-        albumPath={albumPath}
-        containerWidth={containerWidth}
-        containerHeight={containerHeight}
-      />
+      <ImageSequencer images={images} albumPath={albumPath} containerWidth={containerWidth} />
     </div>
   );
 };

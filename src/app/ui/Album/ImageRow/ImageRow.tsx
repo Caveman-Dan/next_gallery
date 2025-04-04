@@ -60,7 +60,7 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
             />
           </div>
         );
-      })}{" "}
+      })}
     </div>
   );
 };

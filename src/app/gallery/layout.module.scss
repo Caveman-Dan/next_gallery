@@ -1,6 +1,7 @@
 .root {
   width: 100%;
   height: 100%;
+  overflow-y: scroll; // force scrollbar to prevent flicker & re-render of ImageSequencer
 
   .contentContainer {
     width: calc(100% - (var(--nav-spacing) * 2));
@@ -12,9 +13,9 @@
       padding: var(--nav-spacing);
       border: 1px solid var(--border-colour-base);
       border-radius: $default_border_radius;
-      width: 100%;
-      height: calc(100% - 2px - (var(--nav-spacing) * 2));
-      overflow-y: auto;
+      width: 80%;
+      height: fit-content;
+      margin: 0 auto;
 
       .pageContainer {
         width: 100%;

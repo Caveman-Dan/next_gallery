@@ -30,7 +30,7 @@ const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallba
       >
         <NextImage
           loading="lazy"
-          onLoad={() => setIsLoading(false)}
+          onLoad={() => setTimeout(() => setIsLoading(false), 1000)}
           alt={alt}
           onError={() => setError(false)}
           src={error ? fallback : src}

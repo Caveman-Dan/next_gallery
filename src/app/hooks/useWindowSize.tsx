@@ -11,8 +11,10 @@ import breakpoints from "@/style/breakpoints.json";
  *    screen-xxl: 1600
  */
 
-export type WindowSizeData = {
-  size?: string;
+export type WindowSizes = "xsm" | "sm" | "md" | "lg" | "xl" | "xxl";
+
+export interface WindowSizeData {
+  size?: WindowSizes;
   height?: number;
   width?: number;
   aboveSm?: boolean;
@@ -25,7 +27,7 @@ export type WindowSizeData = {
   belowXl?: boolean;
   aboveXxl?: boolean;
   belowXxl?: boolean;
-};
+}
 
 const size = (width: number): string => {
   switch (true) {

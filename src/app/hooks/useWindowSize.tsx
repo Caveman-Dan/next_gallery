@@ -11,7 +11,8 @@ import breakpoints from "@/style/breakpoints.json";
  *    screen-xxl: 1600
  */
 
-type WindowSizeData = {
+export type WindowSizeData = {
+  size?: string;
   height?: number;
   width?: number;
   aboveSm?: boolean;
@@ -26,12 +27,30 @@ type WindowSizeData = {
   belowXxl?: boolean;
 };
 
+const size = (width: number): string => {
+  switch (true) {
+    case width < breakpoints["screen-sm"]:
+      return "xsm";
+    case width >= breakpoints["screen-sm"] && width < breakpoints["screen-md"]:
+      return "sm";
+    case width >= breakpoints["screen-md"] && width < breakpoints["screen-lg"]:
+      return "md";
+    case width >= breakpoints["screen-lg"] && width < breakpoints["screen-xl"]:
+      return "lg";
+    case width >= breakpoints["screen-xl"] && width < breakpoints["screen-xxl"]:
+      return "xl";
+    default:
+      return "xxl";
+  }
+};
+
 const useWindowSize = (): WindowSizeData => {
   const [windowSize, setWindowSize] = useState({});
 
   const handleResize = useCallback(
     () =>
       setWindowSize({
+        size: size(window.innerWidth),
         height: window.innerHeight,
         width: window.innerWidth,
         aboveSm: window.innerWidth >= breakpoints["screen-sm"],

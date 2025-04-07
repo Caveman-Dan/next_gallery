@@ -1,5 +1,3 @@
-import React, { useRef, useState, useEffect } from "react";
-
 import ImageThumb from "../ImageThumb/ImageThumb";
 
 import type { ImageDetails } from "@/definitions/definitions";

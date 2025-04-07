@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
 import base64url from "base64url";
 import Image, { ImageWithFallbackProps } from "@/ui/components/Image/Image";
 

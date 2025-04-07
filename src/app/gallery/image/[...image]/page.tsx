@@ -33,11 +33,13 @@ const SingleImageView = async ({
         <Image
           className={styles.image}
           src={imageUrl.href}
-          width={width as number}
-          height={height as number}
+          // width={width as number}
+          // height={height as number}
+          fill
           alt={`Image of ${filename}`}
           placeholder="blur"
           blurDataURL={blurData}
+          objectFit="contain"
         />
       </div>
     </div>

@@ -27,6 +27,7 @@ const justifyRows = ({
   let newRow: ImageDetails[] = [];
   let accumulativeWidth = 0;
   let space = 0;
+  let prevRowAccWidth = 0;
 
   images.forEach((image, index) => {
     const { width, height } = image.details;
@@ -35,16 +36,19 @@ const justifyRows = ({
     newRow.push(image);
 
     if (accumulativeWidth >= containerWidth - (space - spacing)) {
-      const newHeight = (approxRowHeight / accumulativeWidth) * (containerWidth - (space - spacing));
-      rows.push({
-        rowHeight: newHeight,
-        spacing,
-        images: newRow,
-      });
+      if (prevRowAccWidth !== accumulativeWidth) {
+        prevRowAccWidth = accumulativeWidth; // prevents a repeating grid when images are the same width
+        const newHeight = (approxRowHeight / accumulativeWidth) * (containerWidth - (space - spacing));
+        rows.push({
+          rowHeight: newHeight,
+          spacing,
+          images: newRow,
+        });
 
-      newRow = [];
-      accumulativeWidth = 0;
-      space = 0;
+        newRow = [];
+        accumulativeWidth = 0;
+        space = 0;
+      }
     }
 
     if (index === images.length - 1 && newRow.length) {

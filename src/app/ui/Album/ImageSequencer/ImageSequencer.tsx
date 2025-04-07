@@ -1,17 +1,30 @@
 import ImageRow from "../ImageRow/ImageRow";
 
-import { ImageDetails } from "@/definitions/definitions";
+import type { ImageDetails } from "@/definitions/definitions";
+
+type Settings = {
+  approxRowHeight: number;
+  spacing: number;
+};
 
 const settings = {
   approxRowHeight: 400,
   spacing: 6,
 };
 
-const justifyRows = ({ images, settings, containerWidth }) => {
+const justifyRows = ({
+  images,
+  settings,
+  containerWidth,
+}: {
+  images: ImageDetails[];
+  settings: Settings;
+  containerWidth: number;
+}) => {
   const { approxRowHeight, spacing } = settings;
 
-  const rows = [];
-  let newRow = [];
+  const rows: { rowHeight: number; spacing: number; images: ImageDetails[] }[] = [];
+  let newRow: ImageDetails[] = [];
   let accumulativeWidth = 0;
   let space = 0;
 
@@ -53,7 +66,7 @@ const ImageSequencer = ({
 }: {
   images: ImageDetails[];
   albumPath: string;
-  containerWidth: number | undefined;
+  containerWidth: number;
 }) => {
   if (!images) return null;
   const rows = justifyRows({ images, settings, containerWidth });

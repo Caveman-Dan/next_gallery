@@ -7,6 +7,7 @@ import useElementSize from "@/hooks/useElementSize";
 import { getImages } from "@/lib/actions";
 
 import ImageSequencer from "@/ui/Album/ImageSequencer/ImageSequencer";
+import Spinner from "@/ui/components/Spinner/Spinner";
 
 import type { NextPage } from "next";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
@@ -41,7 +42,11 @@ const Page: NextPage = () => {
         <h1>{albumPath.split("/").reverse()[0]}</h1>
         <p>{albumPath}</p>
       </div>
-      <ImageSequencer images={images} albumPath={albumPath} containerWidth={containerWidth} />
+      {images.length ? (
+        <ImageSequencer images={images} albumPath={albumPath} containerWidth={containerWidth} />
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 };

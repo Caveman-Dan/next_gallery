@@ -1,0 +1,161 @@
+// more spinners at: https://css-loaders.com
+
+.root {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  .loader {
+    margin: 20vh auto;
+    text-align: center;
+  }
+}
+
+.loader {
+  font-size: 30px;
+  animation: l1 1s linear infinite alternate;
+}
+.loader:before {
+  content: "Loading...";
+}
+@keyframes l1 {
+  to {
+    opacity: 0;
+  }
+}
+
+// .loader {
+//   width: fit-content;
+//   font-weight: bold;
+//   font-family: monospace;
+//   font-size: 30px;
+//   color:#0000;
+//   background:linear-gradient(90deg,#000 calc(50% - 0.5ch),#C02942 0 calc(50% + 0.5ch),#000 0) right/calc(200% + 1ch) 100%;
+//   -webkit-background-clip:text;
+//           background-clip:text;
+//   animation: l8 2s infinite steps(11);
+// }
+// .loader:before {
+//   content:"Loading..."
+// }
+// @keyframes l8 {to{background-position: left}}
+
+// .loader {
+//   height: 80px;
+//   aspect-ratio: 1;
+//   position: relative;
+//   clip-path: polygon(
+//     100% 50%,
+//     85.36% 85.36%,
+//     50% 100%,
+//     14.64% 85.36%,
+//     0% 50%,
+//     14.64% 14.64%,
+//     50% 0%,
+//     85.36% 14.64%,
+//     100% 50%,
+//     74.75% 25.25%,
+//     50% 15%,
+//     25.25% 25.25%,
+//     15% 50%,
+//     25.25% 74.75%,
+//     50% 85%,
+//     74.75% 74.75%,
+//     85% 50%,
+//     74.75% 25.25%
+//   );
+//   filter: blur(12px);
+// }
+// .loader:before {
+//   content: "";
+//   position: absolute;
+//   inset: 0;
+//   background: conic-gradient(#0000 35%, #0b486b, #0000 65%);
+//   animation: l6 2s linear infinite;
+// }
+// @keyframes l6 {
+//   to {
+//     rotate: 1turn;
+//   }
+// }
+
+// .loader {
+//   font-weight: bold;
+//   font-family: monospace;
+//   font-size: 30px;
+//   display: inline-grid;
+// }
+// .loader:before,
+// .loader:after {
+//   content: "Loading...";
+//   grid-area: 1/1;
+//   -webkit-mask: linear-gradient(90deg, #000 50%, #0000 0) 0 50%/2ch 100%;
+//   animation: l29 2s infinite;
+// }
+// .loader:after {
+//   -webkit-mask-position: 1ch 50%;
+//   --s: -1;
+// }
+// @keyframes l29 {
+//   80%,
+//   100% {
+//     transform: rotate(calc(var(--s, 1) * 1turn));
+//   }
+// }
+
+// .loader {
+//   width: 50px;
+//   aspect-ratio: 1;
+//   display: grid;
+// }
+// .loader::before,
+// .loader::after {
+//   content: "";
+//   grid-area: 1/1;
+//   --c: no-repeat radial-gradient(farthest-side, #25b09b 92%, #0000);
+//   background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%, var(--c) 0 50%;
+//   background-size: 12px 12px;
+//   animation: l12 1s infinite;
+// }
+// .loader::before {
+//   margin: 4px;
+//   filter: hue-rotate(45deg);
+//   background-size: 8px 8px;
+//   animation-timing-function: linear;
+// }
+
+// @keyframes l12 {
+//   100% {
+//     transform: rotate(0.5turn);
+//   }
+// }
+
+// .loader {
+//   width: 40px;
+//   height: 40px;
+//   position: relative;
+//   --c: no-repeat linear-gradient(#25b09b 0 0);
+//   background: var(--c) center/100% 10px, var(--c) center/10px 100%;
+// }
+// .loader:before {
+//   content: "";
+//   position: absolute;
+//   inset: 0;
+//   background: var(--c) 0 0, var(--c) 100% 0, var(--c) 0 100%, var(--c) 100% 100%;
+//   background-size: 15.5px 15.5px;
+//   animation: l16 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+// }
+// @keyframes l16 {
+//   33% {
+//     inset: -10px;
+//     transform: rotate(0deg);
+//   }
+//   66% {
+//     inset: -10px;
+//     transform: rotate(90deg);
+//   }
+//   100% {
+//     inset: 0;
+//     transform: rotate(90deg);
+//   }
+// }

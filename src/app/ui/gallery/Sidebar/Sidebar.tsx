@@ -9,7 +9,7 @@ import UserProfileLink from "@/ui/gallery/Sidebar/UserProfileLink";
 import SettingsLink from "./SettingsLink";
 
 import styles from "./Sidebar.module.scss";
-import { menuItems as springsConfig } from "@/style/springsConfig";
+import { sideBar as springsConfig } from "@/style/springsConfig";
 
 import useWindowSize from "@/hooks/useWindowSize";
 // import breakpoints from "@/style/breakpoints.json";

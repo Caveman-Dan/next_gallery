@@ -10,6 +10,7 @@
     justify-content: space-between;
     padding-left: 2em;
     transition: background-color $menu_transition, color $menu_transition;
+    text-wrap: nowrap;
 
     @include hover {
       transition: unset;
@@ -25,6 +26,7 @@
 
   .expandingLayerContainer {
     height: fit-content;
+    overflow: hidden;
 
     .sectionLabel {
       height: 2em;
@@ -33,6 +35,7 @@
       padding-left: 1em;
       cursor: pointer;
       align-items: center;
+      text-wrap: nowrap;
 
       transition: background-color $menu_transition, color $menu_transition;
 

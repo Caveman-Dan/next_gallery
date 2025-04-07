@@ -13,9 +13,10 @@ $titleHeight: 3em;
     height: calc(100vh - $titleHeight - (var(--nav-spacing) * 4) - 3rem);
     width: 100%;
 
-    // .image {
-    //   height: 100%;
-    //   width: fit-content;
-    // }
+    .image {
+      // height: 100%;
+      // width: fit-content;
+      object-fit: contain;
+    }
   }
 }

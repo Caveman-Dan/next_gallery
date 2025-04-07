@@ -39,7 +39,6 @@ const SingleImageView = async ({
           alt={`Image of ${filename}`}
           placeholder="blur"
           blurDataURL={blurData}
-          objectFit="contain"
         />
       </div>
     </div>

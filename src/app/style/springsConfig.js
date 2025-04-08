@@ -1,20 +1,26 @@
 module.exports = {
   menuItems: {
-    mass: 2,
-    tension: 800,
-    friction: 20,
+    mass: 4,
+    tension: 500,
+    friction: 50,
     precision: 0.0,
   },
   sideBar: {
-    mass: 10,
+    mass: 4,
     tension: 500,
     friction: 70,
     precision: 0.0,
   },
-  modalAppear: {
-    mass: 10,
+  accordion: {
+    mass: 4,
     tension: 500,
-    friction: 70,
+    friction: 60,
+    precision: 0.0,
+  },
+  modalAppear: {
+    mass: 7,
+    tension: 500,
+    friction: 80,
     precision: 0.0,
   },
 };

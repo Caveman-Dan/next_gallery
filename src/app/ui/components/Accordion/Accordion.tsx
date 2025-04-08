@@ -8,7 +8,7 @@ import { capitalise } from "@/lib/helpers";
 import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 
 import styles from "./Accordion.module.scss";
-import { menuItems as springsConfig } from "@/style/springsConfig";
+import { accordion as springsConfig } from "@/style/springsConfig";
 
 import type { GetAlbumsInterface } from "@/definitions/definitions";
 

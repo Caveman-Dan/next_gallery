@@ -84,7 +84,7 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Accordion directories={albums} onSelect={() => setTimeout(() => setSidebarOpen(false), 1000)} />
+            <Accordion directories={albums} onSelect={() => setTimeout(() => setSidebarOpen(false), 200)} />
           </div>
           <hr />
           <div className={styles.settingsLink}>

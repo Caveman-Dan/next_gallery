@@ -37,7 +37,7 @@ const justifyRows = ({
 
     if (accumulativeWidth >= containerWidth - (space - spacing)) {
       if (prevRowAccWidth !== accumulativeWidth) {
-        prevRowAccWidth = accumulativeWidth; // prevents a repeating grid when images are the same width
+        prevRowAccWidth = accumulativeWidth; // prevents repetitive grid when images are the same width
         const newHeight = (approxRowHeight / accumulativeWidth) * (containerWidth - (space - spacing));
         rows.push({
           rowHeight: newHeight,

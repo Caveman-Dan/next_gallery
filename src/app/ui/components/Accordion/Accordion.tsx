@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
+import React, { useState, useEffect, useLayoutEffect, useCallback } from "react";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import { capitalise } from "@/lib/helpers";
@@ -32,6 +33,7 @@ interface ExpandingLayerProps {
   setListHeight: React.Dispatch<React.SetStateAction<number>>;
   focusedItem: PartialEntry | null;
   setFocusedItem: React.Dispatch<React.SetStateAction<PartialEntry | null>>;
+  currentUri: string;
 }
 
 const ExpandingLayer = ({
@@ -45,10 +47,12 @@ const ExpandingLayer = ({
   setListHeight,
   focusedItem, // id & depth of focused item's entry
   setFocusedItem,
+  currentUri,
 }: ExpandingLayerProps) => {
   const [isSectionOpen, setIsSectionOpen] = useState(false);
-  const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render)
+  const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render alert)
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false); // tell child when a sibling is focused so it can hide its self
+  // const [isSelected, setIsSelected] = useState(false); // Show when a selection is selected.
 
   const api = useSpringRef();
   const springs = useSpring({
@@ -56,15 +60,51 @@ const ExpandingLayer = ({
     from: { height: "0" },
   });
 
-  useLayoutEffect(() => {
-    if (!renderChildren) return;
-    if (!focusedItem) return;
+  const uriComponents = currentUri?.split("/");
+  const selectedEntry = decodeURIComponent(uriComponents[uriComponents.length - 1]);
 
+  // return null;
+
+  const handleFocus = useCallback(() => {
+    setRenderNextChild(true);
+    setFocusedItem(
+      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.custom.id, depth: entry.depth }
+    );
+  }, [entry.custom.id, entry.depth, isSectionOpen, parentEntry.depth, parentEntry.id, setFocusedItem]);
+
+  // Handle URL if arrived from link
+  useEffect(() => {
+    if (!currentUri || focusedItem || !entry.children?.length) return;
+
+    if (decodeURIComponent(uriComponents[entry.depth]) === entry.name) {
+      setListHeight(entry.children?.length + entry.depth);
+      setIsSectionOpen(true);
+      setRenderNextChild(true);
+      // if (entry.depth === uriComponents.length - 2) {
+      if (entry.depth === uriComponents.length - 2) {
+        // This focuses the item b4 the album and will need updating
+        // when handling a URL from an image rather than an album.
+        handleFocus();
+      }
+    }
+  }, [
+    currentUri,
+    entry.children?.length,
+    entry.depth,
+    entry.name,
+    focusedItem,
+    handleFocus,
+    setListHeight,
+    uriComponents,
+  ]);
+
+  useEffect(() => {
+    if (!renderChildren || !focusedItem) return;
     if (entry.custom.id === focusedItem.id && entry.children?.length) {
       // if in focus
       setListHeight(entry.children?.length + entry.depth);
-      setSiblingIsOpen(true);
       setIsSectionOpen(true);
+      setSiblingIsOpen(true);
     } else {
       // if not in focus
       if (entry.depth >= focusedItem.depth) {
@@ -77,8 +117,8 @@ const ExpandingLayer = ({
     }
   }, [
     entry.children?.length,
-    entry.depth,
     entry.custom.id,
+    entry.depth,
     focusedItem,
     renderChildren,
     setListHeight,
@@ -97,26 +137,22 @@ const ExpandingLayer = ({
         clamp: !isSectionOpen,
       },
     });
-  }, [api, entry.depth, listHeight, renderChildren, isSectionOpen]);
+  }, [api, entry.depth, isSectionOpen, listHeight, renderChildren]);
 
   if (!renderChildren) return; // Restrict rendering to avoid max render
 
-  const handleFocus = () => {
-    setRenderNextChild(true);
-    setFocusedItem(
-      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.custom.id, depth: entry.depth }
-    );
-  };
-
   const hideItem = entry.depth && siblingIsOpen && !isSectionOpen;
-  const isFocused = entry.custom.id === focusedItem?.id;
+  const isOpenList = entry.custom.id === focusedItem?.id;
+  const isSelected = selectedEntry === entry.name && entry.depth === uriComponents.length - 1;
   const isRootItem = entry.depth === 0;
 
   return (
     <>
       {!entry.children?.length ? ( // if no children
         <Link
-          className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}`}
+          className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}${
+            isSelected ? ` ${styles.isOpenLabel}` : "" // this will select an item
+          }`}
           onClick={onSelect}
           href={`/gallery/album/${entry.path}`}
         >
@@ -143,7 +179,7 @@ const ExpandingLayer = ({
             />
           </div>
           <animated.div
-            className={`${styles.animatedBox}${isFocused ? ` ${styles.isOpenList}` : ""}`}
+            className={`${styles.animatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
             style={{ ...springs }}
           >
             {entry.children.map((nextEntry) => (
@@ -159,6 +195,7 @@ const ExpandingLayer = ({
                 setListHeight={setListHeight}
                 focusedItem={focusedItem}
                 setFocusedItem={setFocusedItem}
+                currentUri={currentUri}
               />
             ))}
           </animated.div>
@@ -169,9 +206,15 @@ const ExpandingLayer = ({
 };
 
 const Accordion = ({ directories, onSelect }: { directories: GetAlbumsInterface; onSelect: () => void }) => {
+  const entryPage = usePathname().split("/")[2];
+  let currentUri = usePathname().replace(`/gallery/${entryPage}/`, "");
   const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false);
   const [listHeight, setListHeight] = useState(0);
   const [focusedItem, setFocusedItem] = useState<PartialEntry | null>(null);
+
+  if (entryPage === "image") currentUri = currentUri.split("/").slice(0, -1).join("/"); // Remove filename from uri
+
+  // console.log("uri: ", { currentUri, entryPage });
 
   return (
     <div className={styles.root}>
@@ -188,6 +231,7 @@ const Accordion = ({ directories, onSelect }: { directories: GetAlbumsInterface;
           setListHeight={setListHeight}
           focusedItem={focusedItem}
           setFocusedItem={setFocusedItem}
+          currentUri={currentUri}
         />
       ))}
     </div>

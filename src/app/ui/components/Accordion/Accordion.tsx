@@ -80,6 +80,7 @@ const ExpandingLayer = ({
       setListHeight(entry.children?.length + entry.depth);
       setIsSectionOpen(true);
       setRenderNextChild(true);
+      setSiblingIsOpen(true);
       // if (entry.depth === uriComponents.length - 2) {
       if (entry.depth === uriComponents.length - 2) {
         // This focuses the item b4 the album and will need updating
@@ -95,6 +96,7 @@ const ExpandingLayer = ({
     focusedItem,
     handleFocus,
     setListHeight,
+    setSiblingIsOpen,
     uriComponents,
   ]);
 

@@ -180,27 +180,51 @@ const ExpandingLayer = ({
               colour={!isSectionOpen ? "var(--highlight-colour-alternate4)" : undefined}
             />
           </div>
-          <animated.div
-            className={`${styles.animatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
-            style={{ ...springs }}
-          >
-            {entry.children.map((nextEntry) => (
-              <ExpandingLayer
-                key={nextEntry.custom.id}
-                entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
-                parentEntry={{ id: entry.custom.id, depth: entry.depth }}
-                renderChildren={renderNextChild}
-                onSelect={onSelect}
-                siblingIsOpen={childSiblingIsOpen}
-                setSiblingIsOpen={setChildSiblingIsOpen}
-                listHeight={listHeight}
-                setListHeight={setListHeight}
-                focusedItem={focusedItem}
-                setFocusedItem={setFocusedItem}
-                currentUri={currentUri}
-              />
-            ))}
-          </animated.div>
+          {entry.depth ? (
+            <div
+              className={`${styles.notAnimatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
+              // style={{ height: `${entry?.children?.length || 0 + entry.depth}em` }}
+            >
+              {entry.children.map((nextEntry) => (
+                <ExpandingLayer
+                  key={nextEntry.custom.id}
+                  entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
+                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
+                  renderChildren={renderNextChild}
+                  onSelect={onSelect}
+                  siblingIsOpen={childSiblingIsOpen}
+                  setSiblingIsOpen={setChildSiblingIsOpen}
+                  listHeight={listHeight}
+                  setListHeight={setListHeight}
+                  focusedItem={focusedItem}
+                  setFocusedItem={setFocusedItem}
+                  currentUri={currentUri}
+                />
+              ))}
+            </div>
+          ) : (
+            <animated.div
+              className={`${styles.animatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
+              style={{ ...springs }}
+            >
+              {entry.children.map((nextEntry) => (
+                <ExpandingLayer
+                  key={nextEntry.custom.id}
+                  entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
+                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
+                  renderChildren={renderNextChild}
+                  onSelect={onSelect}
+                  siblingIsOpen={childSiblingIsOpen}
+                  setSiblingIsOpen={setChildSiblingIsOpen}
+                  listHeight={listHeight}
+                  setListHeight={setListHeight}
+                  focusedItem={focusedItem}
+                  setFocusedItem={setFocusedItem}
+                  currentUri={currentUri}
+                />
+              ))}
+            </animated.div>
+          )}
         </div>
       )}
     </>

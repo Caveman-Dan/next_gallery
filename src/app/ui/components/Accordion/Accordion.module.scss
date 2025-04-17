@@ -25,7 +25,7 @@
   }
 
   .expandingLayerContainer {
-    height: fit-content;
+    // height: fit-content;
     overflow: hidden;
 
     .sectionLabel {
@@ -54,8 +54,15 @@
     .animatedBox {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      height: 0;
+      // overflow: hidden;
+      // height: 0;
+    }
+
+    .notAnimatedBox {
+      display: flex;
+      flex-direction: column;
+      // overflow: hidden;
+      // height: 0;
     }
 
     .isOpenList {

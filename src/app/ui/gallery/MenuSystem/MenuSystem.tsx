@@ -7,10 +7,7 @@ import TopBar from "@/ui/gallery/TopBar/TopBar";
 
 import styles from "./MenuSystem.module.scss";
 
-import type { NextPage } from "next";
-import type { GetAlbumsInterface } from "@/definitions/definitions";
-
-const MenuSystem: NextPage<{ albums: GetAlbumsInterface }> = ({ albums }: { albums: GetAlbumsInterface }) => {
+const MenuSystem = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sideBarButtonClickAwayRef = useRef(null);
 
@@ -27,7 +24,6 @@ const MenuSystem: NextPage<{ albums: GetAlbumsInterface }> = ({ albums }: { albu
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         riseAboveClickAwayRefs={[sideBarButtonClickAwayRef]}
-        albums={albums}
       />
     </div>
   );

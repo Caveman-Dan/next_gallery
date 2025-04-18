@@ -12,18 +12,16 @@ import styles from "./Sidebar.module.scss";
 import { sideBar as springsConfig } from "@/style/springsConfig";
 
 import useWindowSize from "@/hooks/useWindowSize";
-// import breakpoints from "@/style/breakpoints.json";
 
-import { InteractiveToggleProps, GetAlbumsInterface } from "@/definitions/definitions";
+import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   sidebarOpen: InteractiveToggleProps["state"];
   setSidebarOpen: InteractiveToggleProps["setState"];
   riseAboveClickAwayRefs: React.RefObject<HTMLDivElement>[];
-  albums: GetAlbumsInterface;
 };
 
-const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs, albums }) => {
+const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs }) => {
   const windowSize = useWindowSize();
   const thisNode = useRef(null);
   const dropdownApi = useSpringRef();
@@ -84,7 +82,7 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Accordion directories={albums} onSelect={() => setTimeout(() => setSidebarOpen(false), 200)} />
+            <Accordion onSelect={() => setTimeout(() => setSidebarOpen(false), 200)} />
           </div>
           <hr />
           <div className={styles.settingsLink}>

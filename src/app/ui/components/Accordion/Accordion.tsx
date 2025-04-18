@@ -12,6 +12,7 @@ import styles from "./Accordion.module.scss";
 import { accordion as springsConfig } from "@/style/springsConfig";
 
 import type { GetAlbumsInterface } from "@/definitions/definitions";
+import { getAlbums } from "@/lib/actions";
 
 interface PartialEntry {
   id: string;
@@ -27,8 +28,6 @@ interface ExpandingLayerProps {
   parentEntry: PartialEntry;
   renderChildren: boolean;
   onSelect: () => void;
-  siblingIsOpen: boolean;
-  setSiblingIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   listHeight: number;
   setListHeight: React.Dispatch<React.SetStateAction<number>>;
   focusedItem: PartialEntry | null;
@@ -40,19 +39,15 @@ const ExpandingLayer = ({
   entry, // the folder's data object
   parentEntry, // id & depth of parent's entry
   renderChildren, // restrict rendering until parent is open
-  onSelect, // callback for onSelect
-  siblingIsOpen, // hide items in list only when a sibling is open
-  setSiblingIsOpen,
+  onSelect, // callback passed in to call when a selection is made
   listHeight, // universal height value for the animated elements
   setListHeight,
   focusedItem, // id & depth of focused item's entry
   setFocusedItem,
-  currentUri,
+  currentUri, // The URI components used to open the menu and highlight the selection when the page is refreshed
 }: ExpandingLayerProps) => {
   const [isSectionOpen, setIsSectionOpen] = useState(false);
-  const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render alert)
-  const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false); // tell child when a sibling is focused so it can hide its self
-  // const [isSelected, setIsSelected] = useState(false); // Show when a selection is selected.
+  const [renderNextChild, setRenderNextChild] = useState(false); // tell child to render (prevent max render fatal error)
 
   const api = useSpringRef();
   const springs = useSpring({
@@ -61,9 +56,16 @@ const ExpandingLayer = ({
   });
 
   const uriComponents = currentUri?.split("/");
-  const selectedEntry = decodeURIComponent(uriComponents[uriComponents.length - 1]);
+  const uriBasename = uriComponents[uriComponents.length - 1];
+  const isSelected = uriBasename === entry.name && entry.depth === uriComponents.length - 1;
+  const isOpenList = entry.custom.id === focusedItem?.id;
+  const isRootItem = entry.depth === 0;
 
-  // return null;
+  const handleFocusLink = () => {
+    setRenderNextChild(true);
+    setFocusedItem({ id: entry.custom.id, depth: entry.depth });
+    onSelect();
+  };
 
   const handleFocus = useCallback(() => {
     setRenderNextChild(true);
@@ -72,19 +74,16 @@ const ExpandingLayer = ({
     );
   }, [entry.custom.id, entry.depth, isSectionOpen, parentEntry.depth, parentEntry.id, setFocusedItem]);
 
-  // Handle URL if arrived from link
-  useEffect(() => {
-    if (!currentUri || focusedItem || !entry.children?.length) return;
+  // Make selection from URL
+  useLayoutEffect(() => {
+    if (!currentUri || focusedItem) return;
 
-    if (decodeURIComponent(uriComponents[entry.depth]) === entry.name) {
-      setListHeight(entry.children?.length + entry.depth);
+    if (uriComponents[entry.depth] === entry.name) {
+      if (entry.children?.length) setListHeight(entry.children?.length + entry.depth);
       setIsSectionOpen(true);
       setRenderNextChild(true);
-      setSiblingIsOpen(true);
-      // if (entry.depth === uriComponents.length - 2) {
       if (entry.depth === uriComponents.length - 2) {
-        // This focuses the item b4 the album and will need updating
-        // when handling a URL from an image rather than an album.
+        // This focuses the item b4 the album
         handleFocus();
       }
     }
@@ -96,36 +95,24 @@ const ExpandingLayer = ({
     focusedItem,
     handleFocus,
     setListHeight,
-    setSiblingIsOpen,
     uriComponents,
   ]);
 
-  useEffect(() => {
+  // Make selection from focusedItem
+  useLayoutEffect(() => {
     if (!renderChildren || !focusedItem) return;
-    if (entry.custom.id === focusedItem.id && entry.children?.length) {
+    if (entry.custom.id === focusedItem?.id) {
       // if in focus
-      setListHeight(entry.children?.length + entry.depth);
       setIsSectionOpen(true);
-      setSiblingIsOpen(true);
+      if (entry.children?.length) setListHeight(entry.children?.length + entry.depth);
     } else {
-      // if not in focus
-      if (entry.depth >= focusedItem.depth) {
+      // Close open items when when switching branch
+      if (entry.depth >= focusedItem?.depth) {
         setIsSectionOpen(false);
         setRenderNextChild(false);
       }
-      if (entry.depth > focusedItem.depth) {
-        setSiblingIsOpen(false);
-      }
     }
-  }, [
-    entry.children?.length,
-    entry.custom.id,
-    entry.depth,
-    focusedItem,
-    renderChildren,
-    setListHeight,
-    setSiblingIsOpen,
-  ]);
+  }, [entry.children?.length, entry.custom.id, entry.depth, focusedItem, renderChildren, setListHeight]);
 
   useEffect(() => {
     if (!renderChildren) return;
@@ -143,19 +130,12 @@ const ExpandingLayer = ({
 
   if (!renderChildren) return; // Restrict rendering to avoid max render
 
-  const hideItem = entry.depth && siblingIsOpen && !isSectionOpen;
-  const isOpenList = entry.custom.id === focusedItem?.id;
-  const isSelected = selectedEntry === entry.name && entry.depth === uriComponents.length - 1;
-  const isRootItem = entry.depth === 0;
-
   return (
     <>
-      {!entry.children?.length ? ( // if no children
+      {!entry.children?.length ? ( // if no children return a link
         <Link
-          className={`${styles.link}${hideItem ? ` ${styles.isHidden}` : ""}${
-            isSelected ? ` ${styles.isOpenLabel}` : "" // this will select an item
-          }`}
-          onClick={onSelect}
+          className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${entry.depth ? "" : " baseItem"}`}
+          onClick={handleFocusLink}
           href={`/gallery/album/${entry.path}`}
         >
           {capitalise(entry.name)}
@@ -165,12 +145,10 @@ const ExpandingLayer = ({
         <div
           className={`${styles.expandingLayerContainer}${
             isSectionOpen && isRootItem ? ` ${styles.isOpenExpandingLayer}` : ""
-          }`}
+          }${isRootItem ? " baseItem" : ""}`}
         >
           <div
-            className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}${
-              hideItem ? ` ${styles.isHidden}` : ""
-            }`}
+            className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}`}
             onClick={handleFocus}
           >
             {capitalise(entry.name)}
@@ -180,31 +158,9 @@ const ExpandingLayer = ({
               colour={!isSectionOpen ? "var(--highlight-colour-alternate4)" : undefined}
             />
           </div>
-          {entry.depth ? (
-            <div
-              className={`${styles.notAnimatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
-              // style={{ height: `${entry?.children?.length || 0 + entry.depth}em` }}
-            >
-              {entry.children.map((nextEntry) => (
-                <ExpandingLayer
-                  key={nextEntry.custom.id}
-                  entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
-                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
-                  renderChildren={renderNextChild}
-                  onSelect={onSelect}
-                  siblingIsOpen={childSiblingIsOpen}
-                  setSiblingIsOpen={setChildSiblingIsOpen}
-                  listHeight={listHeight}
-                  setListHeight={setListHeight}
-                  focusedItem={focusedItem}
-                  setFocusedItem={setFocusedItem}
-                  currentUri={currentUri}
-                />
-              ))}
-            </div>
-          ) : (
+          {isRootItem ? (
             <animated.div
-              className={`${styles.animatedBox}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
+              className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
               style={{ ...springs }}
             >
               {entry.children.map((nextEntry) => (
@@ -214,8 +170,6 @@ const ExpandingLayer = ({
                   parentEntry={{ id: entry.custom.id, depth: entry.depth }}
                   renderChildren={renderNextChild}
                   onSelect={onSelect}
-                  siblingIsOpen={childSiblingIsOpen}
-                  setSiblingIsOpen={setChildSiblingIsOpen}
                   listHeight={listHeight}
                   setListHeight={setListHeight}
                   focusedItem={focusedItem}
@@ -224,6 +178,23 @@ const ExpandingLayer = ({
                 />
               ))}
             </animated.div>
+          ) : (
+            <div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}>
+              {entry.children.map((nextEntry) => (
+                <ExpandingLayer
+                  key={nextEntry.custom.id}
+                  entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
+                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
+                  renderChildren={renderNextChild}
+                  onSelect={onSelect}
+                  listHeight={listHeight}
+                  setListHeight={setListHeight}
+                  focusedItem={focusedItem}
+                  setFocusedItem={setFocusedItem}
+                  currentUri={currentUri}
+                />
+              ))}
+            </div>
           )}
         </div>
       )}
@@ -231,33 +202,43 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ directories, onSelect }: { directories: GetAlbumsInterface; onSelect: () => void }) => {
+const Accordion = ({ onSelect }: { onSelect: () => void }) => {
+  const [albums, setAlbums] = useState<GetAlbumsInterface>();
   const entryPage = usePathname().split("/")[2];
   let currentUri = usePathname().replace(`/gallery/${entryPage}/`, "");
-  const [childSiblingIsOpen, setChildSiblingIsOpen] = useState(false);
   const [listHeight, setListHeight] = useState(0);
   const [focusedItem, setFocusedItem] = useState<PartialEntry | null>(null);
 
   if (entryPage === "image") currentUri = currentUri.split("/").slice(0, -1).join("/"); // Remove filename from uri
 
-  // console.log("uri: ", { currentUri, entryPage });
+  useLayoutEffect(() => {
+    getAlbums()
+      .then((data) => {
+        setAlbums(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }, []);
+
+  if (!albums) return null;
+
+  console.log("HERE: ", albums);
 
   return (
     <div className={styles.root}>
-      {directories.children?.map((entry) => (
+      {albums.children?.map((entry) => (
         <ExpandingLayer
           key={entry.custom.id}
           entry={{ ...JSON.parse(JSON.stringify(entry)), depth: 0 }}
-          parentEntry={{ id: directories.custom.id, depth: 0 }}
+          parentEntry={{ id: albums.custom.id, depth: 0 }}
           renderChildren={true}
           onSelect={onSelect}
-          siblingIsOpen={childSiblingIsOpen}
-          setSiblingIsOpen={setChildSiblingIsOpen}
           listHeight={listHeight}
           setListHeight={setListHeight}
           focusedItem={focusedItem}
           setFocusedItem={setFocusedItem}
-          currentUri={currentUri}
+          currentUri={decodeURIComponent(currentUri)}
         />
       ))}
     </div>

@@ -3,12 +3,12 @@
   max-height: 80%;
 
   .link {
-    width: calc(100% - 2em);
+    width: calc(100% - 1em - 3px);
+    padding-left: 1em;
     height: 2em;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: 2em;
     transition: background-color $menu_transition, color $menu_transition;
     text-wrap: nowrap;
 
@@ -19,13 +19,23 @@
     }
   }
 
+  .selectedAlbum {
+    background-color: var(--highlight-colour-alternate3);
+    border-top: 1px solid var(--highlight-colour-alternate4);
+    border-bottom: 1px solid var(--highlight-colour-alternate4);
+  }
+
+  :not(.baseItem) .link {
+    width: calc(100% - 2em);
+    padding-left: 2em;
+  }
+
   .isOpenExpandingLayer {
     border: 3px solid var(--border-colour-base);
     border-radius: $default_border_radius;
   }
 
   .expandingLayerContainer {
-    // height: fit-content;
     overflow: hidden;
 
     .sectionLabel {
@@ -51,18 +61,9 @@
       color: var(--text-colour-alternate);
     }
 
-    .animatedBox {
+    .expandingLayer {
       display: flex;
       flex-direction: column;
-      // overflow: hidden;
-      // height: 0;
-    }
-
-    .notAnimatedBox {
-      display: flex;
-      flex-direction: column;
-      // overflow: hidden;
-      // height: 0;
     }
 
     .isOpenList {
@@ -74,9 +75,22 @@
         }
       }
     }
+  }
 
-    .isHidden {
+  // Hide section labels and links when sibling label is opened:
+  // Target .sectionLabel if its .expandingLayerContainer is not .baseItem
+  // and its parents's sibling has a child with .isOpenLabel
+  :not(.baseItem) {
+    .expandingLayerContainer:has(~ .expandingLayerContainer > .isOpenLabel),  // target .expandingLayerContainer if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
+    .expandingLayerContainer:has(> .isOpenLabel) ~ .expandingLayerContainer, // target .expandingLayerContainers following an .expandingLayerContainer that has child with .isOpenLabel
+    .link:has(~ .expandingLayerContainer > .isOpenLabel),  // target .link if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
+    .expandingLayerContainer:has(> .isOpenLabel) ~ .link // target .link following an .expandingLayerContainer that has child with .isOpenLabel
+    {
       display: none;
+
+      .sectionLabel {
+        display: none;
+      }
     }
   }
 }

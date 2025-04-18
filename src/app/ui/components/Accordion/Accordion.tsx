@@ -134,7 +134,7 @@ const ExpandingLayer = ({
     <>
       {!entry.children?.length ? ( // if no children return a link
         <Link
-          className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${entry.depth ? "" : " baseItem"}`}
+          className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
           onClick={handleFocusLink}
           href={`/gallery/album/${entry.path}`}
         >
@@ -144,7 +144,7 @@ const ExpandingLayer = ({
       ) : (
         <div
           className={`${styles.expandingLayerContainer}${
-            isSectionOpen && isRootItem ? ` ${styles.isOpenExpandingLayer}` : ""
+            isSectionOpen && isRootItem ? ` ${styles.openRootExpandingLayer}` : ""
           }${isRootItem ? " baseItem" : ""}`}
         >
           <div
@@ -222,8 +222,6 @@ const Accordion = ({ onSelect }: { onSelect: () => void }) => {
   }, []);
 
   if (!albums) return null;
-
-  console.log("HERE: ", albums);
 
   return (
     <div className={styles.root}>

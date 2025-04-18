@@ -30,13 +30,19 @@
     padding-left: 2em;
   }
 
-  .isOpenExpandingLayer {
+  .openRootExpandingLayer {
     border: 3px solid var(--border-colour-base);
     border-radius: $default_border_radius;
   }
 
   .expandingLayerContainer {
     overflow: hidden;
+
+    :first-child {
+      .sectionLabel {
+        transition: padding-left $menu_transition;
+      }
+    }
 
     .sectionLabel {
       height: 2em;
@@ -50,7 +56,7 @@
       transition: background-color $menu_transition, color $menu_transition;
 
       @include hover {
-        transition: unset;
+        // transition: unset;
         background-color: var(--highlight-colour-alternate2);
         color: var(--text-colour-alternate);
       }
@@ -78,7 +84,7 @@
   }
 
   // Hide section labels and links when sibling label is opened:
-  // Target .sectionLabel if its .expandingLayerContainer is not .baseItem
+  // Target .sectionLabel if its parent .expandingLayerContainer is not .baseItem
   // and its parents's sibling has a child with .isOpenLabel
   :not(.baseItem) {
     .expandingLayerContainer:has(~ .expandingLayerContainer > .isOpenLabel),  // target .expandingLayerContainer if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
@@ -86,7 +92,7 @@
     .link:has(~ .expandingLayerContainer > .isOpenLabel),  // target .link if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
     .expandingLayerContainer:has(> .isOpenLabel) ~ .link // target .link following an .expandingLayerContainer that has child with .isOpenLabel
     {
-      display: none;
+      display: none; // This affects the link elements
 
       .sectionLabel {
         display: none;

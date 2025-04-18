@@ -12,3 +12,7 @@ export const randomInt = (num1: number, num2: number | undefined = undefined): n
   }
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+export const cropPath = (pathString: string, depth: number) => {
+  return decodeURIComponent(pathString).split("/").slice(0, depth).join("/");
+};

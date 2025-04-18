@@ -13,9 +13,11 @@ import { accordion as springsConfig } from "@/style/springsConfig";
 
 import type { GetAlbumsInterface } from "@/definitions/definitions";
 import { getAlbums } from "@/lib/actions";
+import { cropPath } from "@/lib/helpers";
 
 interface PartialEntry {
   id: string;
+  path: string;
   depth: number;
 }
 
@@ -63,16 +65,27 @@ const ExpandingLayer = ({
 
   const handleFocusLink = () => {
     setRenderNextChild(true);
-    setFocusedItem({ id: entry.custom.id, depth: entry.depth });
+    setFocusedItem({ id: entry.custom.id, path: entry.path, depth: entry.depth });
     onSelect();
   };
 
   const handleFocus = useCallback(() => {
     setRenderNextChild(true);
     setFocusedItem(
-      isSectionOpen ? { id: parentEntry.id, depth: parentEntry.depth } : { id: entry.custom.id, depth: entry.depth }
+      isSectionOpen
+        ? { id: parentEntry.id, path: parentEntry.path, depth: parentEntry.depth }
+        : { id: entry.custom.id, path: entry.path, depth: entry.depth }
     );
-  }, [entry.custom.id, entry.depth, isSectionOpen, parentEntry.depth, parentEntry.id, setFocusedItem]);
+  }, [
+    entry.custom.id,
+    entry.depth,
+    entry.path,
+    isSectionOpen,
+    parentEntry.depth,
+    parentEntry.id,
+    parentEntry.path,
+    setFocusedItem,
+  ]);
 
   // Make selection from URL
   useLayoutEffect(() => {
@@ -83,22 +96,24 @@ const ExpandingLayer = ({
       setIsSectionOpen(true);
       setRenderNextChild(true);
       if (entry.depth === uriComponents.length - 2) {
-        // This focuses the item b4 the album
-        handleFocus();
+        // This focuses the item containing the selected album
+        setFocusedItem({ id: entry.custom.id, path: entry.path, depth: entry.depth });
       }
     }
   }, [
     currentUri,
     entry.children?.length,
+    entry.custom.id,
     entry.depth,
     entry.name,
+    entry.path,
     focusedItem,
-    handleFocus,
+    setFocusedItem,
     setListHeight,
     uriComponents,
   ]);
 
-  // Make selection from focusedItem
+  // Handle selection from state
   useLayoutEffect(() => {
     if (!renderChildren || !focusedItem) return;
     if (entry.custom.id === focusedItem?.id) {
@@ -106,13 +121,13 @@ const ExpandingLayer = ({
       setIsSectionOpen(true);
       if (entry.children?.length) setListHeight(entry.children?.length + entry.depth);
     } else {
-      // Close open items when when switching branch
-      if (entry.depth >= focusedItem?.depth) {
+      // collapse items if they are on a different branch
+      if (cropPath(focusedItem.path, entry.depth + 1) !== entry.path) {
         setIsSectionOpen(false);
         setRenderNextChild(false);
       }
     }
-  }, [entry.children?.length, entry.custom.id, entry.depth, focusedItem, renderChildren, setListHeight]);
+  }, [entry.children?.length, entry.custom.id, entry.depth, entry.path, focusedItem, renderChildren, setListHeight]);
 
   useEffect(() => {
     if (!renderChildren) return;
@@ -167,7 +182,7 @@ const ExpandingLayer = ({
                 <ExpandingLayer
                   key={nextEntry.custom.id}
                   entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
-                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
+                  parentEntry={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
                   onSelect={onSelect}
                   listHeight={listHeight}
@@ -184,7 +199,7 @@ const ExpandingLayer = ({
                 <ExpandingLayer
                   key={nextEntry.custom.id}
                   entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
-                  parentEntry={{ id: entry.custom.id, depth: entry.depth }}
+                  parentEntry={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
                   onSelect={onSelect}
                   listHeight={listHeight}
@@ -204,12 +219,19 @@ const ExpandingLayer = ({
 
 const Accordion = ({ onSelect, isSidebarOpen }: { onSelect: () => void; isSidebarOpen: boolean }) => {
   const [albums, setAlbums] = useState<GetAlbumsInterface>();
+  const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString());
   const entryPage = usePathname().split("/")[2];
   let currentUri = usePathname().replace(`/gallery/${entryPage}/`, "");
   const [listHeight, setListHeight] = useState(0);
   const [focusedItem, setFocusedItem] = useState<PartialEntry | null>(null);
 
   if (entryPage === "image") currentUri = currentUri.split("/").slice(0, -1).join("/"); // Remove filename from uri
+
+  const resetMenu = useCallback(() => {
+    setAccordionKey(isSidebarOpen.toString());
+    setFocusedItem(null);
+    setListHeight(0);
+  }, [isSidebarOpen]);
 
   useLayoutEffect(() => {
     getAlbums()
@@ -221,15 +243,20 @@ const Accordion = ({ onSelect, isSidebarOpen }: { onSelect: () => void; isSideba
       });
   }, []);
 
+  useLayoutEffect(() => {
+    if (isSidebarOpen) return;
+    setTimeout(() => resetMenu(), 400);
+  }, [resetMenu, isSidebarOpen]);
+
   if (!albums) return null;
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} key={accordionKey}>
       {albums.children?.map((entry) => (
         <ExpandingLayer
           key={entry.custom.id}
           entry={{ ...JSON.parse(JSON.stringify(entry)), depth: 0 }}
-          parentEntry={{ id: albums.custom.id, depth: 0 }}
+          parentEntry={{ id: albums.custom.id, path: albums.path, depth: 0 }}
           renderChildren={true}
           onSelect={onSelect}
           listHeight={listHeight}

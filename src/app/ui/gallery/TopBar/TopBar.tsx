@@ -11,18 +11,18 @@ import Button from "@/ui/components/Button/Button";
 import styles from "./TopBar.module.scss";
 
 const TopBar = ({
-  sidebarOpen,
-  setSidebarOpen,
+  isSidebarOpen,
+  setIsSidebarOpen,
   sideBarButtonClickAwayRef,
 }: {
-  sidebarOpen: boolean;
-  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
   sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement>;
 }) => (
   <div className={styles.root}>
     <div className={styles.leftSide}>
       <div className={styles.burgerContainer} ref={sideBarButtonClickAwayRef}>
-        <Burger state={sidebarOpen} setState={setSidebarOpen} />
+        <Burger state={isSidebarOpen} setState={setIsSidebarOpen} />
       </div>
       <Logo />
     </div>

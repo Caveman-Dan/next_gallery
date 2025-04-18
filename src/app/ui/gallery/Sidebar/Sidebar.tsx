@@ -16,12 +16,12 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
-  sidebarOpen: InteractiveToggleProps["state"];
-  setSidebarOpen: InteractiveToggleProps["setState"];
+  isSidebarOpen: InteractiveToggleProps["state"];
+  setIsSidebarOpen: InteractiveToggleProps["setState"];
   riseAboveClickAwayRefs: React.RefObject<HTMLDivElement>[];
 };
 
-const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAboveClickAwayRefs }) => {
+const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, riseAboveClickAwayRefs }) => {
   const windowSize = useWindowSize();
   const thisNode = useRef(null);
   const dropdownApi = useSpringRef();
@@ -44,35 +44,35 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
   useEffect(() => {
     dropdownApi.start({
       to: {
-        height: sidebarOpen ? "80vh" : "0",
+        height: isSidebarOpen ? "80vh" : "0",
       },
       config: {
         ...springsConfig,
-        clamp: !sidebarOpen,
+        clamp: !isSidebarOpen,
       },
     });
 
     sideApi.start({
       to: {
-        width: sidebarOpen ? "400px" : "0",
+        width: isSidebarOpen ? "400px" : "0",
       },
       config: {
         ...springsConfig,
-        clamp: !sidebarOpen,
+        clamp: !isSidebarOpen,
       },
     });
-  }, [dropdownApi, sideApi, sidebarOpen]);
+  }, [dropdownApi, sideApi, isSidebarOpen]);
 
   return (
     <>
       <ClickAway
-        active={sidebarOpen}
-        setActive={setSidebarOpen}
+        active={isSidebarOpen}
+        setActive={setIsSidebarOpen}
         blur
         parentRefs={[...riseAboveClickAwayRefs, thisNode]}
       />
       <animated.div
-        className={`${styles.root} ${sidebarOpen ? "" : styles.isTransparent}`}
+        className={`${styles.root} ${isSidebarOpen ? "" : styles.isTransparent}`}
         style={windowSize.aboveMd ? { ...sideSprings } : { ...dropdownSprings }}
         ref={thisNode}
       >
@@ -82,7 +82,7 @@ const SideBar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, riseAbov
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Accordion onSelect={() => setTimeout(() => setSidebarOpen(false), 200)} />
+            <Accordion onSelect={() => setTimeout(() => setIsSidebarOpen(false), 200)} isSidebarOpen={isSidebarOpen} />
           </div>
           <hr />
           <div className={styles.settingsLink}>

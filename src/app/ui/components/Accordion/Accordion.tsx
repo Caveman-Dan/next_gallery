@@ -202,7 +202,7 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ onSelect }: { onSelect: () => void }) => {
+const Accordion = ({ onSelect, isSidebarOpen }: { onSelect: () => void; isSidebarOpen: boolean }) => {
   const [albums, setAlbums] = useState<GetAlbumsInterface>();
   const entryPage = usePathname().split("/")[2];
   let currentUri = usePathname().replace(`/gallery/${entryPage}/`, "");

@@ -29,7 +29,6 @@ interface ExpandingLayerProps {
   entry: DirectoryEntry;
   parentEntry: PartialEntry;
   renderChildren: boolean;
-  onSelect: () => void;
   listHeight: number;
   setListHeight: React.Dispatch<React.SetStateAction<number>>;
   focusedItem: PartialEntry | null;
@@ -41,7 +40,6 @@ const ExpandingLayer = ({
   entry, // the folder's data object
   parentEntry, // id & depth of parent's entry
   renderChildren, // restrict rendering until parent is open
-  onSelect, // callback passed in to call when a selection is made
   listHeight, // universal height value for the animated elements
   setListHeight,
   focusedItem, // id & depth of focused item's entry
@@ -63,29 +61,13 @@ const ExpandingLayer = ({
   const isOpenList = entry.custom.id === focusedItem?.id;
   const isRootItem = entry.depth === 0;
 
-  const handleFocusLink = () => {
-    setRenderNextChild(true);
-    setFocusedItem({ id: entry.custom.id, path: entry.path, depth: entry.depth });
-    onSelect();
-  };
-
-  const handleFocus = useCallback(() => {
-    setRenderNextChild(true);
-    setFocusedItem(
-      isSectionOpen
-        ? { id: parentEntry.id, path: parentEntry.path, depth: parentEntry.depth }
-        : { id: entry.custom.id, path: entry.path, depth: entry.depth }
-    );
-  }, [
-    entry.custom.id,
-    entry.depth,
-    entry.path,
-    isSectionOpen,
-    parentEntry.depth,
-    parentEntry.id,
-    parentEntry.path,
-    setFocusedItem,
-  ]);
+  const handleFocus = useCallback(
+    (newFocusedItem: PartialEntry) => {
+      setRenderNextChild(true);
+      setFocusedItem(newFocusedItem);
+    },
+    [setFocusedItem]
+  );
 
   // Make selection from URL
   useLayoutEffect(() => {
@@ -150,7 +132,7 @@ const ExpandingLayer = ({
       {!entry.children?.length ? ( // if no children return a link
         <Link
           className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
-          onClick={handleFocusLink}
+          onClick={() => handleFocus({ id: entry.custom.id, path: entry.path, depth: entry.depth })}
           href={`/gallery/album/${entry.path}`}
         >
           {capitalise(entry.name)}
@@ -164,7 +146,13 @@ const ExpandingLayer = ({
         >
           <div
             className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}`}
-            onClick={handleFocus}
+            onClick={() =>
+              handleFocus(
+                isSectionOpen
+                  ? { id: parentEntry.id, path: parentEntry.path, depth: parentEntry.depth }
+                  : { id: entry.custom.id, path: entry.path, depth: entry.depth }
+              )
+            }
           >
             {capitalise(entry.name)}
             <DirectionalArrow
@@ -184,7 +172,6 @@ const ExpandingLayer = ({
                   entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
                   parentEntry={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
-                  onSelect={onSelect}
                   listHeight={listHeight}
                   setListHeight={setListHeight}
                   focusedItem={focusedItem}
@@ -201,7 +188,6 @@ const ExpandingLayer = ({
                   entry={{ ...JSON.parse(JSON.stringify(nextEntry)), depth: entry.depth + 1 }}
                   parentEntry={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
-                  onSelect={onSelect}
                   listHeight={listHeight}
                   setListHeight={setListHeight}
                   focusedItem={focusedItem}
@@ -217,7 +203,7 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ onSelect, isSidebarOpen }: { onSelect: () => void; isSidebarOpen: boolean }) => {
+const Accordion = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
   const [albums, setAlbums] = useState<GetAlbumsInterface>();
   const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString());
   const entryPage = usePathname().split("/")[2];
@@ -258,7 +244,6 @@ const Accordion = ({ onSelect, isSidebarOpen }: { onSelect: () => void; isSideba
           entry={{ ...JSON.parse(JSON.stringify(entry)), depth: 0 }}
           parentEntry={{ id: albums.custom.id, path: albums.path, depth: 0 }}
           renderChildren={true}
-          onSelect={onSelect}
           listHeight={listHeight}
           setListHeight={setListHeight}
           focusedItem={focusedItem}

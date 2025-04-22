@@ -82,7 +82,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, rise
           </div>
           <hr />
           <div className={styles.galleriesMenu}>
-            <Accordion onSelect={() => setTimeout(() => setIsSidebarOpen(false), 200)} isSidebarOpen={isSidebarOpen} />
+            <Accordion isSidebarOpen={isSidebarOpen} />
           </div>
           <hr />
           <div className={styles.settingsLink}>

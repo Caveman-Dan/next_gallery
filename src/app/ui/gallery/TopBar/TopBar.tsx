@@ -16,7 +16,7 @@ const TopBar = ({
   sideBarButtonClickAwayRef,
 }: {
   isSidebarOpen: boolean;
-  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSidebarOpen: (newState: boolean) => void;
   sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement>;
 }) => (
   <div className={styles.root}>

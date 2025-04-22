@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Sidebar from "@/ui/gallery/Sidebar/Sidebar";
 import TopBar from "@/ui/gallery/TopBar/TopBar";
@@ -8,21 +9,27 @@ import TopBar from "@/ui/gallery/TopBar/TopBar";
 import styles from "./MenuSystem.module.scss";
 
 const MenuSystem = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const sideBarButtonClickAwayRef = useRef(null);
+
+  const openSidebar = (newState: boolean) => {
+    if (newState) router.push("?sidebar-open=true");
+    else router.back();
+  };
 
   return (
     <div className={styles.root}>
       <div className={styles.topBarContainer}>
         <TopBar
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
+          isSidebarOpen={searchParams.has("sidebar-open")}
+          setIsSidebarOpen={openSidebar}
           sideBarButtonClickAwayRef={sideBarButtonClickAwayRef}
         />
       </div>
       <Sidebar
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
+        isSidebarOpen={searchParams.has("sidebar-open")}
+        setIsSidebarOpen={openSidebar}
         riseAboveClickAwayRefs={[sideBarButtonClickAwayRef]}
       />
     </div>

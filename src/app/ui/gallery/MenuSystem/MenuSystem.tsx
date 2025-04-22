@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Sidebar from "@/ui/gallery/Sidebar/Sidebar";
@@ -27,11 +27,13 @@ const MenuSystem = () => {
           sideBarButtonClickAwayRef={sideBarButtonClickAwayRef}
         />
       </div>
-      <Sidebar
-        isSidebarOpen={searchParams.has("sidebar-open")}
-        setIsSidebarOpen={openSidebar}
-        riseAboveClickAwayRefs={[sideBarButtonClickAwayRef]}
-      />
+      <Suspense fallback={null}>
+        <Sidebar
+          isSidebarOpen={searchParams.has("sidebar-open")}
+          setIsSidebarOpen={openSidebar}
+          riseAboveClickAwayRefs={[sideBarButtonClickAwayRef]}
+        />
+      </Suspense>
     </div>
   );
 };

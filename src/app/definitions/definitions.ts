@@ -1,15 +1,7 @@
-import type { DirectoryTree } from "directory-tree";
-
 export type InteractiveToggleProps = {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>> | ((newState: boolean) => void);
 };
-
-export interface GetAlbumsInterface extends DirectoryTree {
-  custom: {
-    id: string;
-  };
-}
 
 export type ApiErrorResponse = {
   status?: number;

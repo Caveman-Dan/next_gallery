@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Sidebar from "@/ui/gallery/Sidebar/Sidebar";

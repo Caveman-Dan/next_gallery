@@ -5,9 +5,10 @@ import "dotenv/config";
 import { handleServerError } from "./errorHandling";
 
 import { InputState } from "@/ui/components/InputBox/InputBox";
-import { GetAlbumsInterface, ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+import type { DirectoryTree } from "directory-tree";
+import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 
-export const getAlbums = async (): Promise<GetAlbumsInterface> => {
+export const getAlbums = async (): Promise<DirectoryTree> => {
   let albumsTree;
 
   if (process.env.NEXT_PUBLIC_API && process.env.NEXT_PUBLIC_API_GET_ALBUMS) {

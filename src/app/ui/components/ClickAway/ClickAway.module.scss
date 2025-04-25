@@ -12,7 +12,11 @@
 
 .hide {
   z-index: -100;
-  // display: none; // breaks the transition in animation!
+  // display: none; // breaks the transition-in animation!
+
+  // if in the future this has to be hidden, you can gt it to work by setting
+  // isClosing to true and setting false, the false being inside a setTimeout()
+  // I have no idea why this worked and I figured using z-index was cleaner.
 }
 
 .blur {
@@ -22,6 +26,5 @@
 }
 
 .raise {
-  // position: relative;
   z-index: 101;
 }

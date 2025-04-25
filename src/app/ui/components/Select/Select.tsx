@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import uniqid from "uniqid";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
@@ -19,9 +19,8 @@ type SelectProps = {
 };
 
 const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText }) => {
-  // const [open, setOpen] = useState(false);
   const thisNode = useRef(null);
-  const [open, closing, setOpen] = useOpenModal("theme-select", [thisNode], ANIMATION_DELAY, false);
+  const [open, closing, setOpen] = useOpenModal({ delay: ANIMATION_DELAY, parentRefs: [thisNode] });
   const api = useSpringRef();
   const springs = useSpring({
     ref: api,

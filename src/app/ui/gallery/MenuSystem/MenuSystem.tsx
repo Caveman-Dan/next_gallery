@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useRef } from "react";
 
 import Sidebar from "@/ui/gallery/Sidebar/Sidebar";
 import TopBar from "@/ui/gallery/TopBar/TopBar";
@@ -13,23 +12,11 @@ import styles from "./MenuSystem.module.scss";
 const ANIMATION_DELAY = 400;
 
 const MenuSystem = () => {
-  // const router = useRouter();
-  // const searchParams = useSearchParams();
   const sideBarButtonClickAwayRef = useRef(null);
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidebarOpen, isSidebarClosing, setIsSidebarOpen] = useOpenModal(
-    "sidebar",
-    [sideBarButtonClickAwayRef],
-    ANIMATION_DELAY,
-    false
-  );
-
-  // const isSidebarOpen = searchParams.has("sidebar-open");
-
-  // const openSidebar = (newState: boolean) => {
-  //   if (newState) router.push("?sidebar-open=true");
-  //   else router.back();
-  // };
+  const [isSidebarOpen, isSidebarClosing, setIsSidebarOpen] = useOpenModal({
+    delay: ANIMATION_DELAY,
+    parentRefs: [sideBarButtonClickAwayRef],
+  });
 
   return (
     <div className={styles.root}>

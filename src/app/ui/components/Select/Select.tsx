@@ -4,10 +4,12 @@ import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
-import ClickAway from "@/ui/components/ClickAway/ClickAway";
+import ClickAway, { useOpenModal } from "@/ui/components/ClickAway/ClickAway";
 
 import styles from "./Select.module.scss";
 import { menuItems as springsConfig } from "@/style/springsConfig";
+
+const ANIMATION_DELAY = 400;
 
 type SelectProps = {
   children: React.ReactNode[];
@@ -17,8 +19,9 @@ type SelectProps = {
 };
 
 const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const thisNode = useRef(null);
+  const [open, closing, setOpen] = useOpenModal("theme-select", [thisNode], ANIMATION_DELAY, false);
   const api = useSpringRef();
   const springs = useSpring({
     ref: api,
@@ -40,7 +43,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
         },
       });
     },
-    [open, api, openHight]
+    [open, api, openHight, setOpen]
   );
 
   const handleSelect = useCallback(
@@ -75,7 +78,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
 
   return (
     <>
-      <ClickAway active={open} setActive={handleOpenClose} parentRefs={[thisNode]} blur />
+      <ClickAway active={open} setActive={handleOpenClose} closing={closing} delay={ANIMATION_DELAY} blur />
       <animated.div className={`${styles.root}`} style={{ ...springs }} ref={thisNode}>
         <div className={`${styles.selectBox}`} onClick={() => handleOpenClose()}>
           <p>{overlayText || value}</p>

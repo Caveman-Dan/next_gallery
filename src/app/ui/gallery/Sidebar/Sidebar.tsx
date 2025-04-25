@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from "react";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import Accordion from "@/ui/components/Accordion/Accordion";
-import ClickAway from "@/ui/components/ClickAway/ClickAway";
 import UserProfileLink from "@/ui/gallery/Sidebar/UserProfileLink";
 import SettingsLink from "./SettingsLink";
 
@@ -17,11 +16,9 @@ import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   isSidebarOpen: InteractiveToggleProps["state"];
-  setIsSidebarOpen: InteractiveToggleProps["setState"];
-  riseAboveClickAwayRefs: React.RefObject<HTMLDivElement>[];
 };
 
-const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, riseAboveClickAwayRefs }) => {
+const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
   const windowSize = useWindowSize();
   const thisNode = useRef(null);
   const dropdownApi = useSpringRef();
@@ -64,33 +61,25 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, rise
   }, [dropdownApi, sideApi, isSidebarOpen]);
 
   return (
-    <>
-      <ClickAway
-        active={isSidebarOpen}
-        setActive={setIsSidebarOpen}
-        blur
-        parentRefs={[...riseAboveClickAwayRefs, thisNode]}
-      />
-      <animated.div
-        className={`${styles.root} ${isSidebarOpen ? "" : styles.isTransparent}`}
-        style={windowSize.aboveMd ? { ...sideSprings } : { ...dropdownSprings }}
-        ref={thisNode}
-      >
-        <div className={styles.content}>
-          <div className={styles.userProfileContainer}>
-            <UserProfileLink />
-          </div>
-          <hr />
-          <div className={styles.galleriesMenu}>
-            <Accordion isSidebarOpen={isSidebarOpen} />
-          </div>
-          <hr />
-          <div className={styles.settingsLink}>
-            <SettingsLink />
-          </div>
+    <animated.div
+      className={`${styles.root} ${isSidebarOpen ? "" : styles.isTransparent}`}
+      style={windowSize.aboveMd ? { ...sideSprings } : { ...dropdownSprings }}
+      ref={thisNode}
+    >
+      <div className={styles.content}>
+        <div className={styles.userProfileContainer}>
+          <UserProfileLink />
         </div>
-      </animated.div>
-    </>
+        <hr />
+        <div className={styles.galleriesMenu}>
+          <Accordion isSidebarOpen={isSidebarOpen} />
+        </div>
+        <hr />
+        <div className={styles.settingsLink}>
+          <SettingsLink />
+        </div>
+      </div>
+    </animated.div>
   );
 };
 

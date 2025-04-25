@@ -209,7 +209,7 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ isSidebarOpen, onSelect }: { isSidebarOpen: boolean; onSelect: () => void }) => {
+const Accordion = ({ isSidebarOpen, onSelect }: { isSidebarOpen: boolean; onSelect: (newState?: boolean) => void }) => {
   const [albums, setAlbums] = useState<DirectoryTree>();
   const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString());
   const entryPage = usePathname().split("/")[2];

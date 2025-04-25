@@ -20,11 +20,11 @@ export const useOpenModal = ({
 }: {
   delay: number;
   parentRefs?: React.RefObject<HTMLDivElement>[];
-}): [boolean, boolean, (newState: boolean) => void] => {
+}): [boolean, boolean, (newState?: boolean | undefined) => void] => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
-  const handleSetOpen = async (newState: boolean = !isOpen) => {
+  const handleSetOpen = async (newState: boolean | undefined = !isOpen) => {
     if (newState) {
       if (parentRefs?.length) raiseForeground(parentRefs);
       setIsOpen(true);

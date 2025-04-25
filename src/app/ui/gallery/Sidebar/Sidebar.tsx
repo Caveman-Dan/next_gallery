@@ -16,7 +16,7 @@ import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   isSidebarOpen: InteractiveToggleProps["state"];
-  setIsSidebarOpen: InteractiveToggleProps["setState"];
+  setIsSidebarOpen: () => void;
 };
 
 const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {

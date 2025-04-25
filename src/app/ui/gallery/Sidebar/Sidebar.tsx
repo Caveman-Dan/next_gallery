@@ -16,9 +16,10 @@ import { InteractiveToggleProps } from "@/definitions/definitions";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   isSidebarOpen: InteractiveToggleProps["state"];
+  setIsSidebarOpen: InteractiveToggleProps["setState"];
 };
 
-const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
+const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const windowSize = useWindowSize();
   const thisNode = useRef(null);
   const dropdownApi = useSpringRef();
@@ -72,7 +73,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
         </div>
         <hr />
         <div className={styles.galleriesMenu}>
-          <Accordion isSidebarOpen={isSidebarOpen} />
+          <Accordion isSidebarOpen={isSidebarOpen} onSelect={setIsSidebarOpen} />
         </div>
         <hr />
         <div className={styles.settingsLink}>

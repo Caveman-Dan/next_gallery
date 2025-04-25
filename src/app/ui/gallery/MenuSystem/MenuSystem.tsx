@@ -34,7 +34,7 @@ const MenuSystem = () => {
         delay={ANIMATION_DELAY}
         blur
       />
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
     </div>
   );
 };

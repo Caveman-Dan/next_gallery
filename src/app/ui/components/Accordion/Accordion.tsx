@@ -29,6 +29,7 @@ interface ExpandingLayerProps {
   entry: DirectoryEntry;
   parentEntryDetails: EntryDetails;
   renderChildren: boolean;
+  onSelect: () => void;
   listHeight: number;
   setListHeight: React.Dispatch<React.SetStateAction<number>>;
   openItem: EntryDetails | null;
@@ -41,6 +42,7 @@ const ExpandingLayer = ({
   parentEntryDetails, // id, path & depth of parent's entry
   renderChildren, // restrict rendering until parent is open
   listHeight, // height value for the containing animated element
+  onSelect, // callback to run when selection is made (close sidebar)
   setListHeight,
   openItem, // id, path & depth of current open item
   setOpenItem,
@@ -137,7 +139,10 @@ const ExpandingLayer = ({
       {!entry.children?.length ? ( // if no children return a link
         <Link
           className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
-          onClick={() => handleOpenItem(currentEntryDetails)}
+          onClick={() => {
+            handleOpenItem(currentEntryDetails);
+            setTimeout(() => onSelect(), 200); // this delay prevents the router.back() from firing b4 redirect
+          }}
           href={`/gallery/album/${entry.path}`}
         >
           {capitalise(entry.name)}
@@ -171,6 +176,7 @@ const ExpandingLayer = ({
                   entry={{ ...nextEntry, depth: entry.depth + 1 }}
                   parentEntryDetails={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
+                  onSelect={onSelect}
                   listHeight={listHeight}
                   setListHeight={setListHeight}
                   openItem={openItem}
@@ -187,6 +193,7 @@ const ExpandingLayer = ({
                   entry={{ ...nextEntry, depth: entry.depth + 1 }}
                   parentEntryDetails={{ id: entry.custom.id, path: entry.path, depth: entry.depth }}
                   renderChildren={renderNextChild}
+                  onSelect={onSelect}
                   listHeight={listHeight}
                   setListHeight={setListHeight}
                   openItem={openItem}
@@ -202,7 +209,7 @@ const ExpandingLayer = ({
   );
 };
 
-const Accordion = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
+const Accordion = ({ isSidebarOpen, onSelect }: { isSidebarOpen: boolean; onSelect: () => void }) => {
   const [albums, setAlbums] = useState<DirectoryTree>();
   const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString());
   const entryPage = usePathname().split("/")[2];
@@ -245,6 +252,7 @@ const Accordion = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
           entry={{ ...entry, depth: 0 }}
           parentEntryDetails={{ id: albums.custom.id, path: albums.path, depth: 0 }}
           renderChildren={true}
+          onSelect={onSelect}
           listHeight={listHeight}
           setListHeight={setListHeight}
           openItem={openItem}

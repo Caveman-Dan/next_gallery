@@ -41,8 +41,8 @@ const ExpandingLayer = ({
   entry, // the folder's data object
   parentEntryDetails, // id, path & depth of parent's entry
   renderChildren, // restrict rendering until parent is open
-  listHeight, // height value for the containing animated element
   onSelect, // callback to run when selection is made (close sidebar)
+  listHeight, // height value for the containing animated element
   setListHeight,
   openItem, // id, path & depth of current open item
   setOpenItem,
@@ -75,7 +75,7 @@ const ExpandingLayer = ({
     [setOpenItem]
   );
 
-  // Make selection from URL when closed menu is reset or when accessed from link
+  // Handle selection from URL when closed menu is reset or when accessed from link
   useLayoutEffect(() => {
     if (!currentUri || openItem) return;
 
@@ -211,7 +211,7 @@ const ExpandingLayer = ({
 
 const Accordion = ({ isSidebarOpen, onSelect }: { isSidebarOpen: boolean; onSelect: () => void }) => {
   const [albums, setAlbums] = useState<DirectoryTree>();
-  const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString());
+  const [accordionKey, setAccordionKey] = useState(isSidebarOpen.toString()); // used to trigger rerender
   const entryPage = usePathname().split("/")[2];
   let currentUri = usePathname().replace(`/gallery/${entryPage}/`, "");
   const [listHeight, setListHeight] = useState(0);
@@ -239,7 +239,8 @@ const Accordion = ({ isSidebarOpen, onSelect }: { isSidebarOpen: boolean; onSele
   // Reset Accordion on close
   useLayoutEffect(() => {
     if (isSidebarOpen) return;
-    setTimeout(() => resetMenu(), 400);
+    const timerReset = setTimeout(resetMenu, 400); // delay is to allow menu to close before resetting
+    return () => clearTimeout(timerReset);
   }, [resetMenu, isSidebarOpen]);
 
   if (!albums) return null;

@@ -7,6 +7,7 @@ import { handleServerError } from "./errorHandling";
 import { InputState } from "@/ui/components/InputBox/InputBox";
 import type { DirectoryTree } from "directory-tree";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+import { LoginFormState } from "@/ui/login/LoginForm";
 
 export const getAlbums = async (): Promise<DirectoryTree> => {
   let albumsTree;
@@ -31,8 +32,25 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   return null;
 };
 
-export const authenticate = async (prevState: { [key: string]: InputState } | undefined, formData: FormData) => {
-  console.log("Authenticating", { prevState, formData });
+export const authenticateSignIn = async (prevState: LoginFormState, formData?: FormData): Promise<LoginFormState> => {
+  const email = formData?.get("email") as string;
+  const password = formData?.get("password") as string;
 
-  return { message: "Authenticating" };
+  console.log("Authenticating", { prevState, formData: { email, password } });
+
+  let newState = { ...prevState };
+
+  // if (!email || !password) {
+  //   newState.email.error = true;
+  //   newState.email.message = "Email is required";
+  //   newState.pwd.error = true;
+  //   newState.pwd.message = "Password is required";
+  // } else {
+  //   newState = {
+  //     email: { value: email, error: false, message: "" },
+  //     pwd: { value: "", error: false, message: "Logged in successfully!" },
+  //   };
+  // }
+
+  return newState;
 };

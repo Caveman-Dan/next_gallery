@@ -16,11 +16,11 @@ export type InputState = {
 type InputBoxProps = {
   inputState: InputState;
   label: string;
+  name: string;
   type: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputBox: React.FC<InputBoxProps> = ({ inputState, onChange, label, type = "text" }) => {
+const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "text" }) => {
   const [revealText, setRevealText] = useState(false);
 
   const handleReveal = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -33,10 +33,10 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, onChange, label, type =
       <label>
         <input
           type={type === "password" && revealText ? "text" : type}
+          name={name}
           placeholder="&nbsp;"
           className={styles.inputBox}
-          onChange={onChange}
-          value={inputState.value}
+          defaultValue={inputState.value}
         />
         <span className={styles.label}>{label}</span>
       </label>

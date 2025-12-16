@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useActionState } from "react";
+// import { useFormState } from "react-dom";
 import { redirect } from "next/navigation";
+
+import { authenticateSignIn } from "@/lib/actions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
@@ -10,7 +13,11 @@ import type { InputState } from "@/ui/components/InputBox/InputBox";
 
 import styles from "./LoginForm.module.scss";
 
-const initialFormState: { [key: string]: InputState } = {
+export type LoginFormState = {
+  [key: string]: InputState;
+};
+
+const initialFormState: LoginFormState = {
   email: {
     value: "",
     error: false,
@@ -24,7 +31,9 @@ const initialFormState: { [key: string]: InputState } = {
 };
 
 const LoginForm = ({ closePage }: { closePage: () => void }) => {
-  const [formState, setFormState] = useState(initialFormState);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [formState, formAction, isPending] = useActionState<LoginFormState>(authenticateSignIn, initialFormState);
 
   const handleCancel = () => {
     closePage();
@@ -34,29 +43,15 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
     }, 150);
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLElement>, field: string) => {
-    setFormState({ ...formState, [field]: { ...formState[field], value: (event.target as HTMLInputElement).value } });
-  };
-
   return (
     <div className={styles.root}>
       <h2>Please enter your details...</h2>
-      <form className={styles.form}>
+      <form ref={formRef} action={formAction} className={styles.form}>
         <div className={styles.inputBoxes}>
-          <InputBox
-            inputState={formState.email}
-            onChange={(event) => handleInput(event, "email")}
-            label="Email"
-            type="email"
-          />
+          <InputBox inputState={formState.email} label="Email" name="email" type="email" />
         </div>
         <div className={styles.inputBoxes}>
-          <InputBox
-            inputState={formState.pwd}
-            onChange={(event) => handleInput(event, "pwd")}
-            label="Password"
-            type="password"
-          />
+          <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
         </div>
       </form>
       <div className={styles.buttonsContainer}>
@@ -64,7 +59,14 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
           <Button onClick={() => handleCancel()}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
-          <Button>Login</Button>
+          {formRef && (
+            <Button
+              onClick={() => formRef.current!.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }))}
+              type="submit"
+            >
+              Login
+            </Button>
+          )}
         </div>
       </div>
     </div>

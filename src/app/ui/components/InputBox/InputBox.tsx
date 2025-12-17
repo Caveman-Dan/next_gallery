@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import clsx from "clsx";
 
 import EyeOpen from "@/assets/eye-line.svg";
 import EyeClosed from "@/assets/eye-off-line.svg";
@@ -17,7 +18,7 @@ type InputBoxProps = {
   inputState: InputState;
   label: string;
   name: string;
-  type: string;
+  type: "text" | "password" | "email"; // add more if needed
 };
 
 const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "text" }) => {
@@ -28,23 +29,50 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
     setRevealText(!revealText);
   };
 
+  const effectiveType = type === "password" && revealText ? "text" : type;
+  const hasError = !!inputState.error;
+  const hasMessage = inputState.message && inputState.message.length > 0;
+  const inputKey = `${name}-${inputState.value}-${hasError ? "error" : "noerror"}`;
+
+  console.log("InputBox rendered with:", inputState);
+
   return (
     <div className={styles.root}>
-      <label>
-        <input
-          type={type === "password" && revealText ? "text" : type}
-          name={name}
-          placeholder="&nbsp;"
-          className={styles.inputBox}
-          defaultValue={inputState.value}
-        />
-        <span className={styles.label}>{label}</span>
-      </label>
-      {type === "password" && (
-        <span className={styles.eye} onClick={handleReveal}>
-          {revealText ? <EyeOpen height="1.5rem" /> : <EyeClosed height="1.5rem" />}
-        </span>
-      )}
+      <div className={styles.input}>
+        <label>
+          <input
+            key={inputKey}
+            type={effectiveType}
+            name={name}
+            placeholder="&nbsp;"
+            className={clsx(styles.inputBox, hasError && styles.inputBoxError)}
+            defaultValue={inputState.value}
+          />
+          <span className={styles.label}>{label}</span>
+        </label>
+        {type === "password" && (
+          // <div className={styles.eyeContainer}>
+          <span
+            className={styles.eye}
+            onClick={handleReveal}
+            aria-label={revealText ? "Hide password" : "Show password"}
+            role="button"
+            tabIndex={0}
+          >
+            {revealText ? <EyeOpen height="1.5rem" /> : <EyeClosed height="1.5rem" />}
+          </span>
+          // </div>
+        )}
+      </div>
+      <div
+        className={clsx(
+          styles.messageContainer,
+          hasMessage && hasError && styles.errorMessage,
+          hasMessage && !hasError && styles.successMessage
+        )}
+      >
+        {hasMessage && <p>{inputState.message}</p>}
+      </div>
     </div>
   );
 };

@@ -4,10 +4,10 @@ import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
 
-import { InputState } from "@/ui/components/InputBox/InputBox";
+import { loginFormInitialState } from "@/ui/login/LoginForm";
 import type { DirectoryTree } from "directory-tree";
+import type { LoginFormState } from "@/ui/login/LoginForm";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
-import { LoginFormState } from "@/ui/login/LoginForm";
 
 export const getAlbums = async (): Promise<DirectoryTree> => {
   let albumsTree;
@@ -36,21 +36,34 @@ export const authenticateSignIn = async (prevState: LoginFormState, formData?: F
   const email = formData?.get("email") as string;
   const password = formData?.get("password") as string;
 
-  console.log("Authenticating", { prevState, formData: { email, password } });
+  console.log("Authenticating", { formData: { email, password } });
 
-  let newState = { ...prevState };
+  let newState = {
+    email: { ...loginFormInitialState.email },
+    pwd: { ...loginFormInitialState.pwd },
+  };
 
-  // if (!email || !password) {
-  //   newState.email.error = true;
-  //   newState.email.message = "Email is required";
-  //   newState.pwd.error = true;
-  //   newState.pwd.message = "Password is required";
-  // } else {
-  //   newState = {
-  //     email: { value: email, error: false, message: "" },
-  //     pwd: { value: "", error: false, message: "Logged in successfully!" },
-  //   };
-  // }
+  if (!email) {
+    newState.email.error = true;
+    newState.email.message = "Email is required!";
+  } else {
+    newState = {
+      ...newState,
+      email: { value: email, error: false, message: "" },
+    };
+  }
+
+  if (!password) {
+    newState.pwd.error = true;
+    newState.pwd.message = "Password is required!";
+  } else {
+    newState = {
+      ...newState,
+      pwd: { value: "", error: false, message: "Logged in successfully!" },
+    };
+  }
+
+  console.log("Previous/New state", { prevState, newState });
 
   return newState;
 };

@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useRef, useActionState } from "react";
-// import { useFormState } from "react-dom";
 import { redirect } from "next/navigation";
 
 import { authenticateSignIn } from "@/lib/actions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
-
 import type { InputState } from "@/ui/components/InputBox/InputBox";
 
 import styles from "./LoginForm.module.scss";
@@ -17,7 +15,7 @@ export type LoginFormState = {
   [key: string]: InputState;
 };
 
-const initialFormState: LoginFormState = {
+export const loginFormInitialState: LoginFormState = {
   email: {
     value: "",
     error: false,
@@ -33,7 +31,7 @@ const initialFormState: LoginFormState = {
 const LoginForm = ({ closePage }: { closePage: () => void }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [formState, formAction, isPending] = useActionState<LoginFormState>(authenticateSignIn, initialFormState);
+  const [formState, formAction, isPending] = useActionState<LoginFormState>(authenticateSignIn, loginFormInitialState);
 
   const handleCancel = () => {
     closePage();

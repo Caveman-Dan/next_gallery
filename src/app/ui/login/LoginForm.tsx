@@ -1,30 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useActionState } from "react";
 import { redirect } from "next/navigation";
+
+import { authenticateSignIn } from "@/lib/actions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
+import { loginFormInitialState } from "@/initialiseData/initialiseData";
 
-import type { InputState } from "@/ui/components/InputBox/InputBox";
+import type { FormState } from "@/definitions/formDefinitions";
+import type { RefObject } from "react";
 
 import styles from "./LoginForm.module.scss";
 
-const initialFormState: { [key: string]: InputState } = {
-  email: {
-    value: "",
-    error: false,
-    message: "",
-  },
-  pwd: {
-    value: "",
-    error: false,
-    message: "",
-  },
-};
+const submitForm = (ref: RefObject<HTMLFormElement>) =>
+  ref.current!.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
 const LoginForm = ({ closePage }: { closePage: () => void }) => {
-  const [formState, setFormState] = useState(initialFormState);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
 
   const handleCancel = () => {
     closePage();
@@ -34,29 +30,15 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
     }, 150);
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLElement>, field: string) => {
-    setFormState({ ...formState, [field]: { ...formState[field], value: (event.target as HTMLInputElement).value } });
-  };
-
   return (
     <div className={styles.root}>
       <h2>Please enter your details...</h2>
-      <form className={styles.form}>
+      <form ref={formRef} action={formAction} className={styles.form}>
         <div className={styles.inputBoxes}>
-          <InputBox
-            inputState={formState.email}
-            onChange={(event) => handleInput(event, "email")}
-            label="Email"
-            type="email"
-          />
+          <InputBox inputState={formState.email} label="Email" name="email" type="email" />
         </div>
         <div className={styles.inputBoxes}>
-          <InputBox
-            inputState={formState.pwd}
-            onChange={(event) => handleInput(event, "pwd")}
-            label="Password"
-            type="password"
-          />
+          <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
         </div>
       </form>
       <div className={styles.buttonsContainer}>
@@ -64,7 +46,11 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
           <Button onClick={() => handleCancel()}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
-          <Button>Login</Button>
+          {formRef.current && (
+            <Button onClick={() => submitForm(formRef)} type="submit">
+              Login
+            </Button>
+          )}
         </div>
       </div>
     </div>

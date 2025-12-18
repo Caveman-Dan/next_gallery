@@ -15,6 +15,12 @@
     justify-content: space-between;
 
     .inputBoxes {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      // height: fit-content;
+      height: 100%;
+
       + .inputBoxes {
         margin-top: 1rem;
       }

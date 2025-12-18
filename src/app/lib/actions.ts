@@ -3,10 +3,12 @@
 import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
+import loginFormConf from "./formValidation/formConfigurations/loginFormConf";
 
-import { InputState } from "@/ui/components/InputBox/InputBox";
 import type { DirectoryTree } from "directory-tree";
+import type { FormState } from "@/definitions/formDefinitions";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+import { validateForm } from "./formValidation/formValidation";
 
 export const getAlbums = async (): Promise<DirectoryTree> => {
   let albumsTree;
@@ -31,8 +33,11 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   return null;
 };
 
-export const authenticate = async (prevState: { [key: string]: InputState } | undefined, formData: FormData) => {
-  console.log("Authenticating", { prevState, formData });
+export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
+  const formValues: { [key: string]: string } = {
+    email: formData?.get("email") as string,
+    pwd: formData?.get("password") as string,
+  };
 
-  return { message: "Authenticating" };
+  return await validateForm(formValues, loginFormConf);
 };

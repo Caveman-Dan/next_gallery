@@ -12,7 +12,8 @@ const loginFormConf: FormConfig = {
       tests: [
         {
           test: isFieldEmpty,
-          options: { error: "Email address is required!" },
+          options: { errorMessage: "Email address is required!" },
+        },
         },
       ],
     },

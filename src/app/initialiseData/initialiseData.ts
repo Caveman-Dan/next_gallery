@@ -1,14 +1,12 @@
-import { FormState } from "@/definitions/formDefinitions";
+import { FormState, InputState } from "@/definitions/formDefinitions";
+
+export const inputInitialState: InputState = {
+  value: "",
+  errors: false,
+  messages: [],
+};
 
 export const loginFormInitialState: FormState = {
-  email: {
-    value: "",
-    error: false,
-    message: "",
-  },
-  pwd: {
-    value: "",
-    error: false,
-    message: "",
-  },
+  email: inputInitialState,
+  pwd: inputInitialState,
 };

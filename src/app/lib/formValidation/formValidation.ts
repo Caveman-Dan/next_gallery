@@ -1,7 +1,7 @@
 "use server";
 
 import { handleServerError } from "../errorHandling";
-import type { FormValues, FormConfig, FormState, FieldConfig } from "@/definitions/formDefinitions";
+import type { FormValues, FormConfig, FormState, FieldConfig, InputTest } from "@/definitions/formDefinitions";
 
 export const validateForm = async (formValues: FormValues, formConfig: FormConfig): Promise<FormState> => {
   let newFormState = JSON.parse(JSON.stringify(formConfig.config.initialState));
@@ -13,7 +13,10 @@ export const validateForm = async (formValues: FormValues, formConfig: FormConfi
       // throw Error("Form submission not configured correctly!");
     } else {
       fieldConfig.tests!.forEach((test) => {
-        newFormState[field] = test.test(formValues[field], test.options);
+        const testResult: InputTest = test.test(formValues[field], test.options);
+        newFormState[field].value = testResult.value;
+        if (!newFormState[field].errors) newFormState[field].errors = testResult.error;
+        if (testResult.message && testResult.message.length > 0) newFormState[field].messages?.push(testResult.message);
       });
     }
   });

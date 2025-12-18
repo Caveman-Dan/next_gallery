@@ -1,5 +1,11 @@
 export type InputState = {
   value: string;
+  errors: boolean;
+  messages?: string[];
+};
+
+export type InputTest = {
+  value: string;
   error: boolean;
   message?: string;
 };
@@ -11,11 +17,11 @@ export type FormState = {
 export type FormValues = { [key: string]: string };
 
 export type ValidatorOptions = {
-  error: string;
+  errorMessage: string;
   // extend as needed
 };
 
-export type ValidatorTest = (value: string, options: ValidatorOptions) => InputState;
+export type ValidatorTest = (value: string, options: ValidatorOptions) => InputTest;
 
 export type FieldTest = {
   test: ValidatorTest;

@@ -1,11 +1,11 @@
 import type { ValidatorOptions } from "@/definitions/formDefinitions";
 
-export const isFieldEmpty = (value: string, { error }: ValidatorOptions) => {
+export const isFieldEmpty = (value: string, { errorMessage }: ValidatorOptions) => {
   if (!value) {
     return {
       value,
       error: true,
-      message: error,
+      message: errorMessage,
     };
   } else {
     return {

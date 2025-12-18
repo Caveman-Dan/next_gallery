@@ -26,8 +26,8 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
   };
 
   const effectiveType = type === "password" && revealText ? "text" : type;
-  const hasError = !!inputState.error;
-  const hasMessage = inputState.message && inputState.message.length > 0;
+  const hasError = !!inputState.errors;
+  const hasMessage = !!inputState.messages?.length;
   const inputKey = `${name}-${inputState.value}-${hasError ? "error" : "noerror"}`;
 
   return (
@@ -63,7 +63,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
           hasMessage && !hasError && styles.successMessage
         )}
       >
-        {hasMessage && <p>{inputState.message}</p>}
+        {hasMessage && <p>{inputState.messages![0]}</p>}
       </div>
     </div>
   );

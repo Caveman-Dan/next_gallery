@@ -6,13 +6,9 @@ import clsx from "clsx";
 import EyeOpen from "@/assets/eye-line.svg";
 import EyeClosed from "@/assets/eye-off-line.svg";
 
-import styles from "./InputBox.module.scss";
+import type { InputState } from "@/definitions/formDefinitions";
 
-export type InputState = {
-  value: string;
-  error: boolean;
-  message?: string;
-};
+import styles from "./InputBox.module.scss";
 
 type InputBoxProps = {
   inputState: InputState;
@@ -34,8 +30,6 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
   const hasMessage = inputState.message && inputState.message.length > 0;
   const inputKey = `${name}-${inputState.value}-${hasError ? "error" : "noerror"}`;
 
-  console.log("InputBox rendered with:", inputState);
-
   return (
     <div className={styles.root}>
       <div className={styles.input}>
@@ -51,7 +45,6 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
           <span className={styles.label}>{label}</span>
         </label>
         {type === "password" && (
-          // <div className={styles.eyeContainer}>
           <span
             className={styles.eye}
             onClick={handleReveal}
@@ -61,7 +54,6 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
           >
             {revealText ? <EyeOpen height="1.5rem" /> : <EyeClosed height="1.5rem" />}
           </span>
-          // </div>
         )}
       </div>
       <div

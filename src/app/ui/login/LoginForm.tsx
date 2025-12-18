@@ -1,37 +1,26 @@
 "use client";
 
-import React, { useRef, useActionState } from "react";
+import React, { useEffect, useRef, useActionState } from "react";
 import { redirect } from "next/navigation";
 
 import { authenticateSignIn } from "@/lib/actions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
-import type { InputState } from "@/ui/components/InputBox/InputBox";
+import { loginFormInitialState } from "@/initialiseData/initialiseData";
+
+import type { FormState } from "@/definitions/formDefinitions";
+import type { RefObject } from "react";
 
 import styles from "./LoginForm.module.scss";
 
-export type LoginFormState = {
-  [key: string]: InputState;
-};
-
-export const loginFormInitialState: LoginFormState = {
-  email: {
-    value: "",
-    error: false,
-    message: "",
-  },
-  pwd: {
-    value: "",
-    error: false,
-    message: "",
-  },
-};
+const submitForm = (ref: RefObject<HTMLFormElement>) =>
+  ref.current!.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
 const LoginForm = ({ closePage }: { closePage: () => void }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [formState, formAction, isPending] = useActionState<LoginFormState>(authenticateSignIn, loginFormInitialState);
+  const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
 
   const handleCancel = () => {
     closePage();
@@ -57,11 +46,8 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
           <Button onClick={() => handleCancel()}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
-          {formRef && (
-            <Button
-              onClick={() => formRef.current!.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }))}
-              type="submit"
-            >
+          {formRef.current && (
+            <Button onClick={() => submitForm(formRef)} type="submit">
               Login
             </Button>
           )}

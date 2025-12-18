@@ -39,5 +39,5 @@ export const authenticateSignIn = async (prevState: FormState, formData?: FormDa
     pwd: formData?.get("password") as string,
   };
 
-  return validateForm(formValues, loginFormConf);
+  return await validateForm(formValues, loginFormConf);
 };

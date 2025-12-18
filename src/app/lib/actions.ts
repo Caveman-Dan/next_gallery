@@ -3,11 +3,12 @@
 import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
+import loginFormConf from "./formValidation/formConfigurations/loginFormConf";
 
-import { loginFormInitialState } from "@/ui/login/LoginForm";
 import type { DirectoryTree } from "directory-tree";
-import type { LoginFormState } from "@/ui/login/LoginForm";
+import type { FormState } from "@/definitions/formDefinitions";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+import { validateForm } from "./formValidation/formValidation";
 
 export const getAlbums = async (): Promise<DirectoryTree> => {
   let albumsTree;
@@ -32,38 +33,11 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   return null;
 };
 
-export const authenticateSignIn = async (prevState: LoginFormState, formData?: FormData): Promise<LoginFormState> => {
-  const email = formData?.get("email") as string;
-  const password = formData?.get("password") as string;
-
-  console.log("Authenticating", { formData: { email, password } });
-
-  let newState = {
-    email: { ...loginFormInitialState.email },
-    pwd: { ...loginFormInitialState.pwd },
+export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
+  const formValues: { [key: string]: string } = {
+    email: formData?.get("email") as string,
+    pwd: formData?.get("password") as string,
   };
 
-  if (!email) {
-    newState.email.error = true;
-    newState.email.message = "Email is required!";
-  } else {
-    newState = {
-      ...newState,
-      email: { value: email, error: false, message: "" },
-    };
-  }
-
-  if (!password) {
-    newState.pwd.error = true;
-    newState.pwd.message = "Password is required!";
-  } else {
-    newState = {
-      ...newState,
-      pwd: { value: "", error: false, message: "Logged in successfully!" },
-    };
-  }
-
-  console.log("Previous/New state", { prevState, newState });
-
-  return newState;
+  return validateForm(formValues, loginFormConf);
 };

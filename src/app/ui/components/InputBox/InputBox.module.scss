@@ -62,8 +62,10 @@
       }
     }
 
-    .inputBoxError {
-      box-shadow: inset 0 0 10px 0px var(--error-colour-shading);
+    .inputBoxError,
+    .inputBoxError:focus,
+    .inputBoxError:not(:placeholder-shown) {
+      box-shadow: inset 0 0 5px 0px var(--error-colour-shading);
       width: calc(100% - 22px);
       border: 2px solid var(--error-colour-border);
     }

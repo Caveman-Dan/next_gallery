@@ -4,7 +4,7 @@ import { handleServerError } from "../errorHandling";
 import type { FormValues, FormConfig, FormState, FieldConfig, InputTest } from "@/definitions/formDefinitions";
 
 export const validateForm = async (formValues: FormValues, formConfig: FormConfig): Promise<FormState> => {
-  let newFormState = JSON.parse(JSON.stringify(formConfig.config.initialState));
+  const newFormState = JSON.parse(JSON.stringify(formConfig.config.initialState));
 
   Object.keys(formValues).forEach((field) => {
     const fieldConfig: FieldConfig = formConfig.fields[field];

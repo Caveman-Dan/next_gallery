@@ -11,9 +11,9 @@ type ButtonProps = React.ComponentProps<"button"> & {
   children: React.ReactNode[] | string;
 };
 
-const Button: React.FC<ButtonProps> = ({ onClick, children, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
-    <button className={styles.root} {...(onclick && { onClick })} {...props}>
+    <button className={styles.root} {...props}>
       {children}
       <Ripple />
     </button>

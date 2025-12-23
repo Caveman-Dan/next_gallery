@@ -10,16 +10,10 @@ import InputBox from "@/ui/components/InputBox/InputBox";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
 
 import type { FormState } from "@/definitions/formDefinitions";
-import type { RefObject } from "react";
 
 import styles from "./LoginForm.module.scss";
 
-const submitForm = (ref: RefObject<HTMLFormElement>) =>
-  ref.current!.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-
 const LoginForm = ({ closePage }: { closePage: () => void }) => {
-  const formRef = useRef<HTMLFormElement>(null);
-
   const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
 
   const handleCancel = () => {
@@ -33,24 +27,23 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
   return (
     <div className={styles.root}>
       <h2>Please enter your details...</h2>
-      <form ref={formRef} action={formAction} className={styles.form}>
+      <form id="login-form" action={formAction} className={styles.form} noValidate>
         <div className={styles.inputBoxes}>
           <InputBox inputState={formState.email} label="Email" name="email" type="email" />
         </div>
         <div className={styles.inputBoxes}>
           <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
         </div>
+        <button form="login-form" type="submit" style={{ display: "none" }} /> {/* // This allows enter to submit */}
       </form>
       <div className={styles.buttonsContainer}>
         <div className={styles.buttons}>
           <Button onClick={() => handleCancel()}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
-          {formRef.current && (
-            <Button onClick={() => submitForm(formRef)} type="submit">
-              Login
-            </Button>
-          )}
+          <Button form="login-form" type="submit">
+            Login
+          </Button>
         </div>
       </div>
     </div>

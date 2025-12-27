@@ -3,6 +3,7 @@
 import React, { useActionState } from "react";
 import { authenticateSignIn } from "@/lib/actions";
 
+import LogoIcon from "@/assets/logoNoName.svg";
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
@@ -20,31 +21,39 @@ const LoginForm = ({ closePage }: { closePage: (redirectPath: string) => void })
   };
 
   return (
-    <div className={styles.root}>
-      <h2>Please enter your details...</h2>
-      <form id="login-form" action={formAction} className={styles.form} noValidate>
-        <div className={styles.inputBoxes}>
-          <InputBox inputState={formState.email} label="Email" name="email" type="email" />
-        </div>
-        <div className={styles.inputBoxes}>
-          <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
-        </div>
-        <button form="login-form" type="submit" style={{ display: "none" }} /> {/* // This allows enter to submit */}
-      </form>
-      <div className={styles.buttonsContainer}>
-        <div className={styles.buttons}>
-          <Button onClick={() => closePage("/gallery")}>Cancel</Button>
-        </div>
-        <div className={styles.buttons}>
-          <Button form="login-form" type="submit">
-            Login
-          </Button>
-        </div>
+    <div className={styles.loginContainer}>
+      <div className={styles.logoContainer}>
+        <LogoIcon className={styles.logo} height="48px" />
       </div>
-      <div className={styles.signup}>
-        <p>
-          For a new account: <a onClick={handleAnchor}>sign up here</a>
-        </p>
+      <div className={styles.formContainer}>
+        <div className={styles.root}>
+          <h2>Please enter your details...</h2>
+          <form id="login-form" action={formAction} className={styles.form} noValidate>
+            <div className={styles.inputBoxes}>
+              <InputBox inputState={formState.email} label="Email" name="email" type="email" />
+            </div>
+            <div className={styles.inputBoxes}>
+              <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
+            </div>
+            <button form="login-form" type="submit" style={{ display: "none" }} />{" "}
+            {/* // This allows enter to submit */}
+          </form>
+          <div className={styles.buttonsContainer}>
+            <div className={styles.buttons}>
+              <Button onClick={() => closePage("/gallery")}>Cancel</Button>
+            </div>
+            <div className={styles.buttons}>
+              <Button form="login-form" type="submit">
+                Login
+              </Button>
+            </div>
+          </div>
+          <div className={styles.signup}>
+            <p>
+              For a new account: <a onClick={handleAnchor}>sign up here</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

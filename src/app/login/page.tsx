@@ -1,58 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { animated, useSpring } from "@react-spring/web";
+import MountAnimation from "@/ui/MountAnimation/MountAnimation";
+import { modalAppear as springsConfig } from "@/style/springsConfig";
 
 import LoginForm from "@/ui/login/LoginForm";
-import LogoIcon from "@/assets/logoNoName.svg";
-
-import { modalAppear as springsConfig } from "@/style/springsConfig";
-import styles from "./page.module.scss";
 
 const LoginPage = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
-
-  const [springs, api] = useSpring(() => ({
-    transform: "scale(0)",
-  }));
-
-  useEffect(() => {
-    setIsMounted(true);
-    api.start({
-      transform: "scale(1)",
-      config: {
-        ...springsConfig.open,
-      },
-    });
-  }, [api]);
-
-  const handleClose = (redirectPath?: string) => {
-    api.start({
-      transform: "scale(0)",
-      config: {
-        ...springsConfig.close,
-      },
-      onRest: () => {
-        if (redirectPath) router.push(redirectPath);
-      },
-    });
-  };
-
   return (
-    <main className={styles.root}>
-      <animated.div className={`${styles.modal} ${!isMounted ? ` ${styles.transparent}` : ""}`} style={{ ...springs }}>
-        <div className={styles.loginContainer}>
-          <div className={styles.logoContainer}>
-            <LogoIcon className={styles.logo} height="48px" />
-          </div>
-          <div className={styles.formContainer}>
-            <LoginForm closePage={handleClose} />
-          </div>
-        </div>
-      </animated.div>
-    </main>
+    <MountAnimation springsConfOpen={springsConfig.open} springsConfClose={springsConfig.close}>
+      <LoginForm />
+    </MountAnimation>
   );
 };
 

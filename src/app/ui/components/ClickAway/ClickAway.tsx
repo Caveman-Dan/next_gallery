@@ -82,7 +82,7 @@ const ClickAway: React.FC<ClickAwayProps> = ({ active, setActive, closing = fals
     } catch (err) {
       alert(`ERROR: ${JSON.stringify(err)}`);
     }
-  }, [active, setActive]);
+  }, [active, router, setActive]);
 
   return (
     <div

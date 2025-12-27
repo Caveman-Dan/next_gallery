@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { animated, useSpring, useSpringRef } from "@react-spring/web";
+import { useRouter } from "next/navigation";
+import { animated, useSpring } from "@react-spring/web";
 
 import LoginForm from "@/ui/login/LoginForm";
 import LogoIcon from "@/assets/logoNoName.svg";
@@ -11,30 +12,33 @@ import styles from "./page.module.scss";
 
 const LoginPage = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const api = useSpringRef();
+  const router = useRouter();
 
-  const springs = useSpring({
-    ref: api,
-    from: {
-      transform: "scale(0)",
-    },
-  });
+  const [springs, api] = useSpring(() => ({
+    transform: "scale(0)",
+  }));
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
     api.start({
-      to: {
-        transform: isMounted ? "scale(1)" : "scale(0)",
-      },
+      transform: "scale(1)",
       config: {
-        ...springsConfig,
-        clamp: !isMounted,
+        ...springsConfig.open,
       },
     });
-  }, [api, isMounted]);
+  }, [api]);
+
+  const handleClose = (redirectPath?: string) => {
+    api.start({
+      transform: "scale(0)",
+      config: {
+        ...springsConfig.close,
+      },
+      onRest: () => {
+        if (redirectPath) router.push(redirectPath);
+      },
+    });
+  };
 
   return (
     <main className={styles.root}>
@@ -44,17 +48,10 @@ const LoginPage = () => {
             <LogoIcon className={styles.logo} height="48px" />
           </div>
           <div className={styles.formContainer}>
-            <LoginForm
-              closePage={() => {
-                setIsMounted(false);
-              }}
-            />
+            <LoginForm closePage={handleClose} />
           </div>
         </div>
       </animated.div>
-      {/* <button onClick={() => setIsMounted(!isMounted)} style={{ marginTop: "2rem" }}>
-        Test Me
-      </button> */}
     </main>
   );
 };

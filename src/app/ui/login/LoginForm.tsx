@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useActionState } from "react";
-import { redirect } from "next/navigation";
-
+import React, { useActionState } from "react";
 import { authenticateSignIn } from "@/lib/actions";
 
 import Button from "@/ui/components/Button/Button";
@@ -13,15 +11,12 @@ import type { FormState } from "@/definitions/formDefinitions";
 
 import styles from "./LoginForm.module.scss";
 
-const LoginForm = ({ closePage }: { closePage: () => void }) => {
+const LoginForm = ({ closePage }: { closePage: (redirectPath: string) => void }) => {
   const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
 
-  const handleCancel = () => {
-    closePage();
-    setTimeout(() => {
-      window.scrollTo(0, 0); // this fixes the window position bug on mobile devices
-      redirect("/gallery");
-    }, 150);
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    closePage("/gallery");
   };
 
   return (
@@ -38,13 +33,18 @@ const LoginForm = ({ closePage }: { closePage: () => void }) => {
       </form>
       <div className={styles.buttonsContainer}>
         <div className={styles.buttons}>
-          <Button onClick={() => handleCancel()}>Cancel</Button>
+          <Button onClick={() => closePage("/gallery")}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
           <Button form="login-form" type="submit">
             Login
           </Button>
         </div>
+      </div>
+      <div className={styles.signup}>
+        <p>
+          For a new account: <a onClick={handleAnchor}>sign up here</a>
+        </p>
       </div>
     </div>
   );

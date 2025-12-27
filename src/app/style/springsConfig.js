@@ -18,9 +18,17 @@ module.exports = {
     precision: 0.0,
   },
   modalAppear: {
-    mass: 7,
-    tension: 500,
-    friction: 80,
-    precision: 0.0,
+    open: {
+      mass: 7,
+      tension: 500,
+      friction: 80,
+      precision: 0.0,
+    },
+    close: {
+      mass: 7,
+      tension: 500,
+      friction: 80,
+      precision: 0.1,
+    },
   },
 };

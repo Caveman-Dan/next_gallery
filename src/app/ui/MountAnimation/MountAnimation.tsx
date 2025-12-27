@@ -1,12 +1,48 @@
 "use client";
 
-import React, { useEffect, useState, Children, cloneElement } from "react";
+// Any component wrapped in this parent component will be able to access the closePage
+// function via the useMountAnimationContext hook. The closePage() function will handle
+// the close animation and accept a redirect url if required.
+// const closePage = useMountAnimationContext();
+
+import React, { useEffect, useState, useContext, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 
 import styles from "./MountAnimation.module.scss";
 
-const MountAnimation = ({ children, springsConfOpen, springsConfClose, fadeTime = "500" }) => {
+import type { SpringConf } from "@/style/springsConfig";
+
+type MountAnimationContextType = {
+  closePage: (href: string) => void;
+};
+
+const MountAnimationContext = createContext<MountAnimationContextType | undefined>(undefined);
+
+const MountAnimationContextProvider: React.FC<{
+  closePage: () => void;
+  children: React.ReactNode;
+}> = ({ closePage, children }) => (
+  <MountAnimationContext.Provider value={{ closePage }}>{children}</MountAnimationContext.Provider>
+);
+
+export const useMountAnimationContext = () => {
+  const context = useContext(MountAnimationContext);
+  if (!context) {
+    throw Error("useMountAnimationContext must be used within <MountAnimationContextProvider />");
+  }
+  return context;
+};
+
+const MountAnimation = ({
+  children,
+  springsConfOpen,
+  springsConfClose,
+}: {
+  children: React.ReactNode;
+  springsConfOpen: SpringConf;
+  springsConfClose: SpringConf;
+}) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
@@ -36,17 +72,10 @@ const MountAnimation = ({ children, springsConfOpen, springsConfClose, fadeTime 
     });
   };
 
-  const childrenWithProps = Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      return cloneElement(child, { closePage: handleClose });
-    }
-    return child;
-  });
-
   return (
     <main className={styles.root}>
       <animated.div className={`${styles.modal} ${!isMounted ? ` ${styles.transparent}` : ""}`} style={{ ...springs }}>
-        {childrenWithProps}
+        <MountAnimationContextProvider closePage={handleClose}>{children}</MountAnimationContextProvider>
       </animated.div>
     </main>
   );

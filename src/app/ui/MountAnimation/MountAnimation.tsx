@@ -8,10 +8,11 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
+import clsx from "clsx";
 
 import styles from "./MountAnimation.module.scss";
 
-import type { SpringConf } from "@/style/springsConfig";
+import type { MountAnimationOptions } from "./MountAnimationConfig";
 
 type MountAnimationContextType = {
   closePage: (href: string) => void;
@@ -36,33 +37,39 @@ export const useMountAnimationContext = () => {
 
 const MountAnimation = ({
   children,
-  springsConfOpen,
-  springsConfClose,
+  mountAnimationConf,
 }: {
   children: React.ReactNode;
-  springsConfOpen: SpringConf;
-  springsConfClose: SpringConf;
+  mountAnimationConf: MountAnimationOptions;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
+  const styleIn = mountAnimationConf.open.style;
+  const springsConfOpen = mountAnimationConf.open.springs;
+  const fadeTimeIn = mountAnimationConf.open.fadeTime;
+  const styleOut = mountAnimationConf.close.style;
+  const springsConfClose = mountAnimationConf.close.springs;
+  const fadeTimeOut = mountAnimationConf.close.fadeTime;
+
   const [springs, api] = useSpring(() => ({
-    transform: "scale(0)",
+    ...styleOut,
   }));
 
   useEffect(() => {
     setIsMounted(true);
     api.start({
-      transform: "scale(1)",
+      ...styleIn,
       config: {
         ...springsConfOpen,
       },
     });
-  }, [api, springsConfOpen]);
+  }, [api, springsConfOpen, styleIn]);
 
   const handleClose = (redirectPath?: string) => {
+    setIsMounted(false);
     api.start({
-      transform: "scale(0)",
+      ...styleOut,
       config: {
         ...springsConfClose,
       },
@@ -74,7 +81,15 @@ const MountAnimation = ({
 
   return (
     <main className={styles.root}>
-      <animated.div className={`${styles.modal} ${!isMounted ? ` ${styles.transparent}` : ""}`} style={{ ...springs }}>
+      <animated.div
+        className={clsx(styles.container, !isMounted && styles.transparent)}
+        style={{
+          ...springs,
+          transition: `opacity ${fadeTimeIn}ms ease-in-out`,
+          opacity: 1,
+          ...(!isMounted && { transition: `opacity ${fadeTimeOut}ms ease-in-out`, opacity: 0 }),
+        }}
+      >
         <MountAnimationContextProvider closePage={handleClose}>{children}</MountAnimationContextProvider>
       </animated.div>
     </main>

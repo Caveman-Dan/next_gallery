@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/ui/MountAnimation/AnimatedLink";
 
 import LogoWithSideName from "@/assets/logoSideName.svg?url";
 import Button from "@/ui/components/Button/Button";

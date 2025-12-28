@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import HomeTopBar from "@/ui/Home/HomeTopBar/HomeTopBar";
+import MountAnimation from "@/ui/MountAnimation/MountAnimation";
 
 import styles from "./layout.module.scss";
+import { mainPageFade } from "@/ui/MountAnimation/MountAnimationConfig";
 
 export const metadata: Metadata = {
   title: "Welcome",
@@ -15,8 +17,10 @@ const RootLayout = async ({
 }>) => {
   return (
     <div className={styles.root}>
-      <HomeTopBar />
-      {children}
+      <MountAnimation mountAnimationConf={mainPageFade}>
+        <HomeTopBar />
+        {children}
+      </MountAnimation>
     </div>
   );
 };

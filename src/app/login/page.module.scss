@@ -1,20 +1,14 @@
 $borderPadding: 2rem;
 
 .root {
-  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
   width: calc(100% - calc($borderPadding * 2));
   padding: $borderPadding;
 
-  .modal {
-    transition: opacity 400ms ease-in-out;
-    opacity: 1;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
   .logoContainer {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     background-color: var(--primary-colour-base);
     border-radius: $default_border_radius;
 
@@ -30,15 +24,10 @@ $borderPadding: 2rem;
     border: 1px solid var(--border-colour-base);
     border-radius: $default_border_radius;
   }
+}
 
-  .transparent {
-    transition: opacity 200ms ease-in-out;
-    opacity: 0;
-  }
-
-  @include aboveSm {
-    .modal {
-      margin-top: min(5vw, 8vh);
-    }
+@include aboveSm {
+  .root {
+    margin-top: min(5vw, 8vh);
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/ui/MountAnimation/AnimatedLink";
 
 import LogoIcon from "@/assets/logoNoName.svg"; // This '?url' syntax works with SVGR
 import LogoWithName from "@/assets/logoWithName.svg"; // This '?url' syntax works with SVGR

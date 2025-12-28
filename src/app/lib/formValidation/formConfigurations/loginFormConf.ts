@@ -1,6 +1,6 @@
 import { isFieldEmpty, isValidEmail } from "../validatorTests";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
-import type { FormConfig, FormState } from "@/definitions/formDefinitions";
+import type { FormConfig } from "@/definitions/formDefinitions";
 
 const loginFormConf: FormConfig = {
   config: {

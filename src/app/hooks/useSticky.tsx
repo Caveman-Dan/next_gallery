@@ -10,8 +10,8 @@ const onSticky = (element: HTMLElement, callback: (isSticky: boolean) => void) =
       callback(entry[0].intersectionRatio < 1);
     },
     {
-      threshold: [1],
-      rootMargin: "-1px 0px 0px 0px",
+      threshold: [0.99], // 1% threshold to cope with physics bouncing
+      rootMargin: "-1px 0px 0px 0px", // -1px because the css sticky always sticks at top: 0
     }
   );
   observer.observe(element);
@@ -30,6 +30,7 @@ const useSticky = <Target extends HTMLDivElement>() => {
     const sticky = onSticky(ref.current, (isSticky: boolean) => {
       setIsSticky(isSticky);
     });
+
     return () => sticky?.observer.unobserve(sticky?.element);
   }, []);
 

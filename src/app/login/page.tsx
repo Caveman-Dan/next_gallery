@@ -1,7 +1,7 @@
 "use client";
 
-import MountAnimation from "@/ui/MountAnimation/MountAnimation";
-import { loginTransition } from "@/ui/MountAnimation/MountAnimationConfig";
+import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
+import { loginTransition } from "@/ui/components/MountAnimation/MountAnimationConfig";
 
 import LoginForm from "@/ui/login/LoginForm";
 import LogoIcon from "@/assets/logoNoName.svg";

@@ -18,14 +18,14 @@ export const mainPageFade: MountAnimationOptions = {
     style: {
       transform: "scale(1)",
     },
-    fadeTime: 400,
+    fadeTime: 200,
   },
   close: {
     springs: pageFade.close,
     style: {
-      transform: "scale(0.9)",
+      transform: "scale(0.97)",
     },
-    fadeTime: 400,
+    fadeTime: 200,
   },
 };
 

@@ -7,7 +7,7 @@ import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
 
-import { useMountAnimationContext } from "../components/MountAnimation/MountAnimation";
+import { useMountAnimationContext } from "../components/MountAnimation/MountAnimationContextProvider";
 
 import type { FormState } from "@/definitions/formDefinitions";
 

@@ -3,7 +3,7 @@
 import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
-import loginFormConf from "./formValidation/formConfigurations/loginFormConf";
+import loginFormConf from "@/login/validation.conf";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";

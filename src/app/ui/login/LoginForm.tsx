@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    closePage("/gallery");
+    closePage("/sign-up");
   };
 
   return (

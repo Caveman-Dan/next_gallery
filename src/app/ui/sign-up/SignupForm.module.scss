@@ -2,12 +2,56 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 30vh;
+  height: fit-content;
   padding: 1rem;
+
+  .theForm {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+
+    .panels {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      margin: 0 auto;
+    }
+
+    .leftPanel {
+      // border: 2px solid red;
+    }
+
+    .rightPanel {
+      // border: 2px solid green;
+    }
+  }
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .buttons {
+      width: 30%;
+      height: 2em;
+    }
+  }
 
   .loginAnch {
     a {
       color: var(--text-colour-alternate);
+    }
+  }
+}
+
+@include belowMd {
+  .root {
+    .theForm {
+      flex-direction: column;
+
+      .panels {
+        width: 90%;
+      }
     }
   }
 }

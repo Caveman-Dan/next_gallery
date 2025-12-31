@@ -1,14 +1,14 @@
 "use client";
 
 import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
-import { loginTransition } from "@/ui/components/MountAnimation/MountAnimationConfig";
-
-import LoginForm from "@/ui/login/LoginForm";
 import LogoIcon from "@/assets/logoNoName.svg";
+import SignupForm from "@/ui/sign-up/SignupForm";
+
+import { loginTransition } from "@/ui/components/MountAnimation/MountAnimationConfig";
 
 import styles from "./page.module.scss";
 
-const LoginPage = () => {
+const SignupPage = () => {
   return (
     <MountAnimation mountAnimationConf={loginTransition}>
       <div className={styles.root}>
@@ -16,11 +16,11 @@ const LoginPage = () => {
           <LogoIcon className={styles.logo} height="48px" />
         </div>
         <div className={styles.formContainer}>
-          <LoginForm />
+          <SignupForm />
         </div>
       </div>
     </MountAnimation>
   );
 };
 
-export default LoginPage;
+export default SignupPage;

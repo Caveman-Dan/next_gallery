@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import MenuSystem from "@/ui/gallery/MenuSystem/MenuSystem";
-import MountAnimation from "@/ui/MountAnimation/MountAnimation";
+import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
 
-import { mainPageFade } from "@/ui/MountAnimation/MountAnimationConfig";
+import { mainPageFade } from "@/ui/components/MountAnimation/MountAnimationConfig";
 import styles from "./layout.module.scss";
 import { Suspense } from "react";
 

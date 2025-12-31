@@ -5,35 +5,16 @@
 // the close animation and accept a redirect url if required.
 // const closePage = useMountAnimationContext();
 
-import React, { useEffect, useState, useContext, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
 
+import MountAnimationContextProvider from "./MountAnimationContextProvider";
+
 import styles from "./MountAnimation.module.scss";
 
 import type { MountAnimationOptions } from "./MountAnimationConfig";
-
-type MountAnimationContextType = {
-  closePage: (href: string) => void;
-};
-
-const MountAnimationContext = createContext<MountAnimationContextType | undefined>(undefined);
-
-const MountAnimationContextProvider: React.FC<{
-  closePage: () => void;
-  children: React.ReactNode;
-}> = ({ closePage, children }) => (
-  <MountAnimationContext.Provider value={{ closePage }}>{children}</MountAnimationContext.Provider>
-);
-
-export const useMountAnimationContext = () => {
-  const context = useContext(MountAnimationContext);
-  if (!context) {
-    throw Error("useMountAnimationContext must be used within <MountAnimationContextProvider />");
-  }
-  return context;
-};
 
 const MountAnimation = ({
   children,

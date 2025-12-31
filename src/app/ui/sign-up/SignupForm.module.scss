@@ -5,35 +5,35 @@
   height: fit-content;
   padding: 1rem;
 
-  h2 {
-    margin: 0;
-  }
-
-  .form {
+  .theForm {
+    margin-top: 2rem;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    margin-top: 1rem;
 
-    .inputBoxes {
+    .panels {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      // height: fit-content;
-      height: 100%;
-      margin-bottom: 1rem;
+      width: 45%;
+      margin: 0 auto;
 
-      // + .inputBoxes {
-      //   margin-top: 1rem;
-      // }
+      > * {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .leftPanel {
+      // border: 2px solid red;
+    }
+
+    .rightPanel {
+      // border: 2px solid green;
     }
   }
 
   .buttonsContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    margin-bottom: 1rem;
+    justify-content: space-around;
 
     .buttons {
       width: 30%;
@@ -41,9 +41,21 @@
     }
   }
 
-  .signup {
+  .loginAnch {
     a {
       color: var(--text-colour-alternate);
+    }
+  }
+}
+
+@include belowMd {
+  .root {
+    .theForm {
+      flex-direction: column;
+
+      .panels {
+        width: 90%;
+      }
     }
   }
 }

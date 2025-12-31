@@ -10,3 +10,12 @@ export const loginFormInitialState: FormState = {
   email: inputInitialState,
   pwd: inputInitialState,
 };
+
+export const signupFormInitialState: FormState = {
+  forename: inputInitialState,
+  surname: inputInitialState,
+  username: inputInitialState,
+  email: inputInitialState,
+  pwd: inputInitialState,
+  phone: inputInitialState,
+};

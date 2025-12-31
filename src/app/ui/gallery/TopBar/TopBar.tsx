@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "@/ui/MountAnimation/AnimatedLink";
+import Link from "@/ui/components/MountAnimation/AnimatedLink";
 
 import Burger from "@/ui/components/burgers/Burger2";
 import ThemeSelector from "@/ui/gallery/TopBar/ThemeSelector";

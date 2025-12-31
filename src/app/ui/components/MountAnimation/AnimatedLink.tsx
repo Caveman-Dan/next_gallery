@@ -1,4 +1,4 @@
-import { useMountAnimationContext } from "./MountAnimation";
+import { useMountAnimationContext } from "./MountAnimationContextProvider";
 
 type AnimatedLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string; // href is required

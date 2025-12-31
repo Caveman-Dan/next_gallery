@@ -1,4 +1,4 @@
-import { isFieldEmpty, isValidEmail } from "../validatorTests";
+import { isFieldEmpty, isValidEmail } from "@/lib/formValidation/validatorTests";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
 import type { FormConfig } from "@/definitions/formDefinitions";
 

@@ -3,7 +3,7 @@
 import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
-import loginFormConf from "@/login/validation.conf";
+import loginFormConf from "@/ui/login/validation.conf";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -37,6 +37,19 @@ export const authenticateSignIn = async (prevState: FormState, formData?: FormDa
   const formValues: { [key: string]: string } = {
     email: formData?.get("email") as string,
     pwd: formData?.get("password") as string,
+  };
+
+  return await validateForm(formValues, loginFormConf);
+};
+
+export const authenticateSignup = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
+  const formValues: { [key: string]: string } = {
+    forename: formData?.get("forename") as string,
+    surname: formData?.get("surname") as string,
+    username: formData?.get("username") as string,
+    email: formData?.get("email") as string,
+    pwd: formData?.get("password") as string,
+    phone: formData?.get("phone") as string,
   };
 
   return await validateForm(formValues, loginFormConf);

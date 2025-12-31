@@ -4,6 +4,7 @@ import "dotenv/config";
 
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
+import signupFormConf from "@/ui/sign-up/validation.conf";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -52,5 +53,5 @@ export const authenticateSignup = async (prevState: FormState, formData?: FormDa
     phone: formData?.get("phone") as string,
   };
 
-  return await validateForm(formValues, loginFormConf);
+  return await validateForm(formValues, signupFormConf);
 };

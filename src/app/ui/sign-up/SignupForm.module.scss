@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30vh;
+  padding: 1rem;
+
+  .loginAnch {
+    a {
+      color: var(--text-colour-alternate);
+    }
+  }
+}

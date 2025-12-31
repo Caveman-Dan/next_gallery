@@ -1,0 +1,33 @@
+$borderPadding: 2rem;
+
+.root {
+  max-width: 400px;
+  margin: 0 auto;
+  width: calc(100% - calc($borderPadding * 2));
+  padding: $borderPadding;
+
+  .logoContainer {
+    display: flex;
+    justify-content: end;
+    background-color: var(--primary-colour-base);
+    border-radius: $default_border_radius;
+
+    .logo {
+      padding: 2rem 0.5rem 0.5rem;
+      height: 3rem;
+    }
+  }
+
+  .formContainer {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-colour-base);
+    border-radius: $default_border_radius;
+  }
+}
+
+@include aboveSm {
+  .root {
+    margin-top: min(5vw, 8vh);
+  }
+}

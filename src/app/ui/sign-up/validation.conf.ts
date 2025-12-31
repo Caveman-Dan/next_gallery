@@ -49,6 +49,10 @@ const signupFormValidationConf: FormConfig = {
             errorMessage: "Email address is required!",
           },
         },
+        {
+          test: isValidEmail,
+          options: { errorMessage: "You must enter a valid email address!" },
+        },
       ],
     },
     pwd: {

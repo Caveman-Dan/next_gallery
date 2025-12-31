@@ -14,8 +14,8 @@ import styles from "./SignupForm.module.scss";
 import type { FormState } from "@/definitions/formDefinitions";
 
 const SignupForm = () => {
-  // const [formState, setFormState] = useState(signupFormInitialState);
-  const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignup, signupFormInitialState);
+  // const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignup, signupFormInitialState);
+  const [formState, formAction] = useActionState<FormState>(authenticateSignup, signupFormInitialState);
   const { closePage } = useMountAnimationContext();
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {

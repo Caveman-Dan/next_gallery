@@ -15,7 +15,8 @@ import styles from "./LoginForm.module.scss";
 
 // const LoginForm = ({ closePage }: { closePage: (redirectPath: string) => void }) => {
 const LoginForm = () => {
-  const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
+  // const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
+  const [formState, formAction] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
   const { closePage } = useMountAnimationContext();
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {

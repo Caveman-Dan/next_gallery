@@ -6,7 +6,7 @@
     "dev": "dotenv -c -- next dev",
     "build": "next build",
     "start": "dotenv -c -- next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "base64url": "^3.0.1",
@@ -28,7 +28,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/uniqid": "^5.3.4",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "15.0.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

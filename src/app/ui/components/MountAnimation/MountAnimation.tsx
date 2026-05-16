@@ -5,7 +5,7 @@
 // the close animation and accept a redirect url if required.
 // const closePage = useMountAnimationContext();
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
@@ -41,24 +41,36 @@ const MountAnimation = ({
     setIsMounted(true);
     api.start({
       ...styleIn,
-      config: {
-        ...springsConfOpen,
-      },
+      config: springsConfOpen,
     });
   }, [api, springsConfOpen, styleIn]);
 
-  const handleClose = (redirectPath?: string) => {
-    setIsMounted(false);
+  const handleClose = useCallback((redirectPath?: string) => {
+    // setIsMounted(false);
+
     api.start({
       ...styleOut,
-      config: {
-        ...springsConfClose,
-      },
-      onRest: () => {
-        if (redirectPath) router.push(redirectPath);
+      config: springsConfClose,
+      onRest: (result) => {
+        // onRest now receives { value, finished, ... }
+        if (result.finished && redirectPath) {
+          router.push(redirectPath);
+        }
       },
     });
-  };
+  }, [api, styleOut, springsConfClose, router]);
+
+  // const handleClose = (redirectPath?: string) => {
+  //   // setIsMounted(false);
+  //   api.start({
+  //     ...styleOut,
+  //     config: springsConfClose,
+  //     onRest: (result) => {
+  //       console.log('onRest: Triggered!!!', result);
+  //       if (redirectPath) router.push(redirectPath);
+  //     },
+  //   });
+  // };
 
   return (
     <main className={styles.root}>

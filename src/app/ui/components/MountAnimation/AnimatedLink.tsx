@@ -10,11 +10,15 @@ const AnimatedLink = ({ children, href, ...props }: AnimatedLinkProps) => {
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     closePage(href);
   };
 
   return (
-    <a onClick={handleClick} {...props}>
+    <a
+      {...props}
+      onClick={handleClick}
+    >
       {children}
     </a>
   );

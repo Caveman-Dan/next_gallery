@@ -46,31 +46,18 @@ const MountAnimation = ({
   }, [api, springsConfOpen, styleIn]);
 
   const handleClose = useCallback((redirectPath?: string) => {
-    // setIsMounted(false);
+    setIsMounted(false);
 
     api.start({
       ...styleOut,
       config: springsConfClose,
       onRest: (result) => {
-        // onRest now receives { value, finished, ... }
         if (result.finished && redirectPath) {
           router.push(redirectPath);
         }
       },
     });
   }, [api, styleOut, springsConfClose, router]);
-
-  // const handleClose = (redirectPath?: string) => {
-  //   // setIsMounted(false);
-  //   api.start({
-  //     ...styleOut,
-  //     config: springsConfClose,
-  //     onRest: (result) => {
-  //       console.log('onRest: Triggered!!!', result);
-  //       if (redirectPath) router.push(redirectPath);
-  //     },
-  //   });
-  // };
 
   return (
     <main className={styles.root}>

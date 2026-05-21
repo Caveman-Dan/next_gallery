@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import jsonImporter from "node-sass-json-importer";
+// import jsonImporter from "@blakedarlin/sass-json-importer";
 
 const getImageApiEndpoint = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGE}`);
 
@@ -43,7 +43,7 @@ const webpackConfig: NextConfig = {
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
   sassOptions: {
-    importer: jsonImporter(),
+    // importers: [jsonImporter()],
     modules: true,
     includePaths: ["./src/app/style"],
     prependData: '@use "global_imports.scss" as *; @use "sass:color";',

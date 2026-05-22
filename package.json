@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-spring/web": "^9.7.5",
+    "@react-spring/web": "^10.0.3",
     "base64url": "^3.0.1",
     "clsx": "^2.1.1",
     "directory-tree": "^3.5.2",

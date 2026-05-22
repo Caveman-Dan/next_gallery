@@ -1,10 +1,12 @@
+"use client";
+
 import { useContext, createContext } from "react";
 
-type MountAnimationContextType = {
+export type MountAnimationContextType = {
   closePage: (href: string) => void;
 };
 
-const MountAnimationContext = createContext<MountAnimationContextType | undefined>(undefined);
+const MountAnimationContext = createContext<MountAnimationContextType | null>(null);
 
 const MountAnimationContextProvider: React.FC<{
   closePage: () => void;

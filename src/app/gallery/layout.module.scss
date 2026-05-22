@@ -1,7 +1,8 @@
 .root {
   width: 100%;
   height: 100%;
-  overflow-y: scroll; // force scrollbar to prevent flicker & re-render of ImageSequencer
+  overflow-y: scroll; // force scrollbar to prevent flicker during scale animation
+  overflow-x: clip;
 
   .contentContainer {
     width: calc(100% - (var(--nav-spacing) * 2));

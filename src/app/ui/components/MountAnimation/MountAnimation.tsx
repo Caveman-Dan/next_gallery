@@ -16,55 +16,48 @@ import styles from "./MountAnimation.module.scss";
 
 import type { MountAnimationOptions } from "./MountAnimationConfig";
 
-const MountAnimation = ({
-  children,
-  mountAnimationConf,
-}: {
+type Props = {
   children: React.ReactNode;
   mountAnimationConf: MountAnimationOptions;
-}) => {
-  const [isMounted, setIsMounted] = useState(false);
+};
+
+const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+  const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
 
-  const styleIn = mountAnimationConf.open.style;
-  const springsConfOpen = mountAnimationConf.open.springs;
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
-  const styleOut = mountAnimationConf.close.style;
-  const springsConfClose = mountAnimationConf.close.springs;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
+  const targetStyle = isMounted ? mountAnimationConf.open.style : mountAnimationConf.close.style;
+  const targetConfig = isMounted ? mountAnimationConf.open.springs : mountAnimationConf.close.springs;
 
-  const [springs, api] = useSpring(() => ({
-    ...styleOut,
-  }));
+  const spring = useSpring({
+    to: targetStyle,
+    config: targetConfig,
+    onRest: (result) => {
+      if (!isMounted && result.finished) {
+        if (redirectPath) {
+          router.push(redirectPath);
+        }
+      }
+    },
+  });
 
   useEffect(() => {
     setIsMounted(true);
-    api.start({
-      ...styleIn,
-      config: springsConfOpen,
-    });
-  }, [api, springsConfOpen, styleIn]);
+  }, []);
 
   const handleClose = useCallback((redirectPath?: string) => {
+    setRedirectPath(redirectPath);
     setIsMounted(false);
-
-    api.start({
-      ...styleOut,
-      config: springsConfClose,
-      onRest: (result) => {
-        if (result.finished && redirectPath) {
-          router.push(redirectPath);
-        }
-      },
-    });
-  }, [api, styleOut, springsConfClose, router]);
+  }, []);
 
   return (
     <main className={styles.root}>
       <animated.div
-        className={clsx(styles.container, !isMounted && styles.transparent)}
+        className={styles.container}
         style={{
-          ...springs,
+          ...spring,
           transition: `opacity ${fadeTimeIn}ms ease-in-out`,
           opacity: 1,
           ...(!isMounted && { transition: `opacity ${fadeTimeOut}ms ease-in-out`, opacity: 0 }),

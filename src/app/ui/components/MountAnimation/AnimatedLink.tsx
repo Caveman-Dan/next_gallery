@@ -15,10 +15,7 @@ const AnimatedLink = ({ children, href, ...props }: AnimatedLinkProps) => {
   };
 
   return (
-    <a
-      {...props}
-      onClick={handleClick}
-    >
+    <a {...props} onClick={handleClick}>
       {children}
     </a>
   );

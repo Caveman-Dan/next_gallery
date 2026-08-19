@@ -2,17 +2,24 @@
 
 import { useContext, createContext } from "react";
 
+import { ReturnToState, ClosePageInput } from "./MountAnimation";
+
+export type MountAnimationReturnToType = {
+  [key: string]: string;
+};
+
 export type MountAnimationContextType = {
-  closePage: (href: string) => void;
+  closePage: ({ redirectPath, returnTo, returnIndex }: ClosePageInput) => void;
+  returnPaths?: MountAnimationReturnToType;
 };
 
 const MountAnimationContext = createContext<MountAnimationContextType | null>(null);
 
 const MountAnimationContextProvider: React.FC<{
-  closePage: () => void;
+  mountAnimationState: MountAnimationContextType;
   children: React.ReactNode;
-}> = ({ closePage, children }) => (
-  <MountAnimationContext.Provider value={{ closePage }}>{children}</MountAnimationContext.Provider>
+}> = ({ mountAnimationState, children }) => (
+  <MountAnimationContext.Provider value={{ ...mountAnimationState }}>{children}</MountAnimationContext.Provider>
 );
 
 export const useMountAnimationContext = () => {

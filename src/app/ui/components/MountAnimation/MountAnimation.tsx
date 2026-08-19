@@ -8,9 +8,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
-import clsx from "clsx";
 
-import MountAnimationContextProvider from "./MountAnimationContextProvider";
+import MountAnimationContextProvider, { MountAnimationReturnToType } from "./MountAnimationContextProvider";
 
 import styles from "./MountAnimation.module.scss";
 
@@ -21,10 +20,22 @@ type Props = {
   mountAnimationConf: MountAnimationOptions;
 };
 
+export type ReturnToState = {
+  returnIndex: string;
+  returnPath: string;
+};
+
+export type ClosePageInput = {
+  redirectPath?: string;
+  returnTo?: string | undefined;
+  returnIndex?: string | undefined;
+};
+
 const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
+  const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
 
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
@@ -35,10 +46,8 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
     to: targetStyle,
     config: targetConfig,
     onRest: (result) => {
-      if (!isMounted && result.finished) {
-        if (redirectPath) {
-          router.push(redirectPath);
-        }
+      if (!isMounted && result.finished && redirectPath) {
+        router.push(redirectPath);
       }
     },
   });
@@ -47,8 +56,25 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
     setIsMounted(true);
   }, []);
 
-  const handleClose = useCallback((redirectPath?: string) => {
-    setRedirectPath(redirectPath);
+  const handleClose = useCallback(({ redirectPath, returnTo, returnIndex }: ClosePageInput) => {
+    if (returnTo && returnIndex) {
+      // If return path and index set - update state
+      setReturnToState({
+        ...returnToState,
+        [returnIndex]: returnTo,
+      });
+      setRedirectPath(redirectPath);
+    } else if (!returnTo && returnIndex && returnToState?.[returnIndex]) {
+      // if just return index then redirect to path at index and delete
+      setRedirectPath(returnToState?.[returnIndex]);
+
+      const { [returnIndex]: _, ...newState } = returnToState;
+
+      setReturnToState(newState);
+    } else {
+      setRedirectPath(redirectPath);
+    }
+
     setIsMounted(false);
   }, []);
 
@@ -63,7 +89,9 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
           ...(!isMounted && { transition: `opacity ${fadeTimeOut}ms ease-in-out`, opacity: 0 }),
         }}
       >
-        <MountAnimationContextProvider closePage={handleClose}>{children}</MountAnimationContextProvider>
+        <MountAnimationContextProvider mountAnimationState={{ closePage: handleClose, returnPaths: returnToState }}>
+          {children}
+        </MountAnimationContextProvider>
       </animated.div>
     </main>
   );

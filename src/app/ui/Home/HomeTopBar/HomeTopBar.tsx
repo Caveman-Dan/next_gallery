@@ -24,7 +24,11 @@ const HomeTopBar = () => {
         </div>
       </div>
       <div className={`${styles.underBar} ${isSticky ? styles.underBarSticky : ""}`} ref={stickRef}>
-        <Link className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`} href="/gallery">
+        <Link
+          className={`${styles.galleryButton} ${isSticky ? styles.stickyButton : ""}`}
+          href="/gallery"
+          returnIndex="home"
+        >
           <Button>
             <b>
               <p>Gallery</p>

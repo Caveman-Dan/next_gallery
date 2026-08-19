@@ -1,4 +1,5 @@
 "use client";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import Link from "@/ui/components/MountAnimation/AnimatedLink";
 
@@ -8,14 +9,24 @@ import LogoWithSideName from "@/assets/logoSideName.svg"; // This '?url' syntax 
 
 import styles from "./logo.module.scss";
 
-const Logo = () => (
-  <div className={styles.root}>
-    <Link href="/" className={styles.link}>
-      <LogoIcon className={`${styles.logoIcon} ${styles.imageSm}`} height="100%" />
-      <LogoWithName className={`${styles.logoIcon} ${styles.imageMd}`} height="100%" />
-      <LogoWithSideName className={`${styles.logoIcon} ${styles.imageLg}`} height="100%" />
-    </Link>
-  </div>
-);
+const Logo = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  return (
+    <div className={styles.root}>
+      <Link
+        href="/"
+        returnTo={`${pathname}${searchParams && `?${searchParams.toString()}`}`}
+        returnIndex="home"
+        className={styles.link}
+      >
+        <LogoIcon className={`${styles.logoIcon} ${styles.imageSm}`} height="100%" />
+        <LogoWithName className={`${styles.logoIcon} ${styles.imageMd}`} height="100%" />
+        <LogoWithSideName className={`${styles.logoIcon} ${styles.imageLg}`} height="100%" />
+      </Link>
+    </div>
+  );
+};
 
 export default Logo;

@@ -20,7 +20,7 @@ const SignupForm = () => {
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    closePage("/login");
+    closePage({ redirectPath: "/login" });
   };
 
   return (
@@ -41,7 +41,7 @@ const SignupForm = () => {
       </form>
       <div className={styles.buttonsContainer}>
         <div className={styles.buttons}>
-          <Button onClick={() => closePage("/gallery")}>Cancel</Button>
+          <Button onClick={() => closePage({ redirectPath: "/gallery" })}>Cancel</Button>
         </div>
         <div className={styles.buttons}>
           <Button form="signup-form" type="submit">

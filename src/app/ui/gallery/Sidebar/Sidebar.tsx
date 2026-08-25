@@ -12,12 +12,12 @@ import { sideBar as springsConfig } from "@/style/springsConfig";
 
 import useWindowSize from "@/hooks/useWindowSize";
 
-import { InteractiveToggleProps } from "@/definitions/definitions";
+import { InteractiveToggleProps, ModalSetActive } from "@/definitions/definitions";
 import type { DirectoryTree } from "directory-tree";
 
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   isSidebarOpen: InteractiveToggleProps["state"];
-  setIsSidebarOpen: (newState?: boolean | undefined) => void;
+  setIsSidebarOpen: ModalSetActive;
   albums: DirectoryTree;
 };
 
@@ -75,7 +75,11 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
         </div>
         <hr />
         <div className={styles.galleriesMenu}>
-          <Accordion isSidebarOpen={isSidebarOpen} onSelect={setIsSidebarOpen} albums={albums} />
+          <Accordion
+            isSidebarOpen={isSidebarOpen}
+            onSelect={(options) => setIsSidebarOpen(false, options)}
+            albums={albums}
+          />
         </div>
         <hr />
         <div className={styles.settingsLink}>

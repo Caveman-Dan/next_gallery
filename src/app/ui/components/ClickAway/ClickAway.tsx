@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { InteractiveToggleProps } from "@/definitions/definitions";
+import { InteractiveToggleProps, ModalSetActive } from "@/definitions/definitions";
 
 import styles from "./ClickAway.module.scss";
 
 type ClickAwayProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   active: InteractiveToggleProps["state"];
-  setActive: InteractiveToggleProps["setState"];
+  setActive: ModalSetActive;
   closing: boolean;
   delay: number;
   blur?: boolean;
 };
+
+export type OpenModalOptions = { skipHistory?: boolean };
 
 // For elements to rise above the blur/clickAway component
 // Add their ref to the parentRefs array.
@@ -20,22 +24,52 @@ export const useOpenModal = ({
 }: {
   delay: number;
   parentRefs?: React.RefObject<HTMLDivElement>[];
-}): [boolean, boolean, (newState?: boolean | undefined) => void] => {
+}): [boolean, boolean, ModalSetActive] => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const skipHistoryRef = useRef(false);
+  const router = useRouter();
 
-  const handleSetOpen = async (newState: boolean | undefined = !isOpen) => {
+  // Own the #modal history so we can optionally skip the router.back()
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePopstate = () => {
+      // Browser back button → always close normally
+      skipHistoryRef.current = false;
+      setIsOpen(false);
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsClosing(false);
+        if (parentRefs?.length) lowerForeground(parentRefs);
+      }, delay);
+    };
+
+    try {
+      router.push("#modal", { scroll: false });
+      window.addEventListener("popstate", handlePopstate);
+
+      return () => {
+        window.removeEventListener("popstate", handlePopstate);
+        if (window.location.hash === "#modal" && !skipHistoryRef.current) {
+          router.back();
+        }
+        skipHistoryRef.current = false;
+      };
+    } catch (err) {
+      alert(`ERROR: ${JSON.stringify(err)}`);
+    }
+  }, [isOpen, router, delay, parentRefs]);
+
+  const handleSetOpen: ModalSetActive = (newState = !isOpen, options) => {
     if (newState) {
       if (parentRefs?.length) raiseForeground(parentRefs);
       setIsOpen(true);
-
-      // If the `clickAway.hide` must be `display: none` instead of `z-index -100;`, uncomment:
-      // setIsClosing(true);
-      // setTimeout(() => setIsClosing(false), 10);
     } else {
+      skipHistoryRef.current = options?.skipHistory ?? false;
       setIsClosing(true);
       setIsOpen(false);
-      await setTimeout(() => {
+      setTimeout(() => {
         setIsClosing(false);
         if (parentRefs?.length) lowerForeground(parentRefs);
       }, delay);
@@ -60,30 +94,7 @@ export const lowerForeground = (parentRefs: React.RefObject<HTMLDivElement>[] | 
 };
 
 const ClickAway: React.FC<ClickAwayProps> = ({ active, setActive, closing = false, delay = 0, blur = false }) => {
-  const router = useRouter();
-
-  // Handle browser back button
-  useEffect(() => {
-    if (!active) return;
-
-    const handlePopstate = () => {
-      setActive(false);
-    };
-
-    try {
-      router.push("#modal", { scroll: false });
-
-      window.addEventListener("popstate", handlePopstate);
-
-      return () => {
-        window.removeEventListener("popstate", handlePopstate);
-        if (window.location.hash === "#modal") router.back();
-      };
-    } catch (err) {
-      alert(`ERROR: ${JSON.stringify(err)}`);
-    }
-  }, [active, router, setActive]);
-
+  // Pure UI now – no router logic here
   return (
     <div
       className={`

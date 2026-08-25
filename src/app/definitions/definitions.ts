@@ -1,3 +1,5 @@
+export type ModalSetActive = (newState?: boolean, options?: { skipHistory?: boolean }) => void;
+
 export type InteractiveToggleProps = {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>> | ((newState: boolean) => void);

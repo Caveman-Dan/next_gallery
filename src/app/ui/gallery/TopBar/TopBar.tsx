@@ -9,6 +9,7 @@ import Logo from "./Logo";
 import Button from "@/ui/components/Button/Button";
 
 import styles from "./TopBar.module.scss";
+import { ModalSetActive } from "@/definitions/definitions";
 
 const TopBar = ({
   isSidebarOpen,
@@ -16,7 +17,7 @@ const TopBar = ({
   sideBarButtonClickAwayRef,
 }: {
   isSidebarOpen: boolean;
-  setIsSidebarOpen: (newState: boolean) => void;
+  setIsSidebarOpen: ModalSetActive;
   sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement>;
 }) => (
   <div className={styles.root}>

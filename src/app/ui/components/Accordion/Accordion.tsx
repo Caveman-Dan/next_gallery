@@ -12,6 +12,7 @@ import styles from "./Accordion.module.scss";
 import { accordion as springsConfig } from "@/style/springsConfig";
 
 import type { DirectoryTree } from "directory-tree";
+import { ModalSetActive } from "@/definitions/definitions";
 
 interface EntryDetails {
   id: string;
@@ -27,7 +28,7 @@ interface ExpandingLayerProps {
   entry: DirectoryEntry;
   parentEntryDetails: EntryDetails;
   renderChildren: boolean;
-  onSelect: () => void;
+  onSelect: ModalSetActive;
   listHeight: number;
   setListHeight: React.Dispatch<React.SetStateAction<number>>;
   openItem: EntryDetails | null;
@@ -134,7 +135,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
           className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
           onClick={() => {
             handleOpenItem(currentEntryDetails);
-            setTimeout(() => onSelect(), 200); // this delay prevents the router.back() from firing b4 redirect
+            onSelect(false, { skipHistory: true });
           }}
           href={`/gallery/album/${entry.path}`}
         >
@@ -238,7 +239,7 @@ const Accordion = ({
   albums,
 }: {
   isSidebarOpen: boolean;
-  onSelect: () => void;
+  onSelect: ModalSetActive;
   albums: DirectoryTree;
 }) => {
   const pathname = usePathname();

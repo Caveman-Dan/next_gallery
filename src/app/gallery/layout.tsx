@@ -7,23 +7,29 @@ import { mainPageFade } from "@/ui/components/MountAnimation/MountAnimationConfi
 import styles from "./layout.module.scss";
 import { Suspense } from "react";
 
+import { getAlbums } from "@/lib/actions";
+
 export const metadata: Metadata = {
   title: "Gallery",
 };
 
-const Layout: React.FC<{ children: React.ReactNode }> = async ({ children }) => (
-  <div className={styles.root}>
-    <MountAnimation mountAnimationConf={mainPageFade}>
-      <Suspense>
-        <MenuSystem />
-      </Suspense>
-      <div className={`${styles.contentContainer}`}>
-        <div className={`${styles.pageBorder}`}>
-          <div className={styles.pageContainer}>{children}</div>
+const Layout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
+  const albums = await getAlbums();
+
+  return (
+    <div className={styles.root}>
+      <MountAnimation mountAnimationConf={mainPageFade}>
+        <Suspense>
+          <MenuSystem albums={albums} />
+        </Suspense>
+        <div className={`${styles.contentContainer}`}>
+          <div className={`${styles.pageBorder}`}>
+            <div className={styles.pageContainer}>{children}</div>
+          </div>
         </div>
-      </div>
-    </MountAnimation>
-  </div>
-);
+      </MountAnimation>
+    </div>
+  );
+};
 
 export default Layout;

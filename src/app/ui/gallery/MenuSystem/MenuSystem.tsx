@@ -9,9 +9,11 @@ import ClickAway, { useOpenModal } from "@/ui/components/ClickAway/ClickAway";
 
 import styles from "./MenuSystem.module.scss";
 
+import type { DirectoryTree } from "directory-tree";
+
 const ANIMATION_DELAY = 400;
 
-const MenuSystem = () => {
+const MenuSystem = ({ albums }: { albums: DirectoryTree }) => {
   const sideBarButtonClickAwayRef = useRef(null);
   const [isSidebarOpen, isSidebarClosing, setIsSidebarOpen] = useOpenModal({
     delay: ANIMATION_DELAY,
@@ -34,7 +36,7 @@ const MenuSystem = () => {
         delay={ANIMATION_DELAY}
         blur
       />
-      <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} albums={albums} />
     </div>
   );
 };

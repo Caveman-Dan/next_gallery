@@ -26,7 +26,10 @@ const Accordion = ({ isSidebarOpen, onSelect, albums }: AccordionProps) => {
   }
   currentUri = decodeURIComponent(currentUri);
 
-  const uriParts = useMemo(() => (currentUri ? currentUri.split("/").filter(Boolean) : []), [currentUri]);
+  const uriParts = useMemo(
+    () => (currentUri ? currentUri.split("/").filter(Boolean) : []),
+    [currentUri]
+  );
 
   const [listHeight, setListHeight] = useState(0);
   const [openItem, setOpenItem] = useState<EntryDetails | null>(null);

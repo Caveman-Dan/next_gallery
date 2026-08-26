@@ -1,6 +1,6 @@
 # Next Gallery
 
-## [Click here](http://www.waxworlds.org:8984/dan/next_gallery) to see project
+## [Click here](http://www.waxworlds.org/dan/next_gallery) to see project
 
 ## !! This project is a work in progress !!
 
@@ -11,17 +11,17 @@ This project has been created solely by Dan Marston for the purpose of providing
 ## Features
 
 - Infrastructure
-  
+
   - Mobile first responsive design
-  
+
   - Built with Next.js and React
-  
+
   - Styling uses Next.js Modules implemented with SCSS
-  
+
   - Switchable themes
 
 - All home made components
-  
+
   - Spring Physics
   - Animated select box (see [/gallery](www.waxworlds.org:8984/dan/next_gallery/gallery))
   - Animated side bar (see [/gallery](www.waxworlds.org:8984/dan/next_gallery/gallery))

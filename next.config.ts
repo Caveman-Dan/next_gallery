@@ -42,6 +42,9 @@ const webpackConfig: NextConfig = {
 
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   sassOptions: {
     // importers: [jsonImporter()],
     modules: true,

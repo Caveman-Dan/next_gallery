@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -c -- next dev",
-    "build": "next build",
+    "build": "dotenv -c -- next build",
     "start": "dotenv -c -- next start",
     "lint": "next lint"
   },

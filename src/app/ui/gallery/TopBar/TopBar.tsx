@@ -18,7 +18,7 @@ const TopBar = ({
 }: {
   isSidebarOpen: boolean;
   setIsSidebarOpen: ModalSetActive;
-  sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement>;
+  sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement | null>;
 }) => (
   <div className={styles.root}>
     <div className={styles.leftSide}>

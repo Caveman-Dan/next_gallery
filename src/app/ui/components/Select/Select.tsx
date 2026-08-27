@@ -19,7 +19,7 @@ type SelectProps = {
 };
 
 const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText }) => {
-  const thisNode = useRef(null);
+  const thisNode = useRef<HTMLDivElement>(null);
   const [open, closing, setOpen] = useOpenModal({ delay: ANIMATION_DELAY, parentRefs: [thisNode] });
   const api = useSpringRef();
   const springs = useSpring({

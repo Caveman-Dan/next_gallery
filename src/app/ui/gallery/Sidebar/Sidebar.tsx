@@ -29,7 +29,7 @@ const GALLERY_ROUTES = {
 
 const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albums }) => {
   const windowSize = useWindowSize();
-  const thisNode = useRef(null);
+  const thisNode = useRef<HTMLDivElement>(null);
   const dropdownApi = useSpringRef();
   const sideApi = useSpringRef();
 

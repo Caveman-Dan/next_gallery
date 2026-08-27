@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 // import jsonImporter from "@blakedarlin/sass-json-importer";
 
 const getImageApiEndpoint = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGE}`);
@@ -42,12 +43,13 @@ const webpackConfig: NextConfig = {
 
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  outputFileTracingRoot: path.join(__dirname),
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
+  // typescript: {
+  //   ignoreBuildErrors: true,
+  // },
   sassOptions: {
     // importers: [jsonImporter()],
     modules: true,

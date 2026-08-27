@@ -23,7 +23,7 @@ export const useOpenModal = ({
   parentRefs,
 }: {
   delay: number;
-  parentRefs?: React.RefObject<HTMLDivElement>[];
+  parentRefs?: React.RefObject<HTMLDivElement | null>[];
 }): [boolean, boolean, ModalSetActive] => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -79,14 +79,14 @@ export const useOpenModal = ({
   return [isOpen, isClosing, handleSetOpen];
 };
 
-export const raiseForeground = (parentRefs: React.RefObject<HTMLDivElement>[] | null) => {
+export const raiseForeground = (parentRefs: React.RefObject<HTMLDivElement | null>[] | null) => {
   if (parentRefs?.length)
     parentRefs.forEach((ref) => {
       if (ref.current) ref.current.classList.add(styles.raise);
     });
 };
 
-export const lowerForeground = (parentRefs: React.RefObject<HTMLDivElement>[] | null) => {
+export const lowerForeground = (parentRefs: React.RefObject<HTMLDivElement | null>[] | null) => {
   if (parentRefs?.length)
     parentRefs.forEach((ref) => {
       if (ref.current) ref.current.classList.remove(styles.raise);

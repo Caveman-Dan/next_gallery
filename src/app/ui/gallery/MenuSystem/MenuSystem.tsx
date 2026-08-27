@@ -14,7 +14,7 @@ import type { DirectoryTree } from "directory-tree";
 const ANIMATION_DELAY = 400;
 
 const MenuSystem = ({ albums }: { albums: DirectoryTree }) => {
-  const sideBarButtonClickAwayRef = useRef(null);
+  const sideBarButtonClickAwayRef = useRef<HTMLDialogElement>(null);
   const [isSidebarOpen, isSidebarClosing, setIsSidebarOpen] = useOpenModal({
     delay: ANIMATION_DELAY,
     parentRefs: [sideBarButtonClickAwayRef],

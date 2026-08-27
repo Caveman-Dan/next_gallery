@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import MenuSystem from "@/ui/gallery/MenuSystem/MenuSystem";
 import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
 
@@ -8,6 +6,8 @@ import styles from "./layout.module.scss";
 import { Suspense } from "react";
 
 import { getAlbums } from "@/lib/actions";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Gallery",

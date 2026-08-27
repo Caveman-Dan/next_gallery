@@ -1,7 +1,9 @@
 "use client";
 
 import NextImage, { ImageProps } from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+
+import useIsClient from "@/hooks/useIsClient";
 
 import fallbackImage from "@/assets/alert-triangle.svg?url";
 
@@ -14,12 +16,14 @@ export interface ImageWithFallbackProps extends ImageProps {
 const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallbackProps) => {
   const [error, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMounted, setIsMounted] = useState(false);
+  const [activeSrc, setActiveSrc] = useState(src);
+  const isMounted = useIsClient();
 
-  useEffect(() => {
+  if (src !== activeSrc) {
+    setActiveSrc(src);
     setError(false);
-    setIsMounted(true);
-  }, [src]);
+    setIsLoading(true);
+  }
 
   return (
     <div className={styles.root}>

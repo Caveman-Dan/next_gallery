@@ -50,9 +50,12 @@ const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) 
     if (openItem || !uriParts.length || !albums) return;
     const initial = findOpenItemForUri(albums, uriParts);
     if (initial) {
+      // Seed from the URL after a sidebar reset / first paint.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpenItem(initial);
       // Seed a reasonable listHeight so the root spring has a target immediately
       // (the ExpandingLayer effects will refine it with the real children.length).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setListHeight(initial.depth + 4);
     }
   }, [albums, openItem, uriParts]);

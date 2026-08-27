@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useSyncExternalStore } from "react";
 import breakpoints from "@/style/breakpoints.json";
 
 /**
@@ -29,7 +29,7 @@ export interface WindowSizeData {
   belowXxl?: boolean;
 }
 
-const size = (width: number): string => {
+const size = (width: number): WindowSizes => {
   switch (true) {
     case width < breakpoints["screen-sm"]:
       return "xsm";
@@ -46,37 +46,43 @@ const size = (width: number): string => {
   }
 };
 
-const useWindowSize = (): WindowSizeData => {
-  const [windowSize, setWindowSize] = useState({});
+const snapshotFromWidth = (width: number, height: number): WindowSizeData => ({
+  size: size(width),
+  height,
+  width,
+  aboveSm: width >= breakpoints["screen-sm"],
+  belowSm: width < breakpoints["screen-sm"],
+  aboveMd: width >= breakpoints["screen-md"],
+  belowMd: width < breakpoints["screen-md"],
+  aboveLg: width >= breakpoints["screen-lg"],
+  belowLg: width < breakpoints["screen-lg"],
+  aboveXl: width >= breakpoints["screen-xl"],
+  belowXl: width < breakpoints["screen-xl"],
+  aboveXxl: width >= breakpoints["screen-xxl"],
+  belowXxl: width < breakpoints["screen-xxl"],
+});
 
-  const handleResize = useCallback(
-    () =>
-      setWindowSize({
-        size: size(window.innerWidth),
-        height: window.innerHeight,
-        width: window.innerWidth,
-        aboveSm: window.innerWidth >= breakpoints["screen-sm"],
-        belowSm: window.innerWidth < breakpoints["screen-sm"],
-        aboveMd: window.innerWidth >= breakpoints["screen-md"],
-        belowMd: window.innerWidth < breakpoints["screen-md"],
-        aboveLg: window.innerWidth >= breakpoints["screen-lg"],
-        belowLg: window.innerWidth < breakpoints["screen-lg"],
-        aboveXl: window.innerWidth >= breakpoints["screen-xl"],
-        belowXl: window.innerWidth < breakpoints["screen-xl"],
-        aboveXxl: window.innerWidth >= breakpoints["screen-xxl"],
-        belowXxl: window.innerWidth < breakpoints["screen-xxl"],
-      }),
-    []
-  );
+let cachedWidth = -1;
+let cachedHeight = -1;
+let cachedSnapshot: WindowSizeData = {};
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
-
-  return windowSize;
+const subscribe = (onStoreChange: () => void) => {
+  window.addEventListener("resize", onStoreChange);
+  return () => window.removeEventListener("resize", onStoreChange);
 };
+
+const getSnapshot = (): WindowSizeData => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  if (width === cachedWidth && height === cachedHeight) return cachedSnapshot;
+  cachedWidth = width;
+  cachedHeight = height;
+  cachedSnapshot = snapshotFromWidth(width, height);
+  return cachedSnapshot;
+};
+
+const getServerSnapshot = (): WindowSizeData => ({});
+
+const useWindowSize = (): WindowSizeData => useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
 export default useWindowSize;

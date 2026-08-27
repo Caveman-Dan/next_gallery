@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTheme } from "next-themes";
 
 import Select from "@/ui/components/Select/Select";
 import { ThemeSelectorSkeleton } from "./ThemeSelectorSkeleton";
+import useIsClient from "@/hooks/useIsClient";
 
 import styles from "./ThemeSelector.module.scss";
 
 const ThemeSelector = () => {
   const { theme, setTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsClient();
 
   return (
     <div className={styles.root}>

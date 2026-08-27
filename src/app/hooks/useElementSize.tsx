@@ -1,26 +1,25 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
-const useElementSize = (element: HTMLElement | null) => {
+const useElementSize = (elementRef: RefObject<HTMLElement | null>) => {
   const [elementSize, setElementSize] = useState<{ clientWidth: number; clientHeight: number }>({
     clientWidth: 0,
     clientHeight: 0,
   });
 
-  const handleResize = useCallback(
-    () =>
-      setElementSize({
-        clientWidth: element?.clientWidth || 0,
-        clientHeight: element?.clientHeight || 0,
-      }),
-    [element?.clientHeight, element?.clientWidth]
-  );
-
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
+    const element = elementRef.current;
+    if (!element) return;
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+    const observer = new ResizeObserver(([entry]) => {
+      setElementSize({
+        clientWidth: entry.contentRect.width,
+        clientHeight: entry.contentRect.height,
+      });
+    });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [elementRef]);
 
   return elementSize;
 };

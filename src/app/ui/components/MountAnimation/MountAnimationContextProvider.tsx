@@ -2,7 +2,7 @@
 
 import { useContext, createContext } from "react";
 
-import { ReturnToState, ClosePageInput } from "./MountAnimation";
+import { ClosePageInput } from "./MountAnimation";
 
 export type MountAnimationReturnToType = {
   [key: string]: string;

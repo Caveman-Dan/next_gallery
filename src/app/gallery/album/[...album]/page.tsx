@@ -20,7 +20,7 @@ const Page: NextPage = () => {
   const albumPath = decodeURIComponent(useParams<{ album: string[] }>().album.join("/"));
   const [images, setImages] = useState<ImageDetails[] | []>([]);
 
-  const { clientWidth: containerWidth } = useElementSize(containerRef?.current);
+  const { clientWidth: containerWidth } = useElementSize(containerRef);
 
   useLayoutEffect(() => {
     if (images.length && containerWidth) return;

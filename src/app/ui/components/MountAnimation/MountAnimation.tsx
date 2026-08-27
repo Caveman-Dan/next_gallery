@@ -5,11 +5,12 @@
 // the close animation and accept a redirect url if required.
 // const closePage = useMountAnimationContext();
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 
 import MountAnimationContextProvider, { MountAnimationReturnToType } from "./MountAnimationContextProvider";
+import useIsClient from "@/hooks/useIsClient";
 
 import styles from "./MountAnimation.module.scss";
 
@@ -33,9 +34,11 @@ export type ClosePageInput = {
 
 const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
+  const isClient = useIsClient();
+  const [isClosing, setIsClosing] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
   const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
+  const isMounted = isClient && !isClosing;
 
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
@@ -52,30 +55,26 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
     },
   });
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const handleClose = useCallback(({ redirectPath, returnTo, returnIndex }: ClosePageInput) => {
     if (returnTo && returnIndex) {
-      // If return path and index set - update state
-      setReturnToState({
-        ...returnToState,
+      setReturnToState((prev) => ({
+        ...prev,
         [returnIndex]: returnTo,
-      });
+      }));
       setRedirectPath(redirectPath);
-    } else if (!returnTo && returnIndex && returnToState?.[returnIndex]) {
-      // if just return index then redirect to path at index and delete
-      setRedirectPath(returnToState?.[returnIndex]);
-
-      const { [returnIndex]: _, ...newState } = returnToState;
-
-      setReturnToState(newState);
+    } else if (!returnTo && returnIndex) {
+      setReturnToState((prev) => {
+        if (!prev?.[returnIndex]) return prev;
+        setRedirectPath(prev[returnIndex]);
+        const nextState = { ...prev };
+        delete nextState[returnIndex];
+        return nextState;
+      });
     } else {
       setRedirectPath(redirectPath);
     }
 
-    setIsMounted(false);
+    setIsClosing(true);
   }, []);
 
   return (

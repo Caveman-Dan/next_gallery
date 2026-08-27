@@ -21,6 +21,12 @@ type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   albums: DirectoryTree;
 };
 
+const GALLERY_ROUTES = {
+  basePath: "/gallery",
+  leafSlug: "album",
+  detailSlug: "image",
+} as const;
+
 const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albums }) => {
   const windowSize = useWindowSize();
   const thisNode = useRef(null);
@@ -79,6 +85,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
             isSidebarOpen={isSidebarOpen}
             onSelect={(options) => setIsSidebarOpen(false, options)}
             albums={albums}
+            routes={GALLERY_ROUTES}
           />
         </div>
         <hr />

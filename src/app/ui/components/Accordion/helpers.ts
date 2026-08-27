@@ -1,5 +1,7 @@
+import { joinPath } from "@/lib/helpers";
+
 import type { DirectoryTree } from "directory-tree";
-import type { EntryDetails } from "./types";
+import type { EntryDetails, AccordionRoutes } from "./types";
 
 /**
  * Walk the tree to find the EntryDetails of the direct parent of the album
@@ -29,4 +31,35 @@ export function findOpenItemForUri(root: DirectoryTree, uriParts: string[]): Ent
     path: current.path,
     depth,
   };
+}
+
+// Derive the tree-relative path of the current page from the browser pathname
+// and the accordion's route config. */
+export function getActivePathFromPathname(pathname: string, routes: AccordionRoutes): string {
+  const { basePath, leafSlug, assetSlug } = routes;
+  const leafPrefix = `/${joinPath(basePath, leafSlug)}/`;
+  const assetPrefix = assetSlug ? `/${joinPath(basePath, assetSlug)}/` : null;
+
+  let remainder = "";
+  let isAssetPage = false;
+
+  if (assetPrefix && pathname.startsWith(assetPrefix)) {
+    remainder = pathname.slice(assetPrefix.length);
+    isAssetPage = true;
+  } else if (pathname.startsWith(leafPrefix)) {
+    remainder = pathname.slice(leafPrefix.length);
+  } else {
+    return "";
+  }
+
+  remainder = decodeURIComponent(remainder);
+  if (isAssetPage) {
+    remainder = remainder.split("/").slice(0, -1).join("/");
+  }
+  return remainder;
+}
+
+/** Build the href for a leaf folder using the route config. */
+export function getLeafHref(entryPath: string, routes: AccordionRoutes): string {
+  return `/${joinPath(routes.basePath, routes.leafSlug, entryPath)}`;
 }

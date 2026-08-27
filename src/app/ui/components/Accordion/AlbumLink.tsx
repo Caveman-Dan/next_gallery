@@ -8,7 +8,7 @@ import type { EntryDetails } from "./types";
 
 interface AlbumLinkProps {
   name: string;
-  path: string;
+  href: string;
   isSelected: boolean;
   isRootItem: boolean;
   entryDetails: EntryDetails;
@@ -16,24 +16,14 @@ interface AlbumLinkProps {
   onSelect: (options?: { skipHistory?: boolean }) => void;
 }
 
-const AlbumLink = ({
-  name,
-  path,
-  isSelected,
-  isRootItem,
-  entryDetails,
-  onOpen,
-  onSelect,
-}: AlbumLinkProps) => (
+const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, onSelect }: AlbumLinkProps) => (
   <Link
-    className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${
-      isRootItem ? " baseItem" : ""
-    }`}
+    className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
     onClick={() => {
       onOpen(entryDetails);
       onSelect({ skipHistory: true });
     }}
-    href={`/gallery/album/${path}`}
+    href={href}
   >
     {capitalise(name)}
     <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />

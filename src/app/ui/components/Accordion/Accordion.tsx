@@ -6,30 +6,27 @@ import React, { useState, useLayoutEffect, useCallback, useMemo } from "react";
 import styles from "./Accordion.module.scss";
 import ExpandingLayer from "./ExpandingLayer";
 import { AccordionProvider } from "./AccordionContext";
-import { findOpenItemForUri } from "./helpers";
+import { findOpenItemForUri, getActivePathFromPathname, getLeafHref } from "./helpers";
 
 import type { DirectoryTree } from "directory-tree";
-import type { EntryDetails, AccordionState } from "./types";
+import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
 
 interface AccordionProps {
   isSidebarOpen: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
   albums: DirectoryTree;
+  routes: AccordionRoutes;
 }
 
-const Accordion = ({ isSidebarOpen, onSelect, albums }: AccordionProps) => {
+const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) => {
   const pathname = usePathname();
-  const entryPage = pathname.split("/")[2];
-  let currentUri = pathname.replace(`/gallery/${entryPage}/`, "");
-  if (entryPage === "image") {
-    currentUri = currentUri.split("/").slice(0, -1).join("/"); // Remove filename from uri
-  }
-  currentUri = decodeURIComponent(currentUri);
+  // const entryPage = pathname.split("/")[2];
 
-  const uriParts = useMemo(
-    () => (currentUri ? currentUri.split("/").filter(Boolean) : []),
-    [currentUri]
-  );
+  const currentUri = useMemo(() => getActivePathFromPathname(pathname, routes), [pathname, routes]);
+
+  const uriParts = useMemo(() => (currentUri ? currentUri.split("/").filter(Boolean) : []), [currentUri]);
+
+  const getItemHref = useCallback((path: string) => getLeafHref(path, routes), [routes]);
 
   const [listHeight, setListHeight] = useState(0);
   const [openItem, setOpenItem] = useState<EntryDetails | null>(null);
@@ -60,6 +57,8 @@ const Accordion = ({ isSidebarOpen, onSelect, albums }: AccordionProps) => {
     }
   }, [albums, openItem, uriParts]);
 
+  console.log("Albums: ", albums);
+
   const state: AccordionState = useMemo(
     () => ({
       openItem,
@@ -69,8 +68,9 @@ const Accordion = ({ isSidebarOpen, onSelect, albums }: AccordionProps) => {
       currentUri,
       uriParts,
       onSelect,
+      getItemHref,
     }),
-    [openItem, listHeight, currentUri, uriParts, onSelect]
+    [openItem, listHeight, currentUri, uriParts, onSelect, getItemHref]
   );
 
   if (!albums?.children?.length) return null;
@@ -80,9 +80,9 @@ const Accordion = ({ isSidebarOpen, onSelect, albums }: AccordionProps) => {
       <div className={styles.root}>
         {albums.children.map((entry) => (
           <ExpandingLayer
-            key={entry.custom.id}
+            key={entry.custom?.id}
             entry={{ ...entry, depth: 0 }}
-            parentEntryDetails={{ id: albums.custom.id, path: albums.path, depth: -1 }}
+            parentEntryDetails={{ id: albums.custom?.id, path: albums.path, depth: -1 }}
             renderChildren={true}
           />
         ))}

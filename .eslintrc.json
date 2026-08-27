@@ -1,6 +1,15 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
   "plugins": ["prettier"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      },
+      "node": true
+    }
+  },
   "rules": {
     // "prettier/prettier": ["error"],
     "max-len": [

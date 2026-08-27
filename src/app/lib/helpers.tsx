@@ -16,3 +16,9 @@ export const randomInt = (num1: number, num2: number | undefined = undefined): n
 export const cropPath = (pathString: string, depth: number) => {
   return decodeURIComponent(pathString).split("/").slice(0, depth).join("/");
 };
+
+export const joinPath = (...parts: string[]) =>
+  parts
+    .map((part) => part.replace(/^\/+|\/+$/g, ""))
+    .filter(Boolean)
+    .join("/");

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -c -- next dev",
-    "build": "dotenv -c -- next build",
+    "dev": "dotenv -c -- next dev --webpack",
+    "build": "dotenv -c -- next build --webpack",
     "start": "dotenv -c -- next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "OLDlint": "next lint"
   },
   "dependencies": {
     "@react-spring/web": "^10.1.2",
@@ -14,20 +15,22 @@
     "clsx": "^2.1.1",
     "directory-tree": "^3.6.0",
     "dotenv-cli": "^7.4.4",
-    "next": "^15.5.24",
+    "next": "^16.3.3",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "uniqid": "^5.4.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/js": "^10.0.1",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@types/uniqid": "^5.3.4",
-    "eslint": "^8",
-    "eslint-config-next": "^15.5.24",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",

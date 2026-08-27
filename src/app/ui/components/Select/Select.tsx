@@ -18,6 +18,12 @@ type SelectProps = {
   overlayText: string;
 };
 
+type OptionElementProps = {
+  className?: string;
+  "data-value"?: string;
+  children?: React.ReactNode;
+};
+
 const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText }) => {
   const thisNode = useRef<HTMLDivElement>(null);
   const [open, closing, setOpen] = useOpenModal({ delay: ANIMATION_DELAY, parentRefs: [thisNode] });
@@ -57,7 +63,7 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
 
   const Options = children.map((OptionElement) => {
     // TypeScript type guard (OptionElement)
-    if (React.isValidElement(OptionElement)) {
+    if (React.isValidElement<OptionElementProps>(OptionElement)) {
       return (
         <div
           {...OptionElement.props}

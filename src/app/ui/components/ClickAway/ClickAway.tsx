@@ -15,6 +15,7 @@ type ClickAwayProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
 };
 
 export type OpenModalOptions = { skipHistory?: boolean };
+export type ForegroundRef = { readonly current: HTMLElement | null };
 
 // For elements to rise above the blur/clickAway component
 // Add their ref to the parentRefs array.
@@ -23,7 +24,7 @@ export const useOpenModal = ({
   parentRefs,
 }: {
   delay: number;
-  parentRefs?: React.RefObject<HTMLDivElement | null>[];
+  parentRefs?: ForegroundRef[];
 }): [boolean, boolean, ModalSetActive] => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -79,14 +80,14 @@ export const useOpenModal = ({
   return [isOpen, isClosing, handleSetOpen];
 };
 
-export const raiseForeground = (parentRefs: React.RefObject<HTMLDivElement | null>[] | null) => {
+export const raiseForeground = (parentRefs: ForegroundRef[] | null) => {
   if (parentRefs?.length)
     parentRefs.forEach((ref) => {
       if (ref.current) ref.current.classList.add(styles.raise);
     });
 };
 
-export const lowerForeground = (parentRefs: React.RefObject<HTMLDivElement | null>[] | null) => {
+export const lowerForeground = (parentRefs: ForegroundRef[] | null) => {
   if (parentRefs?.length)
     parentRefs.forEach((ref) => {
       if (ref.current) ref.current.classList.remove(styles.raise);

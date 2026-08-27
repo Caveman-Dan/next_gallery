@@ -53,8 +53,10 @@ const nextConfig: NextConfig = {
   sassOptions: {
     // importers: [jsonImporter()],
     modules: true,
-    includePaths: ["./src/app/style"],
-    prependData: '@use "global_imports.scss" as *; @use "sass:color";',
+    loadPaths: [path.join(__dirname, "src/app/style")],
+    additionalData: `@use ${JSON.stringify(
+      path.join(__dirname, "src/app/style/global_imports.scss").replaceAll("\\", "/")
+    )} as *; @use "sass:color";`,
     silenceDeprecations: ["legacy-js-api"],
   },
   images: {

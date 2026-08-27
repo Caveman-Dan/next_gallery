@@ -1,5 +1,3 @@
-"use server";
-
 import React from "react";
 
 import Section1 from "@/ui/Home/HomeTopBar/Section1/Section1";

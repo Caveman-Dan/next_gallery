@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -c -- next dev --webpack",
-    "build": "dotenv -c -- next build --webpack",
+    "dev": "dotenv -c -- next dev",
+    "build": "dotenv -c -- next build",
     "start": "dotenv -c -- next start",
     "lint": "eslint .",
     "OLDlint": "next lint"

@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "@/ui/components/MountAnimation/AnimatedLink";
 
-import LogoWithSideName from "@/assets/logoSideName.svg?url";
+import LogoWithSideName from "@/assets/logoSideName.svg";
 import Button from "@/ui/components/Button/Button";
 import useSticky from "@/hooks/useSticky";
 
@@ -20,7 +19,7 @@ const HomeTopBar = () => {
     <>
       <div className={`${styles.heroContainer}  ${isSticky ? styles.stickyHero : ""}`}>
         <div className={styles.logoContainer}>
-          <Image className={styles.logo} src={LogoWithSideName} alt="Next Gallery Logo" fill />
+          <LogoWithSideName className={styles.logo} aria-label="Next Gallery Logo" />
         </div>
       </div>
       <div className={`${styles.underBar} ${isSticky ? styles.underBarSticky : ""}`} ref={stickRef}>

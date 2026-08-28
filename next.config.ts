@@ -41,6 +41,17 @@ const webpackConfig: NextConfig = {
   },
 };
 
+const turboPackConfig: NextConfig = {
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
+};
+
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
   outputFileTracingRoot: path.join(__dirname),
@@ -88,6 +99,7 @@ const nextConfig: NextConfig = {
   //   ],
   // },
   ...webpackConfig,
+  ...turboPackConfig,
 };
 
 // console.log("NEXT-CONFIG: ", JSON.stringify(nextConfig));

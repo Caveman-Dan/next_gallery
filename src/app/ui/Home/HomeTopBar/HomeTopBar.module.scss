@@ -24,6 +24,9 @@ $galleryButtonWidthMobile: 75px;
     margin: auto 0 0 auto;
 
     .logo {
+      display: block;
+      width: 100%;
+      height: 100%;
       background-color: var(--primary-colour-dark);
       padding: var(--panel-spacing) / 2;
       border-radius: 20px 0 0 0;

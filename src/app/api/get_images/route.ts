@@ -5,12 +5,15 @@ import type { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   let images;
-  const searchParams = request.nextUrl.searchParams;
-  const locate = searchParams.get("locate");
-  const imageFolder = path.join(`./${process.env.IMAGES_FOLDER}`, `${locate}/`);
+  const locate = request.nextUrl.searchParams.get("locate") ?? "";
+  const imageRoot = path.join(
+    /* turbopackIgnore: true */ process.cwd(),
+    process.env.IMAGES_FOLDER ?? "",
+  );
+  const imageFolder = path.join(/* turbopackIgnore: true */ imageRoot, locate);
 
   try {
-    images = await readdir(imageFolder);
+    images = await readdir(/* turbopackIgnore: true */ imageFolder);
   } catch (err) {
     console.error("Error reading images directory: ", err);
   }

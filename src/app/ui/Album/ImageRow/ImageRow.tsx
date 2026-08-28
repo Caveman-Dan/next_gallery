@@ -22,10 +22,7 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
         const { width, height } = image.details;
         const imageWidth = (width / height) * rowHeight;
 
-        const imageUrl = new URL(
-          `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${image.fileName}`,
-          process.env.NEXT_PUBLIC_API
-        );
+        const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${image.fileName}`;
 
         return (
           <div className={styles.thumbContainer} key={image.md5 as string} style={{ width: imageWidth }}>
@@ -45,7 +42,7 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
               </div>
             )}
             <ImageThumb
-              src={imageUrl.href}
+              src={imageUrl}
               srcWidth={image.details.width}
               srcHeight={image.details.height}
               thumbWidth={imageWidth}

@@ -60,17 +60,33 @@ const nextConfig: NextConfig = {
     silenceDeprecations: ["legacy-js-api"],
   },
   images: {
-    remotePatterns: [
-      // This is the get_image endpoint at the remote API
-      {
-        protocol: getImageApiEndpoint.protocol.replace(":", "") as "http" | "https",
-        hostname: getImageApiEndpoint.hostname,
-        port: getImageApiEndpoint.port,
-        pathname: `${getImageApiEndpoint.pathname}/**`,
-        search: getImageApiEndpoint.search,
-      },
-    ],
-  },
+      localPatterns: [
+        {
+          pathname: `${getImageApiEndpoint.pathname}/**`,
+        },
+      ],
+    },
+    async rewrites() {
+      return [
+        {
+          source: `${getImageApiEndpoint.pathname}/:path*`,
+          destination: `${getImageApiEndpoint.href}/:path*`,
+          basePath: false,
+        },
+      ];
+    },
+  // images: {
+  //   remotePatterns: [
+  //     // This is the get_image endpoint at the remote API
+  //     {
+  //       protocol: getImageApiEndpoint.protocol.replace(":", "") as "http" | "https",
+  //       hostname: getImageApiEndpoint.hostname,
+  //       port: getImageApiEndpoint.port,
+  //       pathname: `${getImageApiEndpoint.pathname}/**`,
+  //       search: getImageApiEndpoint.search,
+  //     },
+  //   ],
+  // },
   ...webpackConfig,
 };
 

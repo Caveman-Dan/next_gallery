@@ -60,8 +60,6 @@ const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) 
     }
   }, [albums, openItem, uriParts]);
 
-  console.log("Albums: ", albums);
-
   const state: AccordionState = useMemo(
     () => ({
       openItem,

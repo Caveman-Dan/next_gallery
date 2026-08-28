@@ -17,7 +17,8 @@ const SingleImageView = async ({
     // width = 4000,
     // height = 4000,
   } = await searchParams;
-  const imageUrl = new URL(`${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`, process.env.NEXT_PUBLIC_API);
+  
+  const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
 
   // Had to trim the last two "=" from the output of base64url.toBase64()
   const blurData = base64url.toBase64(blurDataUrl as string).slice(0, -2);
@@ -32,7 +33,7 @@ const SingleImageView = async ({
       <div className={styles.imageContainer}>
         <Image
           className={styles.image}
-          src={imageUrl.href}
+          src={imageUrl}
           // width={width as number}
           // height={height as number}
           fill

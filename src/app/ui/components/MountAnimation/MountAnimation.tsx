@@ -61,20 +61,26 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
 
   const handleClose = useCallback(({ redirectPath: nextPath, returnTo, returnIndex }: ClosePageInput) => {
     if (returnTo && returnIndex) {
+      // Scenario 1: remember where we were, then navigate to the link href
       setReturnToState((prev) => ({
         ...prev,
         [returnIndex]: returnTo,
       }));
       setRedirectPath(nextPath);
     } else if (!returnTo && returnIndex) {
+      // Scenario 2: consume a previously stored path, or fall back to the href
       setReturnToState((prev) => {
-        if (!prev?.[returnIndex]) return prev;
+        if (!prev?.[returnIndex]) {
+          setRedirectPath(nextPath);
+          return prev;
+        }
         setRedirectPath(prev[returnIndex]);
         const nextState = { ...prev };
         delete nextState[returnIndex];
         return nextState;
       });
     } else {
+      // Scenario 3: plain redirect
       setRedirectPath(nextPath);
     }
 

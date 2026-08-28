@@ -1,5 +1,4 @@
-// @use "./breakpoints.json";
-// @forward "./breakpoints.json";
+@forward "./breakpoints";
 @use "./variables";
 @forward "./variables";
 @use "./mixins";

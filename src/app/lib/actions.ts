@@ -1,7 +1,5 @@
 "use server";
 
-import "dotenv/config";
-
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";

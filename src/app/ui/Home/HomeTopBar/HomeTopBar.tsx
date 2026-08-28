@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "@/ui/components/MountAnimation/AnimatedLink";
 
 import LogoWithSideName from "@/assets/logoSideName.svg";

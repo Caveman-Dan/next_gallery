@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 
 import MountAnimationContextProvider, { MountAnimationReturnToType } from "./MountAnimationContextProvider";
-import useIsClient from "@/hooks/useIsClient";
 
 import styles from "./MountAnimation.module.scss";
 
@@ -34,34 +33,39 @@ export type ClosePageInput = {
 
 const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
-  const isClient = useIsClient();
   const [isClosing, setIsClosing] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
   const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
-  const isMounted = isClient && !isClosing;
 
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
-  const targetStyle = isMounted ? mountAnimationConf.open.style : mountAnimationConf.close.style;
-  const targetConfig = isMounted ? mountAnimationConf.open.springs : mountAnimationConf.close.springs;
+  const targetStyle = isClosing ? mountAnimationConf.close.style : mountAnimationConf.open.style;
+  const targetConfig = isClosing ? mountAnimationConf.close.springs : mountAnimationConf.open.springs;
 
   const spring = useSpring({
-    to: targetStyle,
+    from: {
+      ...mountAnimationConf.close.style,
+      opacity: 0,
+    },
+    to: {
+      ...targetStyle,
+      opacity: isClosing ? 0 : 1,
+    },
     config: targetConfig,
     onRest: (result) => {
-      if (!isMounted && result.finished && redirectPath) {
+      if (isClosing && result.finished && redirectPath) {
         router.push(redirectPath);
       }
     },
   });
 
-  const handleClose = useCallback(({ redirectPath, returnTo, returnIndex }: ClosePageInput) => {
+  const handleClose = useCallback(({ redirectPath: nextPath, returnTo, returnIndex }: ClosePageInput) => {
     if (returnTo && returnIndex) {
       setReturnToState((prev) => ({
         ...prev,
         [returnIndex]: returnTo,
       }));
-      setRedirectPath(redirectPath);
+      setRedirectPath(nextPath);
     } else if (!returnTo && returnIndex) {
       setReturnToState((prev) => {
         if (!prev?.[returnIndex]) return prev;
@@ -71,7 +75,7 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
         return nextState;
       });
     } else {
-      setRedirectPath(redirectPath);
+      setRedirectPath(nextPath);
     }
 
     setIsClosing(true);
@@ -83,9 +87,7 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
         className={styles.container}
         style={{
           ...spring,
-          transition: `opacity ${fadeTimeIn}ms ease-in-out`,
-          opacity: 1,
-          ...(!isMounted && { transition: `opacity ${fadeTimeOut}ms ease-in-out`, opacity: 0 }),
+          transition: `opacity ${isClosing ? fadeTimeOut : fadeTimeIn}ms ease-in-out`,
         }}
       >
         <MountAnimationContextProvider mountAnimationState={{ closePage: handleClose, returnPaths: returnToState }}>

@@ -81,7 +81,9 @@ const getSnapshot = (): WindowSizeData => {
   return cachedSnapshot;
 };
 
-const getServerSnapshot = (): WindowSizeData => ({});
+// cached SERVER_SNAPSHOT to prevent new object every call causing rerender
+const SERVER_SNAPSHOT: WindowSizeData = {};
+const getServerSnapshot = (): WindowSizeData => SERVER_SNAPSHOT;
 
 const useWindowSize = (): WindowSizeData => useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 

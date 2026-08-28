@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import uniqid from "uniqid";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
@@ -33,22 +33,20 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     from: { height: "100%" },
   });
 
-  const openHight = `${100 * children.length + 25}%`;
-  const handleOpenClose = useCallback(
-    async (newState = !open) => {
-      await setOpen(newState);
+  const openHeight = `${100 * children.length + 25}%`;
 
-      api.start({
-        to: {
-          height: open ? "100%" : openHight,
-        },
-        config: {
-          ...springsConfig,
-          clamp: open,
-        },
-      });
+  useEffect(() => {
+    api.start({
+      to: { height: open ? openHeight : "100%" },
+      config: { ...springsConfig, clamp: !open },
+    });
+  }, [open, api, openHeight]);
+
+  const handleOpenClose = useCallback(
+    (newState = !open) => {
+      setOpen(newState);
     },
-    [open, api, openHight, setOpen]
+    [open, setOpen]
   );
 
   const handleSelect = useCallback(

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { InteractiveToggleProps, ModalSetActive } from "@/definitions/definitions";
 
 import styles from "./ClickAway.module.scss";
@@ -28,52 +27,66 @@ export const useOpenModal = ({
 }): [boolean, boolean, ModalSetActive] => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const skipHistoryRef = useRef(false);
-  const router = useRouter();
+  const isOpenRef = useRef(false);
+  const pushedEntryRef = useRef(false);
 
-  // Own the #modal history so we can optionally skip the router.back()
+  isOpenRef.current = isOpen;
+
+  const closeUi = () => {
+    setIsOpen(false);
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      if (parentRefs?.length) lowerForeground(parentRefs);
+    }, delay);
+  };
+
+  // Do not put #modal (or any new URL) in the address bar.
+  // Next 16 patches history.pushState; a hash change is treated as a
+  // navigation, remounts this tree, resets isOpen, and the slug flickers.
+  // A same-URL history entry still lets the browser Back button close the modal.
   useEffect(() => {
     if (!isOpen) return;
 
     const handlePopstate = () => {
-      // Browser back button → always close normally
-      skipHistoryRef.current = false;
-      setIsOpen(false);
-      setIsClosing(true);
-      setTimeout(() => {
-        setIsClosing(false);
-        if (parentRefs?.length) lowerForeground(parentRefs);
-      }, delay);
+      if (!isOpenRef.current) return;
+      pushedEntryRef.current = false;
+      closeUi();
     };
 
-    try {
-      router.push("#modal", { scroll: false });
-      window.addEventListener("popstate", handlePopstate);
-
-      return () => {
-        window.removeEventListener("popstate", handlePopstate);
-        if (window.location.hash === "#modal" && !skipHistoryRef.current) {
-          router.back();
-        }
-        skipHistoryRef.current = false;
-      };
-    } catch (err) {
-      alert(`ERROR: ${JSON.stringify(err)}`);
+    if (!pushedEntryRef.current) {
+      window.history.pushState({ ...(window.history.state ?? {}), modal: true }, "");
+      pushedEntryRef.current = true;
     }
-  }, [isOpen, router, delay, parentRefs]);
+
+    window.addEventListener("popstate", handlePopstate);
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+    // closeUi uses parentRefs/delay from the render that opened the modal
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const handleSetOpen: ModalSetActive = (newState = !isOpen, options) => {
     if (newState) {
       if (parentRefs?.length) raiseForeground(parentRefs);
       setIsOpen(true);
+      return;
+    }
+
+    closeUi();
+
+    if (!pushedEntryRef.current) return;
+
+    if (options?.skipHistory) {
+      // Album Link will change the path. Drop our dummy entry without going back.
+      const rest = { ...(window.history.state ?? {}) };
+      delete rest.modal;
+      window.history.replaceState(rest, "");
+      pushedEntryRef.current = false;
     } else {
-      skipHistoryRef.current = options?.skipHistory ?? false;
-      setIsClosing(true);
-      setIsOpen(false);
-      setTimeout(() => {
-        setIsClosing(false);
-        if (parentRefs?.length) lowerForeground(parentRefs);
-      }, delay);
+      pushedEntryRef.current = false;
+      window.history.back();
     }
   };
 
@@ -95,7 +108,6 @@ export const lowerForeground = (parentRefs: ForegroundRef[] | null) => {
 };
 
 const ClickAway: React.FC<ClickAwayProps> = ({ active, setActive, closing = false, delay = 0, blur = false }) => {
-  // Pure UI now – no router logic here
   return (
     <div
       className={`

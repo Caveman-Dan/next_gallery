@@ -55,7 +55,6 @@ const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) 
       setOpenItem(initial);
       // Seed a reasonable listHeight so the root spring has a target immediately
       // (the ExpandingLayer effects will refine it with the real children.length).
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setListHeight(initial.depth + 4);
     }
   }, [albums, openItem, uriParts]);

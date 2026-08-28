@@ -4,7 +4,6 @@
  * I was rather hoping that I could put it in a snackbar
  */
 
-import "dotenv/config";
 import { NextResponse } from "next/server";
 import chalk from "chalk";
 

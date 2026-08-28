@@ -1,15 +1,5 @@
 @use "./variables" as *;
-// @use "./breakpoints.json" as *;
-
-// I have bypassed my json importer until I have updated to the latest next.js
-// When I switch back I will delete these variables and uncomment the @use
-// also remember to update global_imports.scss
-
-$screen-sm: 576;
-$screen-md: 768;
-$screen-lg: 992;
-$screen-xl: 1200;
-$screen-xxl: 1600;
+@use "./_breakpoints" as *;
 
 /**
 * Breakpoints

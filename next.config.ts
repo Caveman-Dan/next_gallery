@@ -1,45 +1,29 @@
 import type { NextConfig } from "next";
 import path from "path";
-// import jsonImporter from "@blakedarlin/sass-json-importer";
+import fs from "fs";
+import breakpoints from "@/style/breakpoints.json";
 
 const getImageApiEndpoint = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGE}`);
 
-interface Rule {
-  test: RegExp;
-  issuer: Rule[];
-  resourceQuery: { not: RegExp[] };
-  use: string[];
-}
+const breakpointsScssPath = path.join(__dirname, "src/app/style/_breakpoints.scss");
+const breakpointsScss =
+  "// Generated from breakpoints.json — do not edit\n" +
+  Object.entries(breakpoints)
+    .map(([name, px]) => `$${name}: ${px};`)
+    .join("\n") +
+  "\n";
+fs.writeFileSync(breakpointsScssPath, breakpointsScss);
 
-const webpackConfig: NextConfig = {
-  webpack: (config) => {
-    // Convert SVGs directly in to React components
-    // See SVGR https://react-svgr.com/docs/next/
-    // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule: Rule) => rule.test?.test?.(".svg"));
-
-    config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
-      },
-      // Convert all other *.svg imports to React components
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
-        use: ["@svgr/webpack"],
-      }
-    );
-
-    // Modify the file loader rule to ignore *.svg, since we already handled it.
-    fileLoaderRule.exclude = /\.svg$/i;
-
-    return config;
+const sassConfig: NextConfig = {
+  sassOptions: {
+    modules: true,
+    loadPaths: [path.join(__dirname, "src/app/style")],
+    additionalData: `@use ${JSON.stringify(
+      path.join(__dirname, "src/app/style/global_imports.scss").replaceAll("\\", "/")
+    )} as *; @use "sass:color";`,
+    silenceDeprecations: ["legacy-js-api"],
   },
-};
+}
 
 const turboPackConfig: NextConfig = {
   turbopack: {
@@ -55,21 +39,6 @@ const turboPackConfig: NextConfig = {
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
   outputFileTracingRoot: path.join(__dirname),
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
-  sassOptions: {
-    // importers: [jsonImporter()],
-    modules: true,
-    loadPaths: [path.join(__dirname, "src/app/style")],
-    additionalData: `@use ${JSON.stringify(
-      path.join(__dirname, "src/app/style/global_imports.scss").replaceAll("\\", "/")
-    )} as *; @use "sass:color";`,
-    silenceDeprecations: ["legacy-js-api"],
-  },
   images: {
       localPatterns: [
         {
@@ -86,19 +55,8 @@ const nextConfig: NextConfig = {
         },
       ];
     },
-  // images: {
-  //   remotePatterns: [
-  //     // This is the get_image endpoint at the remote API
-  //     {
-  //       protocol: getImageApiEndpoint.protocol.replace(":", "") as "http" | "https",
-  //       hostname: getImageApiEndpoint.hostname,
-  //       port: getImageApiEndpoint.port,
-  //       pathname: `${getImageApiEndpoint.pathname}/**`,
-  //       search: getImageApiEndpoint.search,
-  //     },
-  //   ],
-  // },
-  ...webpackConfig,
+  // ...webpackConfig,
+  ...sassConfig,
   ...turboPackConfig,
 };
 

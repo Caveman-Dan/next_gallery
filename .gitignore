@@ -39,6 +39,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Generated files (see next.config.ts)
+src/app/style/_breakpoints.scss
+
 # Next Gallery
 ignored_images
 image_store
+

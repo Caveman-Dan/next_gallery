@@ -30,9 +30,10 @@ export const useOpenModal = ({
   const isOpenRef = useRef(false);
   const pushedEntryRef = useRef(false);
 
-  isOpenRef.current = isOpen;
+  // isOpenRef.current = isOpen;
 
   const closeUi = () => {
+    isOpenRef.current = isOpen;
     setIsOpen(false);
     setIsClosing(true);
     setTimeout(() => {
@@ -46,6 +47,7 @@ export const useOpenModal = ({
   // navigation, remounts this tree, resets isOpen, and the slug flickers.
   // A same-URL history entry still lets the browser Back button close the modal.
   useEffect(() => {
+    isOpenRef.current = isOpen;
     if (!isOpen) return;
 
     const handlePopstate = () => {
@@ -70,6 +72,7 @@ export const useOpenModal = ({
   const handleSetOpen: ModalSetActive = (newState = !isOpen, options) => {
     if (newState) {
       if (parentRefs?.length) raiseForeground(parentRefs);
+      isOpenRef.current = true;
       setIsOpen(true);
       return;
     }

@@ -29,18 +29,36 @@ export const useOpenModal = ({
   const [isClosing, setIsClosing] = useState(false);
   const isOpenRef = useRef(false);
   const pushedEntryRef = useRef(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const delayRef = useRef(delay);
+  const parentRefsRef = useRef(parentRefs);
+  const closeUiRef = useRef<() => void>(() => undefined);
 
-  // isOpenRef.current = isOpen;
+  delayRef.current = delay;
+  parentRefsRef.current = parentRefs;
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current === null) return;
+    clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = null;
+  };
 
   const closeUi = () => {
-    isOpenRef.current = isOpen;
+    isOpenRef.current = false;
     setIsOpen(false);
     setIsClosing(true);
-    setTimeout(() => {
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = null;
       setIsClosing(false);
-      if (parentRefs?.length) lowerForeground(parentRefs);
-    }, delay);
+      const refs = parentRefsRef.current;
+      if (refs?.length) lowerForeground(refs);
+    }, delayRef.current);
   };
+
+  closeUiRef.current = closeUi;
+
+  useEffect(() => () => clearCloseTimer(), []);
 
   // Do not put #modal (or any new URL) in the address bar.
   // Next 16 patches history.pushState; a hash change is treated as a
@@ -53,7 +71,7 @@ export const useOpenModal = ({
     const handlePopstate = () => {
       if (!isOpenRef.current) return;
       pushedEntryRef.current = false;
-      closeUi();
+      closeUiRef.current();
     };
 
     if (!pushedEntryRef.current) {
@@ -65,13 +83,11 @@ export const useOpenModal = ({
     return () => {
       window.removeEventListener("popstate", handlePopstate);
     };
-    // closeUi uses parentRefs/delay from the render that opened the modal
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const handleSetOpen: ModalSetActive = (newState = !isOpen, options) => {
     if (newState) {
-      if (parentRefs?.length) raiseForeground(parentRefs);
+      if (parentRefsRef.current?.length) raiseForeground(parentRefsRef.current);
       isOpenRef.current = true;
       setIsOpen(true);
       return;

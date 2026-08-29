@@ -1,54 +1,20 @@
-"use client";
-
-import React, { useState, useLayoutEffect, useRef } from "react";
-import { useParams } from "next/navigation";
-
-import useElementSize from "@/hooks/useElementSize";
 import { getImages } from "@/lib/actions";
+import AlbumView from "./AlbumView";
 
-import ImageSequencer from "@/ui/Album/ImageSequencer/ImageSequencer";
-import Spinner from "@/ui/components/Spinner/Spinner";
+import type { ApiErrorResponse, ImageDetails } from "@/definitions/definitions";
 
-import type { NextPage } from "next";
-import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+const isApiError = (value: ImageDetails[] | ApiErrorResponse | null): value is ApiErrorResponse | null =>
+  value == null || !Array.isArray(value);
 
-import styles from "./page.module.scss";
+const AlbumPage = async ({ params }: { params: Promise<{ album: string[] }> }) => {
+  const albumPath = decodeURIComponent((await params).album.join("/"));
+  const response = await getImages(albumPath);
 
-const Page: NextPage = () => {
-  // return null;
-  const containerRef = useRef<HTMLDivElement>(null);
-  const albumPath = decodeURIComponent(useParams<{ album: string[] }>().album.join("/"));
-  const [images, setImages] = useState<ImageDetails[] | []>([]);
+  if (isApiError(response)) {
+    throw new Error(response?.message ?? "There was a problem retrieving the album.");
+  }
 
-  const { clientWidth: containerWidth } = useElementSize(containerRef);
-
-  useLayoutEffect(() => {
-    if (images.length && containerWidth) return;
-
-    getImages(albumPath).then((response) => {
-      if ((response as ApiErrorResponse)?.error) {
-        throw Error((response as ApiErrorResponse)?.message, {
-          cause: { status: (response as ApiErrorResponse)?.status },
-        });
-      } else {
-        setImages(response as ImageDetails[]);
-      }
-    });
-  }, [albumPath, containerWidth, images.length]);
-
-  return (
-    <div className={styles.imagesContainer} ref={containerRef}>
-      <div className={styles.titleContainer}>
-        <h1>{albumPath.split("/").reverse()[0]}</h1>
-        <p>{albumPath}</p>
-      </div>
-      {images.length ? (
-        <ImageSequencer images={images} albumPath={albumPath} containerWidth={containerWidth} />
-      ) : (
-        <Spinner />
-      )}
-    </div>
-  );
+  return <AlbumView albumPath={albumPath} images={response} />;
 };
 
-export default Page;
+export default AlbumPage;

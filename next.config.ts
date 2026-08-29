@@ -38,6 +38,7 @@ const turboPackConfig: NextConfig = {
 
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
+  allowedDevOrigins: ["192.168.1.10"],
   outputFileTracingRoot: path.join(__dirname),
   images: {
       localPatterns: [

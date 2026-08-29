@@ -46,6 +46,8 @@ const nextConfig: NextConfig = {
         },
       ],
     },
+    // Same-origin /api/get_image/* is proxied to next_gallery_api so
+    // next/image can treat it as a local pattern (Next 16 blocks private IPs).
     async rewrites() {
       return [
         {

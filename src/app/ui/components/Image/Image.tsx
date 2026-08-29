@@ -14,10 +14,10 @@ export interface ImageWithFallbackProps extends ImageProps {
 }
 
 const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallbackProps) => {
-  const [error, setError] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeSrc, setActiveSrc] = useState(src);
-  const isMounted = useIsClient();
+  const isClient = useIsClient();
 
   if (src !== activeSrc) {
     setActiveSrc(src);
@@ -29,14 +29,17 @@ const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallba
     <div className={styles.root}>
       <div
         className={`${styles.blurContainer}${isLoading ? ` ${styles.isBlurred}` : ""}${
-          isMounted ? ` ${styles.isVisible}` : ""
+          isClient ? ` ${styles.isVisible}` : ""
         }`}
       >
         <NextImage
           loading="lazy"
-          onLoad={() => setTimeout(() => setIsLoading(false), 1000)}
+          onLoad={() => setIsLoading(false)}
+          onError={() => {
+            setIsLoading(false);
+            setError(true);
+          }}
           alt={alt}
-          onError={() => setError(false)}
           src={error ? fallback : src}
           {...props}
         />

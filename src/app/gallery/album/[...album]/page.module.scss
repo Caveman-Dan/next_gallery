@@ -19,9 +19,11 @@
 
 .content {
   height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   opacity: 0;
-  transition: opacity 800ms ease-out 80ms;
+  transition: opacity 400ms ease-out 80ms;
 }
 
 .content.isVisible {

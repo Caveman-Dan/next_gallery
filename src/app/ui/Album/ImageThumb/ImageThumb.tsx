@@ -5,6 +5,7 @@ import Image, { ImageWithFallbackProps } from "@/ui/components/Image/Image";
 
 import styles from "./ImageThumb.module.scss";
 import Link from "next/link";
+import { useAnimatedComponent } from "@/ui/components/AnimatedComponent/AnimatedComponent";
 
 // Stable optimizer width. Display size stays on the row wrapper via CSS.
 const THUMB_SOURCE_WIDTH = 600;
@@ -31,13 +32,19 @@ const ImageThumb = ({
   ...props
 }: ImageThumbProps) => {
   const sourceHeight = Math.max(1, Math.round((srcHeight / srcWidth) * THUMB_SOURCE_WIDTH));
+  const { push } = useAnimatedComponent();
+  const href = `/gallery/image/${albumPath}/${fileName}?width=${srcWidth}&height=${srcHeight}&blurDataUrl=${base64url.fromBase64(
+    blurDataURL as string
+  )}`;
 
   return (
     <Link
-      href={`/gallery/image/${albumPath}/${fileName}?width=${srcWidth}&height=${srcHeight}&blurDataUrl=${base64url.fromBase64(
-        blurDataURL as string
-      )}`}
+      href={href}
       className={styles.thumbContainer}
+      onClick={(event) => {
+        event.preventDefault();
+        push(href);
+      }}
     >
       <Image
         src={src}

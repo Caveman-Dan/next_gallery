@@ -5,6 +5,7 @@ import { capitalise } from "@/lib/helpers";
 import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 import styles from "./Accordion.module.scss";
 import type { EntryDetails } from "./types";
+import { useAnimatedComponent } from "@/ui/components/AnimatedComponent/AnimatedComponent";
 
 interface AlbumLinkProps {
   name: string;
@@ -16,18 +17,24 @@ interface AlbumLinkProps {
   onSelect: (options?: { skipHistory?: boolean }) => void;
 }
 
-const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, onSelect }: AlbumLinkProps) => (
-  <Link
-    className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
-    onClick={() => {
-      onOpen(entryDetails);
-      onSelect({ skipHistory: true });
-    }}
-    href={href}
-  >
-    {capitalise(name)}
-    <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
-  </Link>
-);
+const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, onSelect }: AlbumLinkProps) => {
+  const { push } = useAnimatedComponent();
+
+  return (
+    <Link
+      className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
+      onClick={(event) => {
+        event.preventDefault();
+        onOpen(entryDetails);
+        onSelect({ skipHistory: true });
+        push(href);
+      }}
+      href={href}
+    >
+      {capitalise(name)}
+      <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+    </Link>
+  );
+};
 
 export default AlbumLink;

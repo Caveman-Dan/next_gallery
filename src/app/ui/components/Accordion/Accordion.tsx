@@ -18,7 +18,7 @@ interface AccordionProps {
   routes: AccordionRoutes;
 }
 
-const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) => {
+const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   const pathname = usePathname();
   // const entryPage = pathname.split("/")[2];
 
@@ -38,10 +38,11 @@ const Accordion = ({ isSidebarOpen, onSelect, albums, routes }: AccordionProps) 
   }, []);
 
   useLayoutEffect(() => {
-    if (isSidebarOpen) return;
-    const timerReset = setTimeout(resetMenu, 400); // delay is to allow menu to close before resetting
-    return () => clearTimeout(timerReset);
-  }, [resetMenu, isSidebarOpen]);
+    if (!albums) return;
+    const initial = findOpenItemForUri(albums, uriParts);
+    setOpenItem(initial);
+    setListHeight(initial ? initial.depth + 4 : 0);
+  }, [albums, currentUri, uriParts]);
 
   // On mount / when URI changes and openItem has been reset, seed the openItem from the URL.
   // This guarantees the correct branch is marked open even before the recursive layers run their effects

@@ -22,10 +22,4 @@
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-gutter: stable;
-  opacity: 0;
-  transition: opacity 400ms ease-out 80ms;
-}
-
-.content.isVisible {
-  opacity: 1;
 }

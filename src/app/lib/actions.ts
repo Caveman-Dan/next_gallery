@@ -10,6 +10,15 @@ import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 import { validateForm } from "./formValidation/formValidation";
 
 const API_TIMEOUT_MS = 10_000;
+const ALBUMS_REVALIDATE_SECONDS = 600;
+
+// Next specific options to trigger re-caching
+type FetchApiInit = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+};
 
 const apiError = (status: number, message: string): ApiErrorResponse => ({
   error: true,
@@ -17,14 +26,21 @@ const apiError = (status: number, message: string): ApiErrorResponse => ({
   message,
 });
 
-const fetchApiJson = async <T>(url: URL, missingConfigMessage: string): Promise<T | ApiErrorResponse> => {
+const fetchApiJson = async <T>(
+  url: URL,
+  missingConfigMessage: string,
+  init?: FetchApiInit
+): Promise<T | ApiErrorResponse> => {
   if (!process.env.NEXT_PUBLIC_API) {
     handleServerError({ message: missingConfigMessage });
     return apiError(500, missingConfigMessage);
   }
 
   try {
-    const response = await fetch(url, { signal: AbortSignal.timeout(API_TIMEOUT_MS) });
+    const response = await fetch(url, {
+      ...init,
+      signal: init?.signal ?? AbortSignal.timeout(API_TIMEOUT_MS),
+    });
     const payload: unknown = await response.json().catch(() => null);
 
     if (!response.ok) {
@@ -63,7 +79,9 @@ export const getAlbums = async (): Promise<DirectoryTree | ApiErrorResponse> => 
   }
 
   const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
-  return fetchApiJson<DirectoryTree>(requestUrl, "API config error!");
+  return fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
+    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: ["albums"] },
+  });
 };
 
 export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse> => {

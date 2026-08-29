@@ -15,21 +15,21 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
 
   return (
     <div className={styles.imagesContainer} ref={containerRef}>
-      {!ready ? (
+      <div className={`${styles.skeleton}${ready ? ` ${styles.isHidden}` : ""}`} aria-hidden={ready}>
         <AlbumSkeleton />
-      ) : (
-        <>
-          <div className={styles.titleContainer}>
-            <h1>{albumName}</h1>
-            <p>{albumPath}</p>
-          </div>
-          {images.length ? (
+      </div>
+      <div className={`${styles.content}${ready ? ` ${styles.isVisible}` : ""}`}>
+        <div className={styles.titleContainer}>
+          <h1>{albumName}</h1>
+          <p>{albumPath}</p>
+        </div>
+        {ready &&
+          (images.length ? (
             <ImageSequencer images={images} albumPath={albumPath} containerWidth={containerWidth} />
           ) : (
             <p>This album has no images.</p>
-          )}
-        </>
-      )}
+          ))}
+      </div>
     </div>
   );
 };

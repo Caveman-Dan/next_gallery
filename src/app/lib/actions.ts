@@ -9,7 +9,7 @@ import type { FormState } from "@/definitions/formDefinitions";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 import { validateForm } from "./formValidation/formValidation";
 
-const API_TIMEOUT_MS = 10_000;
+const API_TIMEOUT_MS = 15_000;
 const ALBUMS_REVALIDATE_SECONDS = 600;
 
 // Next specific options to trigger re-caching

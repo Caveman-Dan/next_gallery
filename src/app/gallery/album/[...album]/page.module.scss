@@ -1,12 +1,29 @@
-// Album Page
 .imagesContainer {
+  position: relative;
   width: 100%;
   height: 100%;
 }
 
-.loading {
+.skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 800ms ease-out;
+  pointer-events: none;
+}
+
+.skeleton.isHidden {
+  opacity: 0;
+}
+
+.content {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 800ms ease-out 80ms;
+}
+
+.content.isVisible {
+  opacity: 1;
 }

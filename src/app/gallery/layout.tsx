@@ -6,6 +6,7 @@ import styles from "./layout.module.scss";
 import { Suspense } from "react";
 
 import { getAlbums } from "@/lib/actions";
+import { isApiErrorResponse } from "@/lib/helpers";
 
 import type { Metadata } from "next";
 
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
-  const albums = await getAlbums();
+  const albumsResult = await getAlbums();
+  const albums = isApiErrorResponse(albumsResult) ? undefined : albumsResult;
 
   return (
     <div className={styles.root}>

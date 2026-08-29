@@ -1,3 +1,8 @@
+import type { ApiErrorResponse } from "@/definitions/definitions";
+
+export const isApiErrorResponse = (value: unknown): value is ApiErrorResponse =>
+  typeof value === "object" && value !== null && !Array.isArray(value) && (value as ApiErrorResponse).error === true;
+
 export const capitalise = (string: string) => `${string[0].toUpperCase()}${string.slice(1)}`;
 
 export const randomInt = (num1: number, num2: number | undefined = undefined): number => {

@@ -14,7 +14,7 @@ import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
 interface AccordionProps {
   isSidebarOpen: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
-  albums: DirectoryTree;
+  albums?: DirectoryTree;
   routes: AccordionRoutes;
 }
 

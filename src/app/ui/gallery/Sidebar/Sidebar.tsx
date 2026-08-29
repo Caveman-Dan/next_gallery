@@ -18,7 +18,7 @@ import type { DirectoryTree } from "directory-tree";
 type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
   isSidebarOpen: InteractiveToggleProps["state"];
   setIsSidebarOpen: ModalSetActive;
-  albums: DirectoryTree;
+  albums?: DirectoryTree;
 };
 
 const GALLERY_ROUTES = {

@@ -9,27 +9,73 @@ import type { FormState } from "@/definitions/formDefinitions";
 import { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 import { validateForm } from "./formValidation/formValidation";
 
-export const getAlbums = async (): Promise<DirectoryTree> => {
-  let albumsTree;
+const API_TIMEOUT_MS = 10_000;
 
-  if (process.env.NEXT_PUBLIC_API && process.env.NEXT_PUBLIC_API_GET_ALBUMS) {
-    const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
-    albumsTree = await fetch(requestUrl).then((response) => response.json());
-  } else handleServerError({ message: "API config error!" });
+const apiError = (status: number, message: string): ApiErrorResponse => ({
+  error: true,
+  status,
+  message,
+});
 
-  return albumsTree;
+const fetchApiJson = async <T>(url: URL, missingConfigMessage: string): Promise<T | ApiErrorResponse> => {
+  if (!process.env.NEXT_PUBLIC_API) {
+    handleServerError({ message: missingConfigMessage });
+    return apiError(500, missingConfigMessage);
+  }
+
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(API_TIMEOUT_MS) });
+    const payload: unknown = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      const message =
+        payload &&
+        typeof payload === "object" &&
+        "message" in payload &&
+        typeof payload.message === "string" &&
+        payload.message
+          ? payload.message
+          : `Request failed (${response.status})`;
+      handleServerError({ message });
+      return apiError(response.status, message);
+    }
+
+    if (payload == null) {
+      const message = "API returned a non-JSON response";
+      handleServerError({ message });
+      return apiError(502, message);
+    }
+
+    return payload as T;
+  } catch (err) {
+    const timedOut = err instanceof Error && err.name === "TimeoutError";
+    const message = timedOut ? "The gallery API timed out" : "Could not reach the gallery API";
+    handleServerError({ message });
+    return apiError(timedOut ? 504 : 503, message);
+  }
 };
 
-export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse | null> => {
-  if (process.env.NEXT_PUBLIC_API && process.env.NEXT_PUBLIC_API_GET_IMAGES) {
-    const searchParams = new URLSearchParams({ locate: imageDirectory });
-    const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGES}`);
-    requestUrl.search = searchParams.toString();
+export const getAlbums = async (): Promise<DirectoryTree | ApiErrorResponse> => {
+  if (!process.env.NEXT_PUBLIC_API_GET_ALBUMS) {
+    const message = "API config error!";
+    handleServerError({ message });
+    return apiError(500, message);
+  }
 
-    return await fetch(requestUrl.href).then((response) => response.json());
-  } else handleServerError({ message: "CDN is missing in environment config!" });
+  const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
+  return fetchApiJson<DirectoryTree>(requestUrl, "API config error!");
+};
 
-  return null;
+export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse> => {
+  if (!process.env.NEXT_PUBLIC_API_GET_IMAGES) {
+    const message = "CDN is missing in environment config!";
+    handleServerError({ message });
+    return apiError(500, message);
+  }
+
+  const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGES}`);
+  requestUrl.search = new URLSearchParams({ locate: imageDirectory }).toString();
+  return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!");
 };
 
 export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {

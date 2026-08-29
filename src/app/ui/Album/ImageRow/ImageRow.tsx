@@ -26,7 +26,6 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
 
         return (
           <div className={styles.thumbContainer} key={image.md5 as string} style={{ width: imageWidth }}>
-            <div className={styles.skeleton} />
             {SHOW_INFO && (
               <div className={`${styles.floatingInfo}`}>
                 <p>src ratio: {width / height}</p>

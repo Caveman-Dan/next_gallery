@@ -3,8 +3,6 @@
 import NextImage, { ImageProps } from "next/image";
 import { useState } from "react";
 
-import useIsClient from "@/hooks/useIsClient";
-
 import fallbackImage from "@/assets/alert-triangle.svg?url";
 
 import styles from "./Image.module.scss";
@@ -13,37 +11,46 @@ export interface ImageWithFallbackProps extends ImageProps {
   fallback?: string;
 }
 
-const Image = ({ fallback = fallbackImage, alt, src, ...props }: ImageWithFallbackProps) => {
+const Image = ({
+  fallback = fallbackImage,
+  alt,
+  src,
+  blurDataURL,
+  className,
+  ...props
+}: ImageWithFallbackProps) => {
   const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [activeSrc, setActiveSrc] = useState(src);
-  const isClient = useIsClient();
 
   if (src !== activeSrc) {
     setActiveSrc(src);
     setError(false);
-    setIsLoading(true);
+    setLoaded(false);
   }
 
   return (
     <div className={styles.root}>
-      <div
-        className={`${styles.blurContainer}${isLoading ? ` ${styles.isBlurred}` : ""}${
-          isClient ? ` ${styles.isVisible}` : ""
-        }`}
-      >
-        <NextImage
-          loading="lazy"
-          onLoad={() => setIsLoading(false)}
-          onError={() => {
-            setIsLoading(false);
-            setError(true);
-          }}
-          alt={alt}
-          src={error ? fallback : src}
-          {...props}
+      {blurDataURL && !error && (
+        <div
+          className={styles.placeholder}
+          style={{ backgroundImage: `url("${blurDataURL}")` }}
+          aria-hidden
         />
-      </div>
+      )}
+      <NextImage
+        {...props}
+        loading="lazy"
+        placeholder="empty"
+        className={`${styles.image}${loaded ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
+        onLoad={() => setLoaded(true)}
+        onError={() => {
+          setError(true);
+          setLoaded(true);
+        }}
+        alt={alt}
+        src={error ? fallback : src}
+      />
     </div>
   );
 };

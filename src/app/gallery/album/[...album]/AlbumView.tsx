@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef } from "react";
-
 import useElementSize from "@/hooks/useElementSize";
 import ImageSequencer from "@/ui/Album/ImageSequencer/ImageSequencer";
 import Spinner from "@/ui/components/Spinner/Spinner";
@@ -11,8 +9,7 @@ import type { ImageDetails } from "@/definitions/definitions";
 import styles from "./page.module.scss";
 
 const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDetails[] }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { clientWidth: containerWidth } = useElementSize(containerRef);
+  const { ref: containerRef, clientWidth: containerWidth } = useElementSize();
   const albumName = albumPath.split("/").filter(Boolean).at(-1) ?? albumPath;
 
   return (

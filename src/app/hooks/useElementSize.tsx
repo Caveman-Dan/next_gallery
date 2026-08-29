@@ -1,14 +1,17 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useState } from "react";
 
-const useElementSize = (elementRef: RefObject<HTMLElement | null>) => {
+const useElementSize = () => {
+  const [element, setElement] = useState<HTMLElement | null>(null);
   const [elementSize, setElementSize] = useState<{ clientWidth: number; clientHeight: number }>({
     clientWidth: 0,
     clientHeight: 0,
   });
 
   useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
+    if (!element) {
+      setElementSize({ clientWidth: 0, clientHeight: 0 });
+      return;
+    }
 
     const observer = new ResizeObserver(([entry]) => {
       setElementSize({
@@ -19,9 +22,9 @@ const useElementSize = (elementRef: RefObject<HTMLElement | null>) => {
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [elementRef]);
+  }, [element]);
 
-  return elementSize;
+  return { ref: setElement, ...elementSize };
 };
 
 export default useElementSize;

@@ -14,26 +14,26 @@ import type { FormState } from "@/definitions/formDefinitions";
 import type { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 
 export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse> => {
-  if (!process.env.NEXT_PUBLIC_API_GET_ALBUMS) {
+  if (!process.env.API_GET_ALBUMS) {
     const message = "API config error!";
     handleServerError({ message });
     return apiError(500, message);
   }
 
-  const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
+  const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
   return fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
     next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: [REVALIDATION_TAGS.galleryData] },
   });
 };
 
 export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse> => {
-  if (!process.env.NEXT_PUBLIC_API_GET_IMAGES) {
+  if (!process.env.API_GET_IMAGES) {
     const message = "CDN is missing in environment config!";
     handleServerError({ message });
     return apiError(500, message);
   }
 
-  const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGES}`);
+  const requestUrl = new URL(`${process.env.API}${process.env.API_GET_IMAGES}`);
   requestUrl.search = new URLSearchParams({ locate: imageDirectory }).toString();
   return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
     next: {

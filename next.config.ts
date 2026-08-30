@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import breakpoints from "@/style/breakpoints.json";
 
-const getImageApiEndpoint = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGE}`);
+const getImageApiEndpoint = new URL(`${process.env.API}${process.env.API_GET_IMAGE}`);
 
 const breakpointsScssPath = path.join(__dirname, "src/app/style/_breakpoints.scss");
 const breakpointsScss =

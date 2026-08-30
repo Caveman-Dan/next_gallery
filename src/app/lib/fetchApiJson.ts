@@ -16,7 +16,7 @@ export const fetchApiJson = async <T>(
   missingConfigMessage: string,
   init?: FetchApiInit
 ): Promise<T | ApiErrorResponse> => {
-  if (!process.env.NEXT_PUBLIC_API) {
+  if (!process.env.API) {
     handleServerError({ message: missingConfigMessage });
     return apiError(500, missingConfigMessage);
   }

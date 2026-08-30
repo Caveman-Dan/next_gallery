@@ -28,13 +28,13 @@ const ExpandingLayer = memo(function ExpandingLayer({
   const [renderNextChild, setRenderNextChild] = useState(false);
 
   const isSelected = uriParts[uriParts.length - 1] === entry.name && entry.depth === uriParts.length - 1;
-  const isOpenList = entry.custom?.id === openItem?.id;
+  const isOpenList = entry.path === openItem?.path;
   const isRootItem = entry.depth === 0;
   const isLeaf = !entry.children?.length;
 
   const currentEntryDetails = useMemo(
-    () => ({ id: entry.custom?.id, path: entry.path, depth: entry.depth }),
-    [entry.custom?.id, entry.depth, entry.path]
+    () => ({ path: entry.path, depth: entry.depth }),
+    [entry.depth, entry.path]
   );
 
   const handleOpenItem = useCallback(
@@ -81,7 +81,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
   useLayoutEffect(() => {
     if (!renderChildren || !openItem) return;
 
-    if (entry.custom?.id === openItem.id) {
+    if (entry.path === openItem.path) {
       setIsSectionOpen(true);
       if (entry.children?.length) {
         setListHeight(entry.children.length + entry.depth);
@@ -91,7 +91,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
       setIsSectionOpen(false);
       setRenderNextChild(false);
     }
-  }, [entry.children?.length, entry.custom?.id, entry.depth, entry.path, openItem, renderChildren, setListHeight]);
+  }, [entry.children?.length, entry.depth, entry.path, openItem, renderChildren, setListHeight]);
 
   if (!renderChildren) return null;
 
@@ -120,9 +120,9 @@ const ExpandingLayer = memo(function ExpandingLayer({
     >
       {entry.children!.map((nextEntry) => (
         <ExpandingLayer
-          key={nextEntry.custom?.id}
+          key={nextEntry.path}
           entry={{ ...nextEntry, depth: entry.depth + 1 }}
-          parentEntryDetails={{ id: entry.custom?.id, path: entry.path, depth: entry.depth }}
+          parentEntryDetails={{ path: entry.path, depth: entry.depth }}
           renderChildren={renderNextChild}
         />
       ))}

@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from "react";
 import type { DirectoryTree } from "directory-tree";
 
 export interface EntryDetails {
-  id: string;
   path: string;
   depth: number;
 }

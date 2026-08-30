@@ -66,7 +66,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
           <ExpandingLayer
             key={entry.path}
             entry={{ ...entry, depth: 0 }}
-            parentEntryDetails={{ id: albums.custom?.id, path: albums.path, depth: -1 }}
+            parentEntryDetails={{ path: albums.path, depth: -1 }}
             renderChildren={true}
           />
         ))}

@@ -27,7 +27,6 @@ export function findOpenItemForUri(root: DirectoryTree, uriParts: string[]): Ent
 
   // current is now the parent folder of the selected album
   return {
-    id: (current.custom as { id: string }).id,
     path: current.path,
     depth,
   };

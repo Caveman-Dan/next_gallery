@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidateTag, updateTag } from "next/cache";
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";
@@ -44,19 +44,16 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
 };
 
 export const revalidateGalleryCache = async (tags: string[]) => {
-  let error: ApiErrorResponse = { error: false };
-  let successful: string[] = [];
+  const successful: string[] = [];
 
-  tags.forEach(tag => {
+  for (const tag of tags) {
     if (!isGalleryCacheTag(tag)) {
-      error = apiError(400, `${tag} - Invalid tag`);
+      return apiError(400, `${tag} - Invalid tag`);
     }
-    if (error.error) return error;
-    else {
-      revalidateTag(tag, 'max');
-      successful.push(tag);
-    }
-  })
+    updateTag(tag);
+    successful.push(tag);
+  }
+
   return successful;
 };
 

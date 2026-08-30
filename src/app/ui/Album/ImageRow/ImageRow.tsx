@@ -45,7 +45,6 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
               srcWidth={image.details.width}
               srcHeight={image.details.height}
               thumbWidth={imageWidth}
-              thumbHeight={rowHeight}
               alt={`image of ${image.fileName}`}
               placeholder="blur"
               blurDataURL={image.placeholder.blurData}

@@ -16,7 +16,6 @@ interface ImageThumbProps extends ImageWithFallbackProps {
   srcWidth: number;
   srcHeight: number;
   thumbWidth: number;
-  thumbHeight: number;
 }
 
 const ImageThumb = ({
@@ -24,7 +23,6 @@ const ImageThumb = ({
   srcWidth,
   srcHeight,
   thumbWidth = 450,
-  thumbHeight = 225,
   alt,
   albumPath,
   fileName,

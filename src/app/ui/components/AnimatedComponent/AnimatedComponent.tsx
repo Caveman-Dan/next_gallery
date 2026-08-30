@@ -59,9 +59,12 @@ export const AnimatedComponentProvider = ({
     [pathname]
   );
 
+  const pathResetKey = resetOnPathname ? pathname : null;
+
   useEffect(() => {
-    setVisible(true);
-  }, [resetOnPathname ? pathname : null]);
+    const frame = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(frame);
+  }, [pathResetKey]);
 
   const handleTransitionEnd = useCallback(
     (event: React.TransitionEvent<HTMLElement>) => {

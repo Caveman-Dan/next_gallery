@@ -34,9 +34,6 @@ export const useOpenModal = ({
   const parentRefsRef = useRef(parentRefs);
   const closeUiRef = useRef<() => void>(() => undefined);
 
-  delayRef.current = delay;
-  parentRefsRef.current = parentRefs;
-
   const clearCloseTimer = () => {
     if (closeTimerRef.current === null) return;
     clearTimeout(closeTimerRef.current);
@@ -56,7 +53,14 @@ export const useOpenModal = ({
     }, delayRef.current);
   };
 
-  closeUiRef.current = closeUi;
+  useEffect(() => {
+    delayRef.current = delay;
+    parentRefsRef.current = parentRefs;
+  }, [delay, parentRefs]);
+
+  useEffect(() => {
+    closeUiRef.current = closeUi;
+  });
 
   useEffect(() => () => clearCloseTimer(), []);
 

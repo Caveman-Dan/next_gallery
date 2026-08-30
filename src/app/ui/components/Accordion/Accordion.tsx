@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { useState, useLayoutEffect, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 import styles from "./Accordion.module.scss";
 import ExpandingLayer from "./ExpandingLayer";
@@ -12,7 +12,7 @@ import type { DirectoryTree } from "directory-tree";
 import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
 
 interface AccordionProps {
-  isSidebarOpen: boolean;
+  isSidebarOpen?: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
   albums?: DirectoryTree;
   routes: AccordionRoutes;
@@ -20,45 +20,28 @@ interface AccordionProps {
 
 const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   const pathname = usePathname();
-  // const entryPage = pathname.split("/")[2];
-
   const currentUri = useMemo(() => getActivePathFromPathname(pathname, routes), [pathname, routes]);
-
   const uriParts = useMemo(() => (currentUri ? currentUri.split("/").filter(Boolean) : []), [currentUri]);
-
   const getItemHref = useCallback((path: string) => getLeafHref(path, routes), [routes]);
 
+  const urlOpenItem = useMemo(
+    () => (albums ? findOpenItemForUri(albums, uriParts) : null),
+    [albums, uriParts]
+  );
+
+  const [clickedItem, setClickedItem] = useState<EntryDetails | null>(null);
+  const [clickedForUri, setClickedForUri] = useState<string | null>(null);
   const [listHeight, setListHeight] = useState(0);
-  const [openItem, setOpenItem] = useState<EntryDetails | null>(null);
 
-  // Reset open state when sidebar closes so the next open restores from the current URL
-  const resetMenu = useCallback(() => {
-    setOpenItem(null);
-    setListHeight(0);
-  }, []);
+  const openItem = clickedForUri === currentUri && clickedItem ? clickedItem : urlOpenItem;
 
-  useLayoutEffect(() => {
-    if (!albums) return;
-    const initial = findOpenItemForUri(albums, uriParts);
-    setOpenItem(initial);
-    setListHeight(initial ? initial.depth + 4 : 0);
-  }, [albums, currentUri, uriParts]);
-
-  // On mount / when URI changes and openItem has been reset, seed the openItem from the URL.
-  // This guarantees the correct branch is marked open even before the recursive layers run their effects
-  // (critical for direct URL loads of a nested gallery).
-  useLayoutEffect(() => {
-    if (openItem || !uriParts.length || !albums) return;
-    const initial = findOpenItemForUri(albums, uriParts);
-    if (initial) {
-      // Seed from the URL after a sidebar reset / first paint.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setOpenItem(initial);
-      // Seed a reasonable listHeight so the root spring has a target immediately
-      // (the ExpandingLayer effects will refine it with the real children.length).
-      setListHeight(initial.depth + 4);
-    }
-  }, [albums, openItem, uriParts]);
+  const setOpenItem = useCallback(
+    (item: EntryDetails | null) => {
+      setClickedItem(item);
+      setClickedForUri(currentUri);
+    },
+    [currentUri]
+  );
 
   const state: AccordionState = useMemo(
     () => ({
@@ -71,7 +54,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       onSelect,
       getItemHref,
     }),
-    [openItem, listHeight, currentUri, uriParts, onSelect, getItemHref]
+    [openItem, setOpenItem, listHeight, currentUri, uriParts, onSelect, getItemHref]
   );
 
   if (!albums?.children?.length) return null;
@@ -81,7 +64,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       <div className={styles.root}>
         {albums.children.map((entry) => (
           <ExpandingLayer
-            key={entry.custom?.id}
+            key={entry.path}
             entry={{ ...entry, depth: 0 }}
             parentEntryDetails={{ id: albums.custom?.id, path: albums.path, depth: -1 }}
             renderChildren={true}

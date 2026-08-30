@@ -1,18 +1,19 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";
 import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
-import { apiError } from "./helpers";
-import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS } from "./apiConfig";
+import { apiError, isGalleryCacheTag } from "./helpers";
+import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
 import type { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
 
-export const getAlbums = async (): Promise<DirectoryTree | ApiErrorResponse> => {
+export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse> => {
   if (!process.env.NEXT_PUBLIC_API_GET_ALBUMS) {
     const message = "API config error!";
     handleServerError({ message });
@@ -21,7 +22,7 @@ export const getAlbums = async (): Promise<DirectoryTree | ApiErrorResponse> => 
 
   const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
   return fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
-    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: ["albums"] },
+    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: [REVALIDATION_TAGS.getGalleryData] },
   });
 };
 
@@ -37,9 +38,26 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
     next: {
       revalidate: IMAGES_REVALIDATE_SECONDS,
-      tags: ["albums", `album:${imageDirectory}`],
+      tags: [REVALIDATION_TAGS.getImages.allImages,`${REVALIDATION_TAGS.getImages.singleAlbumPrefix}${imageDirectory}`], // revalidate all albums or individually
     },
   });
+};
+
+export const revalidateGalleryCache = async (tags: string[]) => {
+  let error: ApiErrorResponse = { error: false };
+  let successful: string[] = [];
+
+  tags.forEach(tag => {
+    if (!isGalleryCacheTag(tag)) {
+      error = apiError(400, `${tag} - Invalid tag`);
+    }
+    if (error.error) return error;
+    else {
+      revalidateTag(tag, 'max');
+      successful.push(tag);
+    }
+  })
+  return successful;
 };
 
 export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {

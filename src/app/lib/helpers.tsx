@@ -1,3 +1,4 @@
+import { REVALIDATION_TAGS } from "./apiConfig";
 import type { ApiErrorResponse } from "@/definitions/definitions";
 
 export const apiError = (status: number, message: string): ApiErrorResponse => ({
@@ -8,6 +9,8 @@ export const apiError = (status: number, message: string): ApiErrorResponse => (
 
 export const isApiErrorResponse = (value: unknown): value is ApiErrorResponse =>
   typeof value === "object" && value !== null && !Array.isArray(value) && (value as ApiErrorResponse).error === true;
+
+export const isGalleryCacheTag = (tag: string) => JSON.stringify(REVALIDATION_TAGS).includes(tag);
 
 export const capitalise = (string: string) => `${string[0].toUpperCase()}${string.slice(1)}`;
 

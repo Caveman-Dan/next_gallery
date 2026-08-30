@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag, updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";
@@ -22,7 +22,7 @@ export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse
 
   const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_ALBUMS}`);
   return fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
-    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: [REVALIDATION_TAGS.getGalleryData] },
+    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: [REVALIDATION_TAGS.galleryData] },
   });
 };
 
@@ -38,7 +38,7 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
     next: {
       revalidate: IMAGES_REVALIDATE_SECONDS,
-      tags: [REVALIDATION_TAGS.getImages.allImages,`${REVALIDATION_TAGS.getImages.singleAlbumPrefix}${imageDirectory}`], // revalidate all albums or individually
+      tags: [REVALIDATION_TAGS.albums, `${REVALIDATION_TAGS.albumPrefix}${imageDirectory}`], // revalidate all albums or individually
     },
   });
 };

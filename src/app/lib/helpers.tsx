@@ -10,7 +10,11 @@ export const apiError = (status: number, message: string): ApiErrorResponse => (
 export const isApiErrorResponse = (value: unknown): value is ApiErrorResponse =>
   typeof value === "object" && value !== null && !Array.isArray(value) && (value as ApiErrorResponse).error === true;
 
-export const isGalleryCacheTag = (tag: string) => JSON.stringify(REVALIDATION_TAGS).includes(tag);
+export const isGalleryCacheTag = (tag: string) => {
+  Object.values(REVALIDATION_TAGS).some((value) =>
+    value.endsWith(":") ? tag.startsWith(value) : tag === value
+  );
+};
 
 export const capitalise = (string: string) => `${string[0].toUpperCase()}${string.slice(1)}`;
 

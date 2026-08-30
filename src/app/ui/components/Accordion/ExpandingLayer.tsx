@@ -83,11 +83,15 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
     if (entry.path === openItem.path) {
       setIsSectionOpen(true);
+      setRenderNextChild(true);
       if (entry.children?.length) {
         setListHeight(entry.children.length + entry.depth);
       }
-    } else if (cropPath(openItem.path, entry.depth + 1) !== entry.path) {
-      // collapse items on a different branch
+    } else if (cropPath(openItem.path, entry.depth + 1) === entry.path) {
+      // ancestor of the open folder — keep this branch mounted
+      setIsSectionOpen(true);
+      setRenderNextChild(true);
+    } else {
       setIsSectionOpen(false);
       setRenderNextChild(false);
     }

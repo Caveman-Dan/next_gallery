@@ -34,6 +34,12 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
 
   const requestUrl = new URL(`${process.env.NEXT_PUBLIC_API}${process.env.NEXT_PUBLIC_API_GET_IMAGES}`);
   requestUrl.search = new URLSearchParams({ locate: imageDirectory }).toString();
+  return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
+    next: {
+      revalidate: IMAGES_REVALIDATE_SECONDS,
+      tags: ["albums", `album:${imageDirectory}`],
+    },
+  });
 };
 
 export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {

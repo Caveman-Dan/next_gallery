@@ -5,7 +5,7 @@ import { mainPageFade } from "@/ui/components/MountAnimation/MountAnimationConfi
 import styles from "./layout.module.scss";
 import { Suspense } from "react";
 
-import { getAlbums } from "@/lib/actions";
+import { getAlbums } from "@/lib/serverActions";
 import { isApiErrorResponse } from "@/lib/helpers";
 
 import type { Metadata } from "next";

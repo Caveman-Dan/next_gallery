@@ -1,5 +1,11 @@
 import type { ApiErrorResponse } from "@/definitions/definitions";
 
+export const apiError = (status: number, message: string): ApiErrorResponse => ({
+  error: true,
+  status,
+  message,
+});
+
 export const isApiErrorResponse = (value: unknown): value is ApiErrorResponse =>
   typeof value === "object" && value !== null && !Array.isArray(value) && (value as ApiErrorResponse).error === true;
 

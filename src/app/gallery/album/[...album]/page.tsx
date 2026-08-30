@@ -1,4 +1,4 @@
-import { getImages } from "@/lib/actions";
+import { getImages } from "@/lib/serverActions";
 import AlbumView from "./AlbumView";
 
 import { isApiErrorResponse } from "@/lib/helpers";

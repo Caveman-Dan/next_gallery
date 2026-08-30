@@ -1,0 +1,2 @@
+export const API_TIMEOUT_MS = 15_000;
+export const ALBUMS_REVALIDATE_SECONDS = 600;

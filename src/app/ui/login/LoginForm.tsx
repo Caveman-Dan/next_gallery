@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useActionState } from "react";
-import { authenticateSignIn } from "@/lib/actions";
+import { authenticateSignIn } from "@/lib/serverActions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";

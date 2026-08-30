@@ -1,7 +1,7 @@
 import { useActionState } from "react";
 import clsx from "clsx";
 
-import { authenticateSignup } from "@/lib/actions";
+import { authenticateSignup } from "@/lib/serverActions";
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
 

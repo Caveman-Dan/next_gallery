@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useEffect } from "react";
-import uniqid from "uniqid";
 import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import Ripple from "@/ui/components/RippleComponent/RippleComponent";
@@ -59,13 +58,13 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
     [onChange, value, handleOpenClose]
   );
 
-  const Options = children.map((OptionElement) => {
+  const Options = children.map((OptionElement, index) => {
     // TypeScript type guard (OptionElement)
     if (React.isValidElement<OptionElementProps>(OptionElement)) {
       return (
         <div
           {...OptionElement.props}
-          key={uniqid()}
+          key={OptionElement.props["data-value"] ?? String(index)}
           onClick={handleSelect}
           className={`
                 ${styles.option}

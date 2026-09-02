@@ -5,6 +5,7 @@ $borderPadding: 2rem;
   margin: 0 auto;
   width: calc(100% - calc($borderPadding * 2));
   padding: $borderPadding;
+  height: calc(100% - #{$borderPadding * 2});
 
   h2 {
     margin: 0;
@@ -32,6 +33,7 @@ $borderPadding: 2rem;
 
 @include aboveSm {
   .root {
-    margin-top: min(5vw, 8vh);
+    padding-top: min(5vw, 8vh);
+    height: calc(100% - Min(5vw, 8vh) - #{$borderPadding * 2});
   }
 }

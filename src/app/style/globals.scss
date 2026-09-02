@@ -21,6 +21,8 @@
 html {
   margin: 0;
   overflow: hidden;
+  height: 100%;
+
   body {
     margin: 0;
     background-color: var(--background-colour-base);
@@ -29,8 +31,8 @@ html {
     color: var(--text-colour-base);
 
     transition: background-color $theme_change_transition;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     overflow-x: hidden;
   }
 }

@@ -1,22 +1,15 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import styles from "./RippleComponent.module.scss";
 
 const useDebouncedRippleCleanUp = (rippleCount: number, cleanUpFunction: () => void, duration = 1000) => {
   useLayoutEffect(() => {
-    let bounce: ReturnType<typeof setTimeout> | null = null;
-    if (rippleCount > 0) {
-      // Null guard for Typescript
-      if (bounce !== null) clearTimeout(bounce);
+    if (rippleCount === 0) return;
 
-      bounce = setTimeout(() => {
-        cleanUpFunction();
-        // Null guard for Typescript
-        if (bounce !== null) clearTimeout(bounce);
-      }, duration * 4);
-    }
+    const bounce = setTimeout(() => {
+      cleanUpFunction();
+    }, duration * 4);
 
-    // Null guard for Typescript
-    if (bounce !== null) return () => clearTimeout(bounce);
+    return () => clearTimeout(bounce);
   }, [rippleCount, duration, cleanUpFunction]);
 };
 
@@ -29,9 +22,11 @@ const Ripple = () => {
     }>
   >([]);
 
-  useDebouncedRippleCleanUp(rippleArray.length, () => {
+  const clearRipples = useCallback(() => {
     setRippleArray([]);
-  });
+  }, []);
+
+  useDebouncedRippleCleanUp(rippleArray.length, clearRipples);
 
   const addRipple = (event: React.MouseEvent) => {
     const rippleContainer = event.currentTarget.getBoundingClientRect();
@@ -44,7 +39,7 @@ const Ripple = () => {
       size,
     };
 
-    setRippleArray([...rippleArray, newRipple]);
+    setRippleArray((current) => [...current, newRipple]);
   };
 
   return (

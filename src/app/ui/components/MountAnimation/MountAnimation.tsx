@@ -36,6 +36,7 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const [isClosing, setIsClosing] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
   const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
+  const [isAnimating, setIsAnimating] = useState(true);
 
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
@@ -52,7 +53,9 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
       opacity: isClosing ? 0 : 1,
     },
     config: targetConfig,
+    onStart: () => setIsAnimating(true),
     onRest: (result) => {
+      setIsAnimating(false);
       if (isClosing && result.finished && redirectPath) {
         router.push(redirectPath);
       }
@@ -88,7 +91,7 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   }, []);
 
   return (
-    <main className={styles.root}>
+    <main className={`${styles.root}${isAnimating ? ` ${styles.isAnimating}` : ""}`}>
       <animated.div
         className={styles.container}
         style={{

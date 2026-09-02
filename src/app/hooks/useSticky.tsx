@@ -31,7 +31,7 @@ const useSticky = <Target extends HTMLDivElement>() => {
       setIsSticky(isSticky);
     });
 
-    return () => sticky?.observer.unobserve(sticky?.element);
+    return () => sticky?.observer.disconnect();
   }, []);
 
   return { isSticky, ref };

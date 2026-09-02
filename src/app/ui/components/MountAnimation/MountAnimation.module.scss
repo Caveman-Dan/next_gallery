@@ -1,7 +1,11 @@
 .root {
   position: relative;
   height: 100%;
-  overflow: hidden;
+
+  &.isAnimating {
+    // This fixes scroll bar flicker
+    overflow: hidden;
+  }
 
   .container {
     margin: 0 auto;

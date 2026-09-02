@@ -28,14 +28,12 @@ const InputBox: React.FC<InputBoxProps> = ({ inputState, label, name, type = "te
   const effectiveType = type === "password" && revealText ? "text" : type;
   const hasError = !!inputState.errors;
   const hasMessage = !!inputState.messages?.length;
-  const inputKey = `${name}-${inputState.value}-${hasError ? "error" : "noerror"}`;
 
   return (
     <div className={styles.root}>
       <div className={styles.input}>
         <label>
           <input
-            key={inputKey}
             type={effectiveType}
             name={name}
             placeholder="&nbsp;"

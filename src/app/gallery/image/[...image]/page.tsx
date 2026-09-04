@@ -1,34 +1,38 @@
-import base64url from "base64url";
+// import base64url from "base64url";
+import { getImages } from "@/lib/serverActions";
+import { isApiErrorResponse } from "@/lib/helpers";
 import Image from "@/ui/components/Image/Image";
 
 import styles from "./page.module.scss";
-import path from "path";
 
-const SingleImageView = async ({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ image: string[] }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
-  const imagePath = decodeURIComponent((await params).image.join("/"));
-  const {
-    blurDataUrl = "data:image_png;base64,_9j_2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj_2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj_wAARCAABAAEDASIAAhEBAxEB_8QAFQABAQAAAAAAAAAAAAAAAAAAAAP_xAAUEAEAAAAAAAAAAAAAAAAAAAAA_8QAFAEBAAAAAAAAAAAAAAAAAAAAAf_EABQRAQAAAAAAAAAAAAAAAAAAAAD_2gAMAwEAAhEDEQA_AKgAv__Z",
-    // width = 4000,
-    // height = 4000,
-  } = await searchParams;
-  
+const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }> }) => {
+  const segments = (await params).image.map((part) => decodeURIComponent(part));
+  const fileName = segments.at(-1);
+  const albumPath = segments.slice(0, -1).join("/");
+
+  if (!fileName || !albumPath) {
+    throw new Error("There was a problem retrieving the image.");
+  }
+
+  const response = await getImages(albumPath);
+  if (isApiErrorResponse(response) || !Array.isArray(response)) {
+    throw new Error("There was a problem retrieving the image.");
+  }
+
+  const image = response.find((entry) => entry.fileName === fileName);
+  if (!image) {
+    throw new Error("There was a problem retrieving the image.");
+  }
+
+  console.log("IMAGE: ", image);
+
+  const imagePath = `${albumPath}/${fileName}`;
   const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
-
-  // Had to trim the last two "=" from the output of base64url.toBase64()
-  const blurData = base64url.toBase64(blurDataUrl as string).slice(0, -2);
-
-  const filename = path.basename(imagePath);
 
   return (
     <div className={styles.root}>
       <div className={styles.title}>
-        <h1>{filename}</h1>
+        <h1>{fileName}</h1>
       </div>
       <div className={styles.imageContainer}>
         <Image
@@ -36,10 +40,11 @@ const SingleImageView = async ({
           src={imageUrl}
           // width={width as number}
           // height={height as number}
+          fit="contain"
           fill
-          alt={`Image of ${filename}`}
+          alt={`Image of ${fileName}`}
           placeholder="blur"
-          blurDataURL={blurData}
+          blurDataURL={image.placeholder.blurData}
         />
       </div>
     </div>

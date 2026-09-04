@@ -1,7 +1,7 @@
 "use client";
 
 import NextImage, { ImageProps } from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import fallbackImage from "@/assets/alert-triangle.svg?url";
 
@@ -9,6 +9,7 @@ import styles from "./Image.module.scss";
 
 export interface ImageWithFallbackProps extends ImageProps {
   fallback?: string;
+  fit?: "cover" | "contain";
 }
 
 const Image = ({
@@ -17,11 +18,21 @@ const Image = ({
   src,
   blurDataURL,
   className,
+  fit = "cover",
   ...props
 }: ImageWithFallbackProps) => {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [hidePlaceholder, setHidePlaceholder] = useState(false);
   const [activeSrc, setActiveSrc] = useState(src);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    setTimeout(() => {
+      setHidePlaceholder(loaded);
+    }, 800);
+  }, [loaded]);
 
   if (src !== activeSrc) {
     setActiveSrc(src);
@@ -33,7 +44,9 @@ const Image = ({
     <div className={styles.root}>
       {blurDataURL && !error && (
         <div
-          className={styles.placeholder}
+          className={`${styles.placeholder}
+            ${fit === "contain" ? ` ${styles.contain}` : ""}
+            ${hidePlaceholder ? ` ${styles.hidePlaceholder}` : ""}`}
           style={{ backgroundImage: `url("${blurDataURL}")` }}
           aria-hidden
         />
@@ -42,7 +55,7 @@ const Image = ({
         {...props}
         loading="lazy"
         placeholder="empty"
-        className={`${styles.image}${loaded ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
+        className={`${styles.image}${fit === "contain" ? ` ${styles.contain}` : ""}${loaded ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
         onLoad={() => setLoaded(true)}
         onError={() => {
           setError(true);

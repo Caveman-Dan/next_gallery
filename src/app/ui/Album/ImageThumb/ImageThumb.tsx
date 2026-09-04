@@ -1,6 +1,6 @@
 "use client";
 
-import base64url from "base64url";
+// import base64url from "base64url";
 import Image, { ImageWithFallbackProps } from "@/ui/components/Image/Image";
 
 import styles from "./ImageThumb.module.scss";
@@ -31,9 +31,7 @@ const ImageThumb = ({
 }: ImageThumbProps) => {
   const sourceHeight = Math.max(1, Math.round((srcHeight / srcWidth) * THUMB_SOURCE_WIDTH));
   const { push } = useAnimatedComponent();
-  const href = `/gallery/image/${albumPath}/${fileName}?width=${srcWidth}&height=${srcHeight}&blurDataUrl=${base64url.fromBase64(
-    blurDataURL as string
-  )}`;
+  const href = `/gallery/image/${albumPath}/${fileName}`;
 
   return (
     <Link

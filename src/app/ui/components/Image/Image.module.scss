@@ -12,12 +12,26 @@
   background-position: center;
   filter: blur(20px);
   transform: scale(1.1);
+  // opacity: 1;
+  animation: placeholderIn 800ms ease-out;
+}
+
+.placeholder.hidePlaceholder {
   opacity: 0;
-  animation: placeholderIn 800ms ease-out forwards;
+  transition: opacity 800ms ease-in-out;
+}
+
+.placeholder.contain {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(16px);
+  transform: none;
 }
 
 @keyframes placeholderIn {
   from {
+    opacity: 0;
     transform: scale(0.7);
   }
   to {
@@ -25,6 +39,16 @@
     opacity: 1;
   }
 }
+
+// @keyframes placeholderOut {
+//   from {
+//     // filter: opacity(1), blur(16px);
+//   }
+//   to {
+//     filter: opacity(0);
+//     opacity: 0 !important;
+//   }
+// }
 
 .image {
   position: relative;
@@ -34,6 +58,10 @@
   object-fit: cover;
   opacity: 0;
   transition: opacity 800ms ease-out;
+}
+
+.image.contain {
+  object-fit: contain;
 }
 
 .isLoaded {

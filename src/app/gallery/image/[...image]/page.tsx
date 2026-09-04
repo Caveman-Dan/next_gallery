@@ -24,8 +24,6 @@ const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }
     throw new Error("There was a problem retrieving the image.");
   }
 
-  console.log("IMAGE: ", image);
-
   const imagePath = `${albumPath}/${fileName}`;
   const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
 

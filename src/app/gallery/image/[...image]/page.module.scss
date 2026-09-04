@@ -3,6 +3,7 @@ $titleHeight: 3em;
 .root {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 
   .title {
     height: $titleHeight;

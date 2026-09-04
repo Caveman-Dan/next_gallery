@@ -24,7 +24,7 @@ type SidebarProps = Omit<InteractiveToggleProps, "state" | "setState"> & {
 const GALLERY_ROUTES = {
   basePath: "/gallery",
   leafSlug: "album",
-  detailSlug: "image",
+  assetSlug: "image",
 } as const;
 
 const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albums }) => {

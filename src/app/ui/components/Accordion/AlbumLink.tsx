@@ -24,7 +24,7 @@ const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, o
 
   const isCurrentAlbum = isSelected && !isViewingImage;
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (isCurrentAlbum) return;
     onOpen(entryDetails);

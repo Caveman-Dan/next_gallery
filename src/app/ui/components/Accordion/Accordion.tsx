@@ -53,7 +53,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       onSelect,
       getItemHref,
     }),
-    [openItem, setOpenItem, listHeight, currentUri, uriParts, onSelect, getItemHref]
+    [openItem, setOpenItem, listHeight, currentUri, uriParts, onSelect, isViewingImage, getItemHref]
   );
 
   if (!albums?.children?.length) return null;

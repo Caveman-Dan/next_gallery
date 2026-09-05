@@ -64,10 +64,6 @@ export function getLeafHref(entryPath: string, routes: AccordionRoutes): string 
 }
 
 export function isImageRoute(pathname: string, routes: AccordionRoutes): boolean {
-  const { basePath, leafSlug, assetSlug } = routes;
-  const assetPrefix = assetSlug ? `/${joinPath(basePath, assetSlug)}/` : null;
-  const leafPrefix = `/${joinPath(basePath, leafSlug)}/`;
-
-  if (assetPrefix && pathname.startsWith(assetPrefix)) return true;
-  return pathname.startsWith(leafPrefix);
+  const assetPrefix = routes.assetSlug ? `/${joinPath(routes.basePath, routes.assetSlug)}/` : null;
+  return Boolean(assetPrefix && pathname.startsWith(assetPrefix));
 }

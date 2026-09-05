@@ -78,11 +78,7 @@ const ImageSequencer = ({
   return (
     <>
       {rows.map((row) => (
-        <ImageRow
-          row={row}
-          albumPath={albumPath}
-          key={String(row.images[0]?.md5 ?? row.images[0]?.fileName)}
-        />
+        <ImageRow row={row} albumPath={albumPath} key={String(row.images[0]?.fileName)} />
       ))}
     </>
   );

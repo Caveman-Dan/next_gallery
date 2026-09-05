@@ -25,7 +25,8 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
         const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${image.fileName}`;
 
         return (
-          <div className={styles.thumbContainer} key={image.md5 as string} style={{ width: imageWidth }}>
+          <div className={styles.thumbContainer} key={image.fileName} style={{ width: imageWidth }}>
+            {" "}
             {SHOW_INFO && (
               <div className={`${styles.floatingInfo}`}>
                 <p>src ratio: {width / height}</p>

@@ -62,3 +62,12 @@ export function getActivePathFromPathname(pathname: string, routes: AccordionRou
 export function getLeafHref(entryPath: string, routes: AccordionRoutes): string {
   return `/${joinPath(routes.basePath, routes.leafSlug, entryPath)}`;
 }
+
+export function isImageRoute(pathname: string, routes: AccordionRoutes): boolean {
+  const { basePath, leafSlug, assetSlug } = routes;
+  const assetPrefix = assetSlug ? `/${joinPath(basePath, assetSlug)}/` : null;
+  const leafPrefix = `/${joinPath(basePath, leafSlug)}/`;
+
+  if (assetPrefix && pathname.startsWith(assetPrefix)) return true;
+  return pathname.startsWith(leafPrefix);
+}

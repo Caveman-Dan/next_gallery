@@ -18,6 +18,7 @@ export interface AccordionState {
   setListHeight: Dispatch<SetStateAction<number>>;
   currentUri: string;
   uriParts: string[];
+  isViewingImage: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
   getItemHref: (path: string) => string;
 }

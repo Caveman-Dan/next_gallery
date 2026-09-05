@@ -6,6 +6,7 @@ import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow"
 import styles from "./Accordion.module.scss";
 import type { EntryDetails } from "./types";
 import { useAnimatedComponent } from "@/ui/components/AnimatedComponent/AnimatedComponent";
+import { useAccordionState } from "./AccordionContext";
 
 interface AlbumLinkProps {
   name: string;
@@ -18,17 +19,23 @@ interface AlbumLinkProps {
 }
 
 const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, onSelect }: AlbumLinkProps) => {
+  const { isViewingImage } = useAccordionState();
   const { push } = useAnimatedComponent();
+
+  const isCurrentAlbum = isSelected && !isViewingImage;
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    if (isCurrentAlbum) return;
+    onOpen(entryDetails);
+    onSelect({ skipHistory: true });
+    push(href);
+  };
 
   return (
     <Link
       className={`${styles.link}${isSelected ? ` ${styles.selectedAlbum}` : ""}${isRootItem ? " baseItem" : ""}`}
-      onClick={(event) => {
-        event.preventDefault();
-        onOpen(entryDetails);
-        onSelect({ skipHistory: true });
-        push(href);
-      }}
+      onClick={handleClick}
       href={href}
     >
       {capitalise(name)}

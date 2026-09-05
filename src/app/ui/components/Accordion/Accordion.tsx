@@ -6,7 +6,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import styles from "./Accordion.module.scss";
 import ExpandingLayer from "./ExpandingLayer";
 import { AccordionProvider } from "./AccordionContext";
-import { findOpenItemForUri, getActivePathFromPathname, getLeafHref } from "./helpers";
+import { findOpenItemForUri, getActivePathFromPathname, getLeafHref, isImageRoute } from "./helpers";
 
 import type { DirectoryTree } from "directory-tree";
 import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
@@ -22,12 +22,10 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   const pathname = usePathname();
   const currentUri = useMemo(() => getActivePathFromPathname(pathname, routes), [pathname, routes]);
   const uriParts = useMemo(() => (currentUri ? currentUri.split("/").filter(Boolean) : []), [currentUri]);
+  const isViewingImage = useMemo(() => isImageRoute(pathname, routes), [pathname, routes]);
   const getItemHref = useCallback((path: string) => getLeafHref(path, routes), [routes]);
 
-  const urlOpenItem = useMemo(
-    () => (albums ? findOpenItemForUri(albums, uriParts) : null),
-    [albums, uriParts]
-  );
+  const urlOpenItem = useMemo(() => (albums ? findOpenItemForUri(albums, uriParts) : null), [albums, uriParts]);
 
   const [clickedItem, setClickedItem] = useState<EntryDetails | null>(null);
   const [clickedForUri, setClickedForUri] = useState<string | null>(null);
@@ -51,6 +49,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       setListHeight,
       currentUri,
       uriParts,
+      isViewingImage,
       onSelect,
       getItemHref,
     }),

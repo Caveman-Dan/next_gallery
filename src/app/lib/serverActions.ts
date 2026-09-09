@@ -33,12 +33,13 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
     return apiError(500, message);
   }
 
-  const requestUrl = new URL(`${process.env.API}${process.env.API_GET_IMAGES}`);
-  requestUrl.search = new URLSearchParams({ locate: imageDirectory }).toString();
+  const requestUrl = new URL(
+    `${process.env.API}${process.env.API_GET_IMAGES}/${imageDirectory.split("/").map(encodeURIComponent).join("/")}`
+  );
   return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
     next: {
       revalidate: IMAGES_REVALIDATE_SECONDS,
-      tags: [REVALIDATION_TAGS.albums, `${REVALIDATION_TAGS.albumPrefix}${imageDirectory}`], // revalidate all albums or individually
+      tags: [REVALIDATION_TAGS.albums, `${REVALIDATION_TAGS.albumPrefix}${imageDirectory}`],
     },
   });
 };

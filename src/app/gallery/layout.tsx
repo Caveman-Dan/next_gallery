@@ -26,11 +26,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = async ({ children }) => 
           <MenuSystem albums={albums} />
         </Suspense>
         <div className={`${styles.contentContainer}`}>
-          <AnimatedComponent>
-            <div className={`${styles.pageBorder}`}>
+          <div className={`${styles.pageBorder}`}>
+            <AnimatedComponent>
               <div className={styles.pageContainer}>{children}</div>
-            </div>
-          </AnimatedComponent>
+            </AnimatedComponent>
+          </div>
         </div>
       </MountAnimation>
     </AnimatedComponentProvider>

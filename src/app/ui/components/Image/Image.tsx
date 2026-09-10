@@ -37,25 +37,6 @@ const Image = ({
     setHidePlaceholder(false);
   }
 
-  useEffect(() => {
-    if (!loaded) return;
-
-    const timer = setTimeout(() => {
-      setHidePlaceholder(loaded);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, [loaded]);
-
-  // Reset state to allow src to change on this instance.
-  // The new image is not treated as already loaded.
-  if (src !== activeSrc) {
-    setActiveSrc(src);
-    setError(false);
-    setLoaded(false);
-    setHidePlaceholder(false);
-  }
-
   return (
     <div className={styles.root}>
       {blurDataURL && !error && (

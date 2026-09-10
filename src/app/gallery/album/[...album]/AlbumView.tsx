@@ -13,11 +13,17 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
   const { ref: contentRef, clientWidth: containerWidth } = useElementSize();
   const albumName = albumPath.split("/").filter(Boolean).at(-1) ?? albumPath;
   const [showImages, setShowImages] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const ready = containerWidth > 0;
 
   useEffect(() => {
     setShowImages(false);
   }, [albumPath]);
+
+  useEffect(() => {
+    const skeletonDelay = setTimeout(() => setShowSkeleton(true), 1000);
+    return clearTimeout(skeletonDelay);
+  }, []);
 
   return (
     <div className={styles.imagesContainer}>
@@ -30,10 +36,9 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
           if (ready) setShowImages(true);
         }}
       >
-        <AlbumSkeleton />
+        {!ready && showSkeleton && <AlbumSkeleton />}
       </div>
       <div className={`${styles.content}${ready ? ` ${styles.isReady}` : ""}`} ref={contentRef}>
-        {" "}
         <div className={styles.titleContainer}>
           <h1>{albumName}</h1>
           <p>{albumPath}</p>

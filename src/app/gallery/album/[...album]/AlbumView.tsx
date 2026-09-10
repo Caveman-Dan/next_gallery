@@ -34,7 +34,7 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
           if (ready) setShowImages(true);
         }}
       >
-        {!ready && <AlbumSkeleton delay={2000} />}
+        {!ready && <AlbumSkeleton />}
       </div>
       <div className={`${styles.content}${ready ? ` ${styles.isReady}` : ""}`} ref={contentRef}>
         <div className={styles.titleContainer}>

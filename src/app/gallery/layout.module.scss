@@ -23,22 +23,28 @@
       overflow-x: hidden;
     }
   }
-}
 
-@include aboveMd {
-  .pageBorder {
-    --page-width: 80%;
+  @include aboveMd {
+    .pageBorder {
+      --page-width: 90%;
+    }
   }
-}
 
-@include aboveXl {
-  .pageBorder {
-    --page-width: 70%;
+  @include aboveXl {
+    .pageBorder {
+      --page-width: 80%;
+    }
   }
-}
 
-@include aboveXxl {
-  .pageBorder {
-    --page-width: 60%;
+  @include aboveXxl {
+    .pageBorder {
+      --page-width: 60%;
+    }
+  }
+
+  @include belowMd {
+    .pageBorder {
+      --page-width: 100%;
+    }
   }
 }

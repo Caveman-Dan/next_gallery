@@ -13,7 +13,7 @@
   filter: blur(20px);
   transform: scale(1.1);
   // opacity: 1;
-  animation: placeholderIn 800ms ease-out;
+  animation: placeholderIn 800ms ease-out forwards;
 }
 
 .placeholder.hidePlaceholder {

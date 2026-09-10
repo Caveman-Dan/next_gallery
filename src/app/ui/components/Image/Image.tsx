@@ -23,8 +23,19 @@ const Image = ({
 }: ImageWithFallbackProps) => {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [introDone, setIntroDone] = useState(!blurDataURL);
   const [hidePlaceholder, setHidePlaceholder] = useState(false);
   const [activeSrc, setActiveSrc] = useState(src);
+
+  const showImage = loaded && introDone;
+
+  if (src !== activeSrc) {
+    setActiveSrc(src);
+    setError(false);
+    setLoaded(false);
+    setIntroDone(!blurDataURL);
+    setHidePlaceholder(false);
+  }
 
   useEffect(() => {
     if (!loaded) return;
@@ -53,6 +64,10 @@ const Image = ({
             ${fit === "contain" ? ` ${styles.contain}` : ""}
             ${hidePlaceholder ? ` ${styles.hidePlaceholder}` : ""}`}
           style={{ backgroundImage: `url("${blurDataURL}")` }}
+          onAnimationEnd={(event) => {
+            if (event.target !== event.currentTarget) return;
+            setIntroDone(true);
+          }}
           aria-hidden
         />
       )}
@@ -60,8 +75,13 @@ const Image = ({
         {...props}
         loading="lazy"
         placeholder="empty"
-        className={`${styles.image}${fit === "contain" ? ` ${styles.contain}` : ""}${loaded ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
+        className={`${styles.image}${fit === "contain" ? ` ${styles.contain}` : ""}${showImage ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
         onLoad={() => setLoaded(true)}
+        onTransitionEnd={(event) => {
+          if (event.target !== event.currentTarget) return;
+          if (event.propertyName !== "opacity") return;
+          if (showImage) setHidePlaceholder(true);
+        }}
         onError={() => {
           setError(true);
           setLoaded(true);

@@ -15,13 +15,10 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
   const [showImages, setShowImages] = useState(false);
   const ready = containerWidth > 0;
 
+  // Reset so a reused AlbumView does not skip the load sequence on album change
   useEffect(() => {
     setShowImages(false);
   }, [albumPath]);
-
-  useEffect(() => {
-    if (ready) setShowImages(true);
-  }, [ready]);
 
   return (
     <div className={styles.imagesContainer}>

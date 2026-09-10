@@ -32,12 +32,12 @@ Last updated: 10 Sep 2026.
 
 ## 0. Database deploy system (start here)
 
-- [ ] Add MariaDB env vars in this repo (`DATABASE_URL` or host / user / password / name). Server-only; do not expose to the browser.
-- [ ] Add a `schema_migrations` table (version, applied_at).
-- [ ] Add `migrate up` and `migrate down` npm scripts wrapping a small runner.
-- [ ] Convention: one change per version, reversible SQL (or Knex up/down). Comment any `down` that destroys data.
-- [ ] Document: install MariaDB → create empty database → `migrate up` → seed. Same steps on the web server.
-- [ ] Smoke-test on a throwaway database: up, down, up again.
+- [x] Add MariaDB env vars in this repo (`DATABASE_URL` or host / user / password / name). Server-only; do not expose to the browser.
+- [x] Add a `schema_migrations` table (version, applied_at).
+- [x] Add `migrate up` and `migrate down` npm scripts wrapping a small runner.
+- [x] Convention: one change per version, reversible SQL (or Knex up/down). Comment any `down` that destroys data.
+- [x] Document: install MariaDB → create empty database → `migrate up` → seed. Same steps on the web server.
+- [x] Smoke-test on a throwaway database: up, down, up again.
 
 ## 1. Baseline schema + seed
 

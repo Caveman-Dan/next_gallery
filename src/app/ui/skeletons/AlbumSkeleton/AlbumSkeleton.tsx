@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./AlbumSkeleton.module.scss";
 import Spinner from "@/ui/components/Spinner/Spinner";
 

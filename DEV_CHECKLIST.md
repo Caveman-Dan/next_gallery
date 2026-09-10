@@ -16,13 +16,17 @@ Last updated: 10 Sep 2026.
 - Guest **never logs in**. No session cookie → guest/public grants.
 - Signup creates a **pending** user. An admin must activate them and assign an access profile.
 - Pending users **may log in**. Album reads still use the **guest** profile until `status = active`, so they do not see less than an anonymous visitor.
-- `role = admin` sees every album and can grant admin to others. Cannot demote or delete the last admin.
+- Roles: `admin` | `user`.
+  - **Admin** sees every album, uses `/admin`, approves users, assigns access profiles, and may grant or revoke `admin`.
+  - There must **always be at least one admin**. Cannot demote, disable, or delete the last admin.
+- Seed the first account as **admin**.
 - Non-admins get **one access profile** (named set of album paths). Guest/public is a reserved profile the admin edits like any other.
 - No NextAuth / Auth.js. No extra CSRF tokens until we add cookie-authenticated JSON APIs.
 - Session cookie: httpOnly, Secure, SameSite=Lax. Server session row in MariaDB.
-- Operator UI is `/admin` (rename Settings). `/UserProfile` is the signed-in user editing themselves.
+- Operator UI is `/admin` (rename Settings). Visible to admin. `/UserProfile` is the signed-in user editing themselves.
 - DB changes go through **versioned migrations with up and down**.
 - `/gallery` landing content is later.
+- No separate `owner` role.
 
 ---
 
@@ -40,8 +44,8 @@ Last updated: 10 Sep 2026.
 - [ ] Migration: `users`, `sessions`, `access_profiles`, `access_profile_albums`.
 - [ ] `users`: unique email, password_hash, names, phone, `role` (`admin` | `user`), `status` (`pending` | `active` | `disabled`), `access_profile_id`, timestamps.
 - [ ] Seed a reserved `guest` access profile (not a login account).
-- [ ] Seed the first admin from env (`ADMIN_EMAIL`, `ADMIN_PASSWORD`) only when no admin exists.
-- [ ] Guard: cannot delete or demote the last admin.
+- [ ] Seed the first **admin** from env (`ADMIN_EMAIL`, `ADMIN_PASSWORD`) only when no admin exists.
+- [ ] Guard: cannot demote, disable, or delete the last admin.
 - [ ] Confirm `down` drops these tables in FK-safe order.
 
 ## 2. Session + password helpers (this repo, server-only)
@@ -80,7 +84,7 @@ Last updated: 10 Sep 2026.
 ## 6. Rename Settings → `/admin`
 
 - [ ] Add `/admin`. Redirect `/Settings` if we want a clean break.
-- [ ] Sidebar label **Admin**, visible only when `role = admin`.
+- [ ] Sidebar label **Admin**, visible when `role` is `admin`.
 - [ ] Non-admins hitting `/admin` get 404 or home, not a half-rendered page.
 
 ## 7. Admin: users

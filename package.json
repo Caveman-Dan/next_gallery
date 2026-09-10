@@ -6,13 +6,16 @@
     "dev": "dotenv -c -- next dev",
     "build": "next build",
     "start": "dotenv -c -- next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
+    "migrate:down": "dotenv -c -- tsx db/migrate.ts down"
   },
   "dependencies": {
     "@react-spring/web": "^10.1.2",
     "base64url": "^3.0.1",
     "clsx": "^2.1.1",
     "directory-tree": "^3.6.0",
+    "mysql2": "^3.24.4",
     "next": "^16.3.3",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
@@ -34,6 +37,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",
     "sass": "^1.103.1",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

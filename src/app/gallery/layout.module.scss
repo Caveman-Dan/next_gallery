@@ -5,10 +5,12 @@
   display: flex;
 
   .pageBorder {
+    --page-width: 80%;
+
     padding: var(--nav-spacing);
     border: 1px solid var(--border-colour-base);
     border-radius: $default_border_radius;
-    width: 80%;
+    width: var(--page-width);
     height: 100%;
     box-sizing: border-box;
     margin: 0 auto;
@@ -20,5 +22,23 @@
       overflow-y: auto;
       overflow-x: hidden;
     }
+  }
+}
+
+@include aboveMd {
+  .pageBorder {
+    --page-width: 80%;
+  }
+}
+
+@include aboveXl {
+  .pageBorder {
+    --page-width: 70%;
+  }
+}
+
+@include aboveXxl {
+  .pageBorder {
+    --page-width: 60%;
   }
 }

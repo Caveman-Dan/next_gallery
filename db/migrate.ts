@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import mysql from "mysql2/promise";
 
+import { applyTablePrefix, tableName } from "@/db/db_helpers";
+
 const MIGRATIONS_DIR = path.join(process.cwd(), "db", "migrations");
 
 type Direction = "up" | "down";
@@ -27,9 +29,11 @@ const getConnection = async () => {
   });
 };
 
+const migrationsTable = () => tableName("schema_migrations");
+
 const ensureMigrationsTable = async (connection: mysql.Connection) => {
   await connection.query(`
-    CREATE TABLE IF NOT EXISTS schema_migrations (
+    CREATE TABLE IF NOT EXISTS ${migrationsTable()} (
       version VARCHAR(32) NOT NULL PRIMARY KEY,
       applied_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
@@ -53,7 +57,7 @@ const listMigrationFiles = (direction: Direction) => {
 };
 
 const getAppliedVersions = async (connection: mysql.Connection) => {
-  const [rows] = await connection.query("SELECT version FROM schema_migrations ORDER BY version ASC");
+  const [rows] = await connection.query(`SELECT version FROM ${migrationsTable()} ORDER BY version ASC`);
   return new Set((rows as { version: string }[]).map((row) => row.version));
 };
 
@@ -67,10 +71,10 @@ const migrateUp = async (connection: mysql.Connection) => {
   }
 
   for (const file of pending) {
-    const sql = fs.readFileSync(file.filePath, "utf8");
+    const sql = applyTablePrefix(fs.readFileSync(file.filePath, "utf8"));
     console.log(`Applying ${file.name}`);
     await connection.query(sql);
-    await connection.query("INSERT INTO schema_migrations (version) VALUES (?)", [file.version]);
+    await connection.query(`INSERT INTO ${migrationsTable()} (version) VALUES (?)`, [file.version]);
   }
 };
 
@@ -88,16 +92,16 @@ const migrateDown = async (connection: mysql.Connection) => {
     throw new Error(`No down migration for version ${lastVersion}`);
   }
 
-  const sql = fs.readFileSync(file.filePath, "utf8");
+  const sql = applyTablePrefix(fs.readFileSync(file.filePath, "utf8"));
   console.log(`Rolling back ${file.name}`);
   await connection.query(sql);
-  await connection.query("DELETE FROM schema_migrations WHERE version = ?", [lastVersion]);
+  await connection.query(`DELETE FROM ${migrationsTable()} WHERE version = ?`, [lastVersion]);
 };
 
 const main = async () => {
   const direction = process.argv[2];
   if (direction !== "up" && direction !== "down") {
-    throw new Error('Usage: tsx db/migrate.ts <up|down>');
+    throw new Error("Usage: tsx db/migrate.ts <up|down>");
   }
 
   const connection = await getConnection();

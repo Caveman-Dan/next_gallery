@@ -1,2 +1,2 @@
 -- Drops the dummy healthcheck table only.
-DROP TABLE IF EXISTS _migration_healthcheck;
+DROP TABLE IF EXISTS __PREFIX__migration_healthcheck;

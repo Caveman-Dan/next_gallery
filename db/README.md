@@ -1,11 +1,11 @@
 # Database migrations
 
-MariaDB is required for auth and general operation. Server-only env vars: `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `DATABASE_PREFIX`. Copy them from `example.env` into `.env`.
+MariaDB is required for auth and general operation. Server-only env vars: `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `DATABASE_PREFIX`. Copy them from `.env.example` into `.env`.
 
 1. If not already installed, Install MariaDB
 2. Make sure the database named in `.env` under `DATABASE_NAME` exists. Create it if not.
 3. If you are using an existing database that is used for other websites you should enter a `DATABASE_PREFIX` in `.env`
-4. `npm run migrate:up` — applies pending `db/migrations/*.up.sql` files and records versions in `schema_migrations`.
+4. `npm run migrate:up` — applies pending `db/migrations/*.up.sql` files and records versions in `{DATABASE_PREFIX}schema_migrations`.
 5. `npm run migrate:down` — rolls back **one** version using the matching `*.down.sql`.
 
 Same steps on the web server. Backup before `up` in production. The first migration is a dummy health check table so you can run up → down → up before any auth schema exists.

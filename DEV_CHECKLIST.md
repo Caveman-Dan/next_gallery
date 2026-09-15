@@ -61,8 +61,8 @@ Last updated: 10 Sep 2026.
 
 ## 3. Login / logout / signup
 
-- [ ] Wire existing `/login` server action: verify credentials, reject `disabled`, start session.
-- [ ] Pending users can log in; gallery listing still uses the guest profile.
+- [x] Wire existing `/login` server action: verify credentials, reject `disabled`, start session.
+- [x] Pending users can log in; gallery listing still uses the guest profile.
 - [ ] Logout deletes the session row and cookie.
 - [ ] Signup creates `status = pending`, `role = user`, no profile. Do not auto-activate.
 - [ ] Generic auth error messages (do not reveal whether an email exists on login).

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { dbQuery } from "@/lib/db/db";
 import { getSession, type SessionUser } from "@/lib/db/dbSession";
 
@@ -9,7 +10,7 @@ export type Principal =
 
 export type AlbumAccess = { all: true } | { all: false; paths: string[] };
 
-export const getPrincipal = async (): Promise<Principal> => {
+export const getPrincipal = cache(async (): Promise<Principal> => {
   const session = await getSession();
   if (!session || session.status === "disabled") {
     return { kind: "guest", user: null };
@@ -21,7 +22,7 @@ export const getPrincipal = async (): Promise<Principal> => {
     return { kind: "pending", user: session };
   }
   return { kind: "user", user: session };
-};
+});
 
 const publicAlbumPaths = async () => {
   const rows = await dbQuery<{ album_path: string }[]>(

@@ -9,6 +9,7 @@ import Logo from "./Logo";
 import Button from "@/ui/components/Button/Button";
 
 import styles from "./TopBar.module.scss";
+import { usePrincipal } from "@/ui/auth/PrincipalProvider";
 import { ModalSetActive } from "@/definitions/definitions";
 
 const TopBar = ({
@@ -19,25 +20,35 @@ const TopBar = ({
   isSidebarOpen: boolean;
   setIsSidebarOpen: ModalSetActive;
   sideBarButtonClickAwayRef: React.RefObject<HTMLDivElement | null>;
-}) => (
-  <div className={styles.root}>
-    <div className={styles.leftSide}>
-      <div className={styles.burgerContainer} ref={sideBarButtonClickAwayRef}>
-        <Burger state={isSidebarOpen} setState={setIsSidebarOpen} />
+}) => {
+  const principal = usePrincipal();
+
+  return (
+    <div className={styles.root}>
+      <div className={styles.leftSide}>
+        <div className={styles.burgerContainer} ref={sideBarButtonClickAwayRef}>
+          <Burger state={isSidebarOpen} setState={setIsSidebarOpen} />
+        </div>
+        <Logo />
       </div>
-      <Logo />
+      <div className={styles.rightSide}>
+        <div className={styles.themeSelectWrapper}>
+          <ThemeSelector />
+        </div>
+        <div className={styles.loginButtonContainer}>
+          {principal.kind === "guest" ? (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          ) : (
+            <Link href="/UserProfile">
+              <Button>Account</Button>
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
-    <div className={styles.rightSide}>
-      <div className={styles.themeSelectWrapper}>
-        <ThemeSelector />
-      </div>
-      <div className={styles.loginButtonContainer}>
-        <Link href="/login">
-          <Button>Login</Button>
-        </Link>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 export default TopBar;

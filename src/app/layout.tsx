@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 
+import { getPrincipal } from "@/lib/db/dbAccess";
+import { PrincipalProvider } from "@/ui/auth/PrincipalProvider";
+
 import { exo2 } from "@/fonts";
 import "@/style/globals.scss";
 import styles from "./layout.module.scss";
@@ -18,10 +21,14 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const principal = await getPrincipal();
+
   return (
     <html className={`${exo2.className} ${styles.root}`} lang="en" suppressHydrationWarning>
       <body className={`${styles.body}`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <PrincipalProvider principal={principal}>{children}</PrincipalProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -41,16 +41,16 @@ Last updated: 10 Sep 2026.
 
 ## 1. Baseline schema + seed
 
-- [ ] Migration: `users`, `sessions`, `access_profiles`, `access_profile_albums`.
-- [ ] `users`: unique email, password_hash, names, phone, `role` (`admin` | `user`), `status` (`pending` | `active` | `disabled`), `access_profile_id`, timestamps.
-- [ ] Seed a reserved `guest` access profile (not a login account).
-- [ ] Seed the first **admin** from env (`ADMIN_EMAIL`, `ADMIN_PASSWORD`) only when no admin exists.
-- [ ] Guard: cannot demote, disable, or delete the last admin.
-- [ ] Confirm `down` drops these tables in FK-safe order.
+- [x] Migration: `users`, `sessions`, `access_profiles`, `access_profile_albums`.
+- [x] `users`: unique email, password_hash, names, phone, `role` (`admin` | `user`), `status` (`pending` | `active` | `disabled`), `access_profile_id`, timestamps.
+- [x] Seed a reserved `guest` access profile (not a login account).
+- [x] Seed the first **admin** from env (`ADMIN_EMAIL`, `ADMIN_PASSWORD`) only when no admin exists.
+- [x] Guard: cannot demote, disable, or delete the last admin.
+- [x] Confirm `down` drops these tables in FK-safe order.
 
 ## 2. Session + password helpers (this repo, server-only)
 
-- [ ] Hash and verify passwords (Argon2 or bcrypt). Never store plaintext.
+- [x] Hash and verify passwords (Argon2 or bcrypt). Never store plaintext.
 - [ ] Create / read / delete sessions in MariaDB.
 - [ ] Set and clear the session cookie (httpOnly, Secure, SameSite=Lax, Path=/).
 - [ ] Resolve current principal: admin / active user / pending user / guest.

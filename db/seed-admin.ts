@@ -82,8 +82,6 @@ const main = async () => {
     const usersTable = tableName("users");
     const [existing] = await connection.query(`SELECT id FROM ${usersTable} WHERE role = 'admin' LIMIT 1`);
     if (Array.isArray(existing) && existing.length > 0) {
-      // console.error("An admin user already exists.");
-      // process.exit(1);
       throw Error("An admin user already exists.");
     }
 

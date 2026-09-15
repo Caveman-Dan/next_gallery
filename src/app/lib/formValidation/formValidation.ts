@@ -6,7 +6,7 @@ import type { FormValues, FormConfig, FormState, FieldConfig, InputTest } from "
 export const validateForm = async (formValues: FormValues, formConfig: FormConfig): Promise<FormState> => {
   const newFormState = JSON.parse(JSON.stringify(formConfig.config.initialState));
 
-  Object.keys(formValues).forEach(async (field) => {
+  for (const field of Object.keys(formValues)) {
     const fieldConfig: FieldConfig = formConfig.fields[field];
     if (!fieldConfig) {
       handleServerError({ message: "Form submission not configured correctly!" });
@@ -19,7 +19,7 @@ export const validateForm = async (formValues: FormValues, formConfig: FormConfi
         if (testResult.message && testResult.message.length > 0) newFormState[field].messages?.push(testResult.message);
       }
     }
-  });
+  }
 
   return newFormState;
 };

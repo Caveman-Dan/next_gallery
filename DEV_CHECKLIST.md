@@ -51,10 +51,10 @@ Last updated: 10 Sep 2026.
 ## 2. Session + password helpers (this repo, server-only)
 
 - [x] Hash and verify passwords (Argon2 or bcrypt). Never store plaintext.
-- [ ] Create / read / delete sessions in MariaDB.
-- [ ] Set and clear the session cookie (httpOnly, Secure, SameSite=Lax, Path=/).
-- [ ] Resolve current principal: admin / active user / pending user / guest.
-- [ ] Resolve allowed album paths for that principal:
+- [x] Create / read / delete sessions in MariaDB.
+- [x] Set and clear the session cookie (httpOnly, Secure, SameSite=Lax, Path=/).
+- [x] Resolve current principal: admin / active user / pending user / guest.
+- [x] Resolve allowed album paths for that principal:
   - admin → all albums
   - pending or anonymous → guest profile
   - active user → their access profile

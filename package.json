@@ -8,10 +8,12 @@
     "start": "dotenv -c -- next start",
     "lint": "eslint .",
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
-    "migrate:down": "dotenv -c -- tsx db/migrate.ts down"
+    "migrate:down": "dotenv -c -- tsx db/migrate.ts down",
+    "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts"
   },
   "dependencies": {
     "@react-spring/web": "^10.1.2",
+    "argon2": "^0.45.1",
     "base64url": "^3.0.1",
     "clsx": "^2.1.1",
     "directory-tree": "^3.6.0",

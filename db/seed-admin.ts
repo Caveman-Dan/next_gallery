@@ -1,7 +1,7 @@
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import mysql from "mysql2/promise";
-import { tableName } from "@/db/db_helpers";
+import { tableName } from "@/db/dbHelpers";
 import { hashPassword } from "@/lib/password";
 
 const readHidden = async (prompt: string) => {

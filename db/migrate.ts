@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import mysql from "mysql2/promise";
 
-import { applyTablePrefix, tableName } from "@/db/db_helpers";
+import { applyTablePrefix, tableName } from "@/db/dbHelpers";
 
 const MIGRATIONS_DIR = path.join(process.cwd(), "db", "migrations");
 

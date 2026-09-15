@@ -1,12 +1,15 @@
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "ng_session";
+import authConfig from "@/lib/authConfig";
+const { COOKIE_NAME } = authConfig;
 
-const cookieOptions = (expires: Date) => ({
+const cookiePath = () => process.env.BASE_PATH || "/";
+
+const cookieOptions = (expires: Date, path = cookiePath()) => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  path: "/",
+  sameSite: "lax" as const, // Prevent CSRF
+  path,
   expires,
 });
 

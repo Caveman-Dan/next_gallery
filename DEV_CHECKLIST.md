@@ -65,7 +65,7 @@ Last updated: 10 Sep 2026.
 - [x] Pending users can log in; gallery listing still uses the guest profile.
 - [x] Logout deletes the session row and cookie.
 - [x] Signup creates `status = pending`, `role = user`, no profile. Do not auto-activate.
-- [ ] Generic auth error messages (do not reveal whether an email exists on login).
+- [x] Generic auth error messages (do not reveal whether an email exists on login).
 
 ## 4. Enforce grants on listings
 

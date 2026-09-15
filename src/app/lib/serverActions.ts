@@ -1,6 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";
@@ -8,6 +9,8 @@ import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
 import { apiError, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
+import { getUserByEmail } from "./db/dbAuthenticate";
+import { createSession } from "./db/dbSession";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -64,7 +67,15 @@ export const authenticateSignIn = async (prevState: FormState, formData?: FormDa
     pwd: formData?.get("password") as string,
   };
 
-  return await validateForm(formValues, loginFormConf);
+  const formState = await validateForm(formValues, loginFormConf);
+  const hasFieldErrors = Object.values(formState).some((field) => field.errors);
+  if (hasFieldErrors) return formState;
+
+  const user = await getUserByEmail(formValues.email);
+  if (!user) return formState;
+
+  await createSession(user.id);
+  redirect("/gallery");
 };
 
 export const authenticateSignup = async (prevState: FormState, formData?: FormData): Promise<FormState> => {

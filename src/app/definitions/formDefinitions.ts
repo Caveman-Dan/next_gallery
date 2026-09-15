@@ -21,8 +21,11 @@ export type ValidatorOptions = {
   // extend as needed
 };
 
-export type ValidatorTest = (value: string, options: ValidatorOptions) => InputTest;
-
+export type ValidatorTest = (
+  value: string,
+  options: ValidatorOptions,
+  formValues: FormValues
+) => InputTest | Promise<InputTest>;
 export type FieldTest = {
   test: ValidatorTest;
   options: ValidatorOptions;

@@ -1,4 +1,4 @@
-import { isFieldEmpty, isValidEmail } from "@/lib/formValidation/validatorTests";
+import { isFieldEmpty, isValidEmail, isValidLogin } from "@/lib/formValidation/validatorTests";
 import { loginFormInitialState } from "@/initialiseData/initialiseData";
 import type { FormConfig } from "@/definitions/formDefinitions";
 
@@ -25,6 +25,10 @@ const loginFormConf: FormConfig = {
         {
           test: isFieldEmpty,
           options: { errorMessage: "Password is required!" },
+        },
+        {
+          test: isValidLogin,
+          options: { errorMessage: "Invalid email or password" },
         },
       ],
     },

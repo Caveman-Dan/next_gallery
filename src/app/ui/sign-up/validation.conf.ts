@@ -1,4 +1,4 @@
-import { isFieldEmpty, isValidEmail } from "@/lib/formValidation/validatorTests";
+import { isFieldEmpty, isValidEmail, isEmailUnique } from "@/lib/formValidation/validatorTests";
 import { signupFormInitialState } from "@/initialiseData/initialiseData";
 import type { FormConfig } from "@/definitions/formDefinitions";
 
@@ -52,6 +52,10 @@ const signupFormValidationConf: FormConfig = {
         {
           test: isValidEmail,
           options: { errorMessage: "You must enter a valid email address!" },
+        },
+        {
+          test: isEmailUnique,
+          options: { errorMessage: "That email address is already registered!" },
         },
       ],
     },

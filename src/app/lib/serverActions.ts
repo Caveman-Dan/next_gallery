@@ -9,7 +9,7 @@ import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
 import { apiError, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
-import { getUserByEmail } from "./db/dbAuthenticate";
+import { createPendingUser, getUserByEmail } from "./db/dbAuthenticate";
 import { createSession } from "./db/dbSession";
 
 import type { DirectoryTree } from "directory-tree";
@@ -88,5 +88,18 @@ export const authenticateSignup = async (prevState: FormState, formData?: FormDa
     phone: formData?.get("phone") as string,
   };
 
-  return await validateForm(formValues, signupFormConf);
+  const formState = await validateForm(formValues, signupFormConf);
+  const hasFieldErrors = Object.values(formState).some((field) => field.errors);
+  if (hasFieldErrors) return formState;
+
+  const userId = await createPendingUser({
+    email: formValues.email,
+    password: formValues.pwd,
+    firstName: formValues.forename,
+    lastName: formValues.surname,
+    phone: formValues.phone,
+  });
+
+  await createSession(userId);
+  redirect("/gallery");
 };

@@ -10,7 +10,7 @@ import { fetchApiJson } from "./fetchApiJson";
 import { apiError, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
 import { createPendingUser, getUserByEmail } from "./db/dbAuthenticate";
-import { createSession } from "./db/dbSession";
+import { createSession, deleteSession } from "./db/dbSession";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -101,5 +101,10 @@ export const authenticateSignup = async (prevState: FormState, formData?: FormDa
   });
 
   await createSession(userId);
+  redirect("/gallery");
+};
+
+export const logout = async () => {
+  await deleteSession();
   redirect("/gallery");
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import { useActionState } from "react";
 import clsx from "clsx";
 
@@ -32,7 +34,7 @@ const SignupForm = ({ initialState }: { initialState: FormState }) => {
         </div>
         <div className={clsx(styles.panels, styles.rightPanel)}>
           <InputBox inputState={formState.email} label="Email" name="email" type="email" />
-          <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
+          <InputBox inputState={formState.password} label="Password" name="password" type="password" />
           <InputBox inputState={formState.phone} label="Phone" name="phone" type="text" />
         </div>
         <button form="signup-form" type="submit" style={{ display: "none" }} /> {/* // This allows enter to submit */}

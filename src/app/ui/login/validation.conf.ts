@@ -16,7 +16,7 @@ const fields = {
       },
     ],
   },
-  pwd: {
+  password: {
     tests: [
       {
         test: isFieldEmpty,

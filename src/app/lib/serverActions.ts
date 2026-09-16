@@ -85,7 +85,7 @@ export const authenticateSignup = async (prevState: FormState, formData?: FormDa
 
   const userId = await createPendingUser({
     email: formValues.email,
-    password: formValues.pwd,
+    password: formValues.password,
     firstName: formValues.forename,
     lastName: formValues.surname,
     phone: formValues.phone,

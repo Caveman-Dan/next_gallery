@@ -55,7 +55,7 @@ const fields = {
       },
     ],
   },
-  pwd: {
+  password: {
     isRequired: true,
     tests: [
       {

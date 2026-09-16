@@ -33,7 +33,7 @@ const LoginForm = ({ initialState }: { initialState: FormState }) => {
           <InputBox inputState={formState.email} label="Email" name="email" type="email" />
         </div>
         <div className={styles.inputBoxes}>
-          <InputBox inputState={formState.pwd} label="Password" name="password" type="password" />
+          <InputBox inputState={formState.password} label="Password" name="password" type="password" />
         </div>
         <button form="login-form" type="submit" style={{ display: "none" }} /> {/* // This allows enter to submit */}
       </form>

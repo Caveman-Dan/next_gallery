@@ -4,7 +4,6 @@ import { initialFormState } from "@/lib/formValidation/formHelpers";
 
 const fields = {
   forename: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,
@@ -15,7 +14,6 @@ const fields = {
     ],
   },
   surname: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,
@@ -26,7 +24,6 @@ const fields = {
     ],
   },
   username: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,
@@ -37,7 +34,6 @@ const fields = {
     ],
   },
   email: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,
@@ -56,7 +52,6 @@ const fields = {
     ],
   },
   password: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,
@@ -67,7 +62,6 @@ const fields = {
     ],
   },
   phone: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,

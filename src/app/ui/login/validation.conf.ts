@@ -4,7 +4,6 @@ import { initialFormState } from "@/lib/formValidation/formHelpers";
 
 const fields = {
   email: {
-    isRequired: true,
     tests: [
       {
         test: isFieldEmpty,

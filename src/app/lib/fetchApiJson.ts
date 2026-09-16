@@ -18,7 +18,6 @@ export const fetchApiJson = async <T>(
 ): Promise<T | ApiErrorResponse> => {
   if (!process.env.API) {
     handleServerError({ message: missingConfigMessage });
-    return apiError(500, missingConfigMessage);
   }
 
   try {
@@ -37,13 +36,11 @@ export const fetchApiJson = async <T>(
         payload.message
           ? payload.message
           : `Request failed (${response.status})`;
-      handleServerError({ message });
       return apiError(response.status, message);
     }
 
     if (payload == null) {
       const message = "API returned a non-JSON response";
-      handleServerError({ message });
       return apiError(502, message);
     }
 
@@ -51,7 +48,6 @@ export const fetchApiJson = async <T>(
   } catch (err) {
     const timedOut = err instanceof Error && err.name === "TimeoutError";
     const message = timedOut ? "The gallery API timed out" : "Could not reach the gallery API";
-    handleServerError({ message });
     return apiError(timedOut ? 504 : 503, message);
   }
 };

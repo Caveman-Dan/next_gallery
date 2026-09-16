@@ -32,7 +32,6 @@ export type FieldTest = {
 };
 
 export type FieldConfig = {
-  isRequired?: boolean; // optional, defaults to false if omitted
   tests?: FieldTest[];
 };
 

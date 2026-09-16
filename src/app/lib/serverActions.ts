@@ -21,7 +21,6 @@ export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse
   if (!process.env.API_GET_ALBUMS) {
     const message = "API config error!";
     handleServerError({ message });
-    return apiError(500, message);
   }
 
   const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
@@ -34,7 +33,6 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   if (!process.env.API_GET_IMAGES) {
     const message = "CDN is missing in environment config!";
     handleServerError({ message });
-    return apiError(500, message);
   }
 
   const requestUrl = new URL(

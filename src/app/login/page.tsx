@@ -1,4 +1,4 @@
-"use client";
+import loginFormConf from "@/ui/login/validation.conf";
 
 import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
 import { loginTransition } from "@/ui/components/MountAnimation/MountAnimationConfig";
@@ -16,7 +16,7 @@ const LoginPage = () => {
           <LogoIcon className={styles.logo} height="48px" />
         </div>
         <div className={styles.formContainer}>
-          <LoginForm />
+          <LoginForm initialState={loginFormConf.config.initialState} />
         </div>
       </div>
     </MountAnimation>

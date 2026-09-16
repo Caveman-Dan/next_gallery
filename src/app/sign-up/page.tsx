@@ -1,4 +1,4 @@
-"use client";
+import signupFormConf from "@/ui/sign-up/validation.conf";
 
 import MountAnimation from "@/ui/components/MountAnimation/MountAnimation";
 import LogoIcon from "@/assets/logoNoName.svg";
@@ -16,7 +16,7 @@ const SignupPage = () => {
           <LogoIcon className={styles.logo} height="48px" />
         </div>
         <div className={styles.formContainer}>
-          <SignupForm />
+          <SignupForm initialState={signupFormConf.config.initialState} />
         </div>
       </div>
     </MountAnimation>

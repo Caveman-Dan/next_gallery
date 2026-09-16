@@ -73,3 +73,20 @@ export const createPendingUser = async (input: {
   );
   return result.insertId;
 };
+
+export const updateUserProfile = async (
+  userId: number,
+  input: { email: string; firstName: string; lastName: string; phone: string }
+) => {
+  await dbQuery(
+    `UPDATE __PREFIX__users
+     SET email = ?, first_name = ?, last_name = ?, phone = ?
+     WHERE id = ?`,
+    [input.email, input.firstName, input.lastName, input.phone || null, userId]
+  );
+};
+
+export const updateUserPassword = async (userId: number, password: string) => {
+  const passwordHash = await hashPassword(password);
+  await dbQuery(`UPDATE __PREFIX__users SET password_hash = ? WHERE id = ?`, [passwordHash, userId]);
+};

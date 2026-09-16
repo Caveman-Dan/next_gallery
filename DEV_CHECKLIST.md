@@ -76,7 +76,7 @@ Last updated: 10 Sep 2026.
 
 ## 5. `/UserProfile`
 
-- [ ] Show details for the session user. Pending banner if not yet approved.
+- [x] Show details for the session user. Pending banner if not yet approved.
 - [ ] Edit name / email / phone with the existing form components.
 - [ ] Change password (current + new).
 - [ ] Anonymous visitors redirect to `/login`.

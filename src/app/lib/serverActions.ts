@@ -9,7 +9,8 @@ import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
 import { apiError, isApiErrorResponse, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
-import { createPendingUser, getUserByEmail } from "./db/dbAuthenticate";
+import { createPendingUser, getUserByEmail, updateUserPassword, updateUserProfile } from "./db/dbAuthenticate";
+import { profileFormConf, passwordFormConf } from "@/ui/UserProfile/validation.conf";
 import { createSession, deleteSession } from "./db/dbSession";
 import { getAllowedAlbumPaths, getPrincipal } from "./db/dbAccess";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
@@ -118,4 +119,40 @@ export const authenticateSignup = async (prevState: FormState, formData?: FormDa
 export const logout = async () => {
   await deleteSession();
   redirect("/gallery");
+};
+
+export const updateProfile = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
+  const principal = await getPrincipal();
+  if (principal.kind === "guest" || !principal.user) {
+    redirect("/login");
+  }
+
+  const formValues = readFormValues(formData, profileFormConf);
+  const formState = await validateForm(formValues, profileFormConf);
+  if (Object.values(formState).some((field) => field.errors)) return formState;
+
+  await updateUserProfile(principal.user.userId, {
+    email: formValues.email,
+    firstName: formValues.forename,
+    lastName: formValues.surname,
+    phone: formValues.phone,
+  });
+
+  formState.email.messages = [...(formState.email.messages ?? []), "Profile saved"];
+  return formState;
+};
+
+export const changePassword = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
+  const principal = await getPrincipal();
+  if (principal.kind === "guest" || !principal.user) {
+    redirect("/login");
+  }
+
+  const formValues = readFormValues(formData, passwordFormConf);
+  const formState = await validateForm(formValues, passwordFormConf);
+  if (Object.values(formState).some((field) => field.errors)) return formState;
+
+  await updateUserPassword(principal.user.userId, formValues.newPassword);
+  formState.newPassword.messages = [...(formState.newPassword.messages ?? []), "Password updated"];
+  return formState;
 };

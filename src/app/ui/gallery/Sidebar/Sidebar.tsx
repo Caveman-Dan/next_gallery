@@ -77,7 +77,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
     >
       <div className={styles.content}>
         <div className={styles.userProfileContainer}>
-          <UserProfileLink />
+          <UserProfileLink onSelect={() => setIsSidebarOpen(false, { skipHistory: true })} />
         </div>
         <hr />
         <div className={styles.galleriesMenu}>
@@ -90,7 +90,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
         </div>
         <hr />
         <div className={styles.settingsLink}>
-          <SettingsLink />
+          <SettingsLink onSelect={() => setIsSidebarOpen(false, { skipHistory: true })} />{" "}
         </div>
       </div>
     </animated.div>

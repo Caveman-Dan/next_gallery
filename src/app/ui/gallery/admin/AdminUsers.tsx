@@ -35,7 +35,7 @@ const PrivilegesPanel = ({
   }, [displayed?.id, hide, selected, show]);
 
   return (
-    <AnimatedComponent className={styles.panelBody}>
+    <AnimatedComponent className={styles.panelBody} fill={false}>
       {!displayed ? (
         <p className={styles.empty}>Select a user.</p>
       ) : (

@@ -30,11 +30,7 @@ type ProviderProps = {
   resetOnPathname?: boolean;
 };
 
-export const AnimatedComponentProvider = ({
-  children,
-  fadeMs = 300,
-  resetOnPathname = true,
-}: ProviderProps) => {
+export const AnimatedComponentProvider = ({ children, fadeMs = 300, resetOnPathname = true }: ProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
@@ -95,14 +91,15 @@ export const AnimatedComponentProvider = ({
 type BoxProps = {
   children: React.ReactNode;
   className?: string;
+  fill?: boolean;
 };
 
-const AnimatedComponent = ({ children, className }: BoxProps) => {
+const AnimatedComponent = ({ children, className, fill = true }: BoxProps) => {
   const { visible, fadeMs, handleTransitionEnd } = useAnimatedComponent();
 
   return (
     <div
-      className={`${styles.root}${visible ? ` ${styles.isVisible}` : ""}${className ? ` ${className}` : ""}`}
+      className={`${styles.root}${fill ? ` ${styles.fill}` : ""}${visible ? ` ${styles.isVisible}` : ""}${className ? ` ${className}` : ""}`}
       style={{ "--animated-component-fade-ms": `${fadeMs}ms` } as React.CSSProperties}
       onTransitionEnd={handleTransitionEnd}
     >

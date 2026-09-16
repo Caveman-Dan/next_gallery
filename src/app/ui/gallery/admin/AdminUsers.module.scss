@@ -24,6 +24,12 @@
   background-color: var(--primary-colour-base);
 }
 
+.panelBody {
+  padding: 0.75rem;
+  border-radius: $default_border_radius;
+  background-color: var(--primary-colour-light);
+}
+
 .userList {
   list-style: none;
   margin: 0;

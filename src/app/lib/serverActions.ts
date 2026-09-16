@@ -7,10 +7,12 @@ import loginFormConf from "@/ui/login/validation.conf";
 import signupFormConf from "@/ui/sign-up/validation.conf";
 import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
-import { apiError, isGalleryCacheTag } from "./helpers";
+import { apiError, isApiErrorResponse, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
 import { createPendingUser, getUserByEmail } from "./db/dbAuthenticate";
 import { createSession, deleteSession } from "./db/dbSession";
+import { getAllowedAlbumPaths, getPrincipal } from "./db/dbAccess";
+import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -23,16 +25,36 @@ export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse
     handleServerError({ message });
   }
 
+  const principal = await getPrincipal();
+  const access = await getAllowedAlbumPaths();
+  const cacheUser =
+    principal.kind === "guest"
+      ? "guest"
+      : principal.kind === "admin"
+        ? `admin:${principal.user.userId}`
+        : `user:${principal.user.userId}`;
+
   const requestUrl = new URL(`${process.env.API}${process.env.API_GET_ALBUMS}`);
-  return fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
-    next: { revalidate: ALBUMS_REVALIDATE_SECONDS, tags: [REVALIDATION_TAGS.galleryData] },
+  const tree = await fetchApiJson<DirectoryTree>(requestUrl, "API config error!", {
+    next: {
+      revalidate: ALBUMS_REVALIDATE_SECONDS,
+      tags: [`${REVALIDATION_TAGS.galleryDataPrefix}${cacheUser}`],
+    },
   });
+
+  if (isApiErrorResponse(tree)) return tree;
+  return filterAlbumTree(tree, access);
 };
 
 export const getImages = async (imageDirectory: string): Promise<ImageDetails[] | ApiErrorResponse> => {
   if (!process.env.API_GET_IMAGES) {
     const message = "CDN is missing in environment config!";
     handleServerError({ message });
+  }
+
+  const access = await getAllowedAlbumPaths();
+  if (!albumPathAllowed(imageDirectory, access)) {
+    return apiError(403, "You do not have access to this album");
   }
 
   const requestUrl = new URL(

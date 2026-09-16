@@ -24,12 +24,6 @@
   background-color: var(--primary-colour-base);
 }
 
-.panelBody {
-  padding: 0.75rem;
-  border-radius: $default_border_radius;
-  background-color: var(--primary-colour-light);
-}
-
 .userList {
   list-style: none;
   margin: 0;
@@ -91,26 +85,6 @@
   gap: 0.35rem;
   font-size: 0.85em;
   white-space: nowrap;
-}
-
-.profileList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.profileRow {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.empty {
-  margin: 0;
-  opacity: 0.8;
 }
 
 @include aboveMd {

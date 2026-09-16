@@ -8,6 +8,47 @@ export type AuthUser = {
   status: "pending" | "active" | "disabled";
 };
 
+export type ProfileUser = {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string | null;
+  role: "admin" | "user";
+  status: "pending" | "active" | "disabled";
+};
+
+export const getUserById = async (id: number) => {
+  const users = await dbQuery<
+    {
+      id: number;
+      email: string;
+      first_name: string;
+      last_name: string;
+      phone: string | null;
+      role: "admin" | "user";
+      status: "pending" | "active" | "disabled";
+    }[]
+  >(
+    `SELECT id, email, first_name, last_name, phone, role, status
+     FROM __PREFIX__users
+     WHERE id = ?
+     LIMIT 1`,
+    [id]
+  );
+  const row = users[0];
+  if (!row) return null;
+  return {
+    id: row.id,
+    email: row.email,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phone: row.phone,
+    role: row.role,
+    status: row.status,
+  } satisfies ProfileUser;
+};
+
 export const getUserByEmail = async (email: string) => {
   const users = await dbQuery<AuthUser[]>(
     "SELECT id, password_hash, status FROM __PREFIX__users WHERE email = ? LIMIT 1",

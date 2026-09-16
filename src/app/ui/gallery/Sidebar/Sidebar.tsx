@@ -89,7 +89,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
           />
         </div>
         <hr />
-        <div className={styles.settingsLink}>
+        <div className={styles.adminLink}>
           <AdminLink onSelect={() => setIsSidebarOpen(false, { skipHistory: true })} />{" "}
         </div>
       </div>

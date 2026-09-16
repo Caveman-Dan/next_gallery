@@ -69,10 +69,10 @@ Last updated: 10 Sep 2026.
 
 ## 4. Enforce grants on listings
 
-- [ ] Filter `getGalleryData` tree by allowed album paths.
-- [ ] Reject `getImages` when the album is outside the grant set.
-- [ ] Per-user (or uncached) Next cache tags so guest and admin lists do not share one cache entry.
-- [ ] Accordion / sidebar only renders what the server action returned.
+- [x] Filter `getGalleryData` tree by allowed album paths.
+- [x] Reject `getImages` when the album is outside the grant set.
+- [x] Per-user (or uncached) Next cache tags so guest and admin lists do not share one cache entry.
+- [x] Accordion / sidebar only renders what the server action returned.
 
 ## 5. `/UserProfile`
 

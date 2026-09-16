@@ -3,6 +3,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import Button from "@/ui/components/Button/Button";
+import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 import { adminDeleteUser, adminSetUserProfile, adminSetUserRevoked } from "@/lib/serverActions";
 import type { AccessProfileOption, AdminUserListItem } from "@/lib/db/dbUsers";
 import styles from "./AdminUsers.module.scss";
@@ -10,7 +11,7 @@ import styles from "./AdminUsers.module.scss";
 const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles: AccessProfileOption[] }) => {
   const [selectedId, setSelectedId] = useState<number | null>(users[0]?.id ?? null);
   const selected = users.find((user) => user.id === selectedId) ?? null;
-  const revoked = selected?.status === "disabled";
+  const pending = selected?.status !== "active";
 
   return (
     <div className={styles.root}>
@@ -33,18 +34,19 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                     <span className={styles.userMeta}>
                       {user.email} · {user.status}
                     </span>
+                    <Ripple />
                   </button>
                   <div className={styles.rowActions}>
                     <form action={adminSetUserRevoked}>
                       <input type="hidden" name="userId" value={user.id} />
-                      <input type="hidden" name="revoked" value={user.status !== "disabled" ? "true" : "false"} />
+                      <input type="hidden" name="pending" value={user.status === "pending" ? "false" : "true"} />
                       <label className={styles.revoke}>
                         <input
                           type="checkbox"
-                          checked={user.status === "disabled"}
+                          checked={user.status === "pending"}
                           onChange={(event) => event.currentTarget.form?.requestSubmit()}
                         />
-                        Revoke
+                        Pending / revoke
                       </label>
                     </form>
                     <form action={adminDeleteUser}>
@@ -68,7 +70,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
             <>
               <p>
                 {selected.firstName} {selected.lastName}
-                {revoked ? " — privileges revoked" : ""}
+                {pending ? " — pending / revoked" : ""}
               </p>
               <ul className={styles.profileList}>
                 {profiles.map((profile) => {
@@ -83,7 +85,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                           <input
                             type="checkbox"
                             checked={granted}
-                            disabled={revoked}
+                            disabled={pending}
                             onChange={(event) => event.currentTarget.form?.requestSubmit()}
                           />
                           {profile.name}

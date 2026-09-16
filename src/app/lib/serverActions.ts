@@ -197,12 +197,11 @@ export const adminDeleteUser = async (formData: FormData) => {
 export const adminSetUserRevoked = async (formData: FormData) => {
   await requireAdmin();
   const userId = Number(formData.get("userId"));
-  const revoked = formData.get("revoked") === "true";
+  const pending = formData.get("pending") === "true";
   if (!userId) handleServerError({ message: "Missing user" });
-  if (revoked) {
+  if (pending) {
     await guardLastAdmin(userId);
-    await setUserStatus(userId, "disabled");
-    await deleteUserSessions(userId);
+    await setUserStatus(userId, "pending");
   } else {
     await setUserStatus(userId, "active");
   }
@@ -218,8 +217,7 @@ export const adminSetUserProfile = async (formData: FormData) => {
 
   const users = await listAdminUsers();
   const target = users.find((user) => user.id === userId);
-  if (!target || target.status === "disabled") return;
-
+  if (!target || target.status !== "active") return;
   if (granted) await addUserProfile(userId, accessProfileId);
   else await removeUserProfile(userId, accessProfileId);
   revalidatePath("/gallery/admin");

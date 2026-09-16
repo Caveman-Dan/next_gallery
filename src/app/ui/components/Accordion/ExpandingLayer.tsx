@@ -47,12 +47,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   // Handle selection from URL when closed menu is reset or when accessed from link / direct load
   useLayoutEffect(() => {
-    if (!currentUri) {
-      setIsSectionOpen(false);
-      setRenderNextChild(false);
-      return;
-    }
-    if (openItem) return;
+    if (!currentUri || openItem) return;
 
     if (uriParts[entry.depth] === entry.name) {
       if (entry.children?.length) {
@@ -81,7 +76,14 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   // Handle selection from state (user clicks or after openItem is set from URL)
   useLayoutEffect(() => {
-    if (!renderChildren || !openItem) return;
+    if (!renderChildren) return;
+    if (!openItem) {
+      if (!currentUri) {
+        setIsSectionOpen(false);
+        setRenderNextChild(false);
+      }
+      return;
+    }
 
     if (entry.path === openItem.path) {
       setIsSectionOpen(true);
@@ -97,7 +99,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
       setIsSectionOpen(false);
       setRenderNextChild(false);
     }
-  }, [entry.children?.length, entry.depth, entry.path, openItem, renderChildren, setListHeight]);
+  }, [entry.children?.length, entry.depth, entry.path, openItem, renderChildren, setListHeight, currentUri]);
 
   if (!renderChildren) return null;
 

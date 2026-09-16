@@ -30,17 +30,15 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   const [clickedItem, setClickedItem] = useState<EntryDetails | null>(null);
   const [clickedForUri, setClickedForUri] = useState<string | null>(null);
   const [listHeight, setListHeight] = useState(0);
-  const [idleReset, setIdleReset] = useState(0);
 
   useLayoutEffect(() => {
-    if (currentUri) return;
+    if (getActivePathFromPathname(pathname, routes)) return;
     setClickedItem(null);
     setClickedForUri(null);
     setListHeight(0);
-    setIdleReset((value) => value + 1);
-  }, [pathname, currentUri]);
+  }, [pathname, routes]);
 
-  const openItem = currentUri && clickedForUri === currentUri && clickedItem ? clickedItem : urlOpenItem;
+  const openItem = clickedForUri === currentUri && clickedItem ? clickedItem : urlOpenItem;
 
   const setOpenItem = useCallback(
     (item: EntryDetails | null) => {
@@ -72,7 +70,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       <div className={styles.root}>
         {albums.children.map((entry) => (
           <ExpandingLayer
-            key={`${entry.path}:${idleReset}`}
+            key={entry.path}
             entry={{ ...entry, depth: 0 }}
             parentEntryDetails={{ path: albums.path, depth: -1 }}
             renderChildren={true}

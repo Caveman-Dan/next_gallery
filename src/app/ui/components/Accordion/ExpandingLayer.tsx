@@ -32,10 +32,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
   const isRootItem = entry.depth === 0;
   const isLeaf = !entry.children?.length;
 
-  const currentEntryDetails = useMemo(
-    () => ({ path: entry.path, depth: entry.depth }),
-    [entry.depth, entry.path]
-  );
+  const currentEntryDetails = useMemo(() => ({ path: entry.path, depth: entry.depth }), [entry.depth, entry.path]);
 
   const handleOpenItem = useCallback(
     (newOpenItem: EntryDetails) => {
@@ -50,7 +47,12 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   // Handle selection from URL when closed menu is reset or when accessed from link / direct load
   useLayoutEffect(() => {
-    if (!currentUri || openItem) return;
+    if (!currentUri) {
+      setIsSectionOpen(false);
+      setRenderNextChild(false);
+      return;
+    }
+    if (openItem) return;
 
     if (uriParts[entry.depth] === entry.name) {
       if (entry.children?.length) {

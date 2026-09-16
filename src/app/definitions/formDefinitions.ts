@@ -40,9 +40,7 @@ export type FieldsConfig = {
   [key: string]: FieldConfig;
 };
 
-export type FormConfig = {
-  config: {
-    initialState: FormState;
-  };
-  fields: FieldsConfig;
+export type FormConfig<K extends string = string> = {
+  config: { initialState: Record<K, InputState> };
+  fields: Record<K, FieldConfig>;
 };

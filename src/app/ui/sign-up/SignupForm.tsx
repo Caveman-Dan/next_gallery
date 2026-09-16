@@ -7,7 +7,7 @@ import InputBox from "@/ui/components/InputBox/InputBox";
 
 import { useMountAnimationContext } from "@/ui/components/MountAnimation/MountAnimationContextProvider";
 
-import { signupFormInitialState } from "@/initialiseData/initialiseData";
+import singupFormConf from "./validation.conf";
 
 import styles from "./SignupForm.module.scss";
 
@@ -15,7 +15,7 @@ import type { FormState } from "@/definitions/formDefinitions";
 
 const SignupForm = () => {
   // const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignup, signupFormInitialState);
-  const [formState, formAction] = useActionState<FormState>(authenticateSignup, signupFormInitialState);
+  const [formState, formAction] = useActionState<FormState>(authenticateSignup, singupFormConf.config.initialState);
   const { closePage } = useMountAnimationContext();
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {

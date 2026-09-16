@@ -15,6 +15,7 @@ import { createSession, deleteSession } from "./db/dbSession";
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
 import type { ImageDetails, ApiErrorResponse } from "@/definitions/definitions";
+import { readFormValues } from "./formValidation/formHelpers";
 
 export const getGalleryData = async (): Promise<DirectoryTree | ApiErrorResponse> => {
   if (!process.env.API_GET_ALBUMS) {
@@ -62,10 +63,7 @@ export const revalidateGalleryCache = async (tags: string[]) => {
 };
 
 export const authenticateSignIn = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
-  const formValues: { [key: string]: string } = {
-    email: formData?.get("email") as string,
-    pwd: formData?.get("password") as string,
-  };
+  const formValues = readFormValues(formData, loginFormConf);
 
   const formState = await validateForm(formValues, loginFormConf);
   const hasFieldErrors = Object.values(formState).some((field) => field.errors);
@@ -79,14 +77,7 @@ export const authenticateSignIn = async (prevState: FormState, formData?: FormDa
 };
 
 export const authenticateSignup = async (prevState: FormState, formData?: FormData): Promise<FormState> => {
-  const formValues: { [key: string]: string } = {
-    forename: formData?.get("forename") as string,
-    surname: formData?.get("surname") as string,
-    username: formData?.get("username") as string,
-    email: formData?.get("email") as string,
-    pwd: formData?.get("password") as string,
-    phone: formData?.get("phone") as string,
-  };
+  const formValues = readFormValues(formData, signupFormConf);
 
   const formState = await validateForm(formValues, signupFormConf);
   const hasFieldErrors = Object.values(formState).some((field) => field.errors);

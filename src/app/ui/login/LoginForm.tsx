@@ -5,18 +5,18 @@ import { authenticateSignIn } from "@/lib/serverActions";
 
 import Button from "@/ui/components/Button/Button";
 import InputBox from "@/ui/components/InputBox/InputBox";
-import { loginFormInitialState } from "@/initialiseData/initialiseData";
 
 import { useMountAnimationContext } from "../components/MountAnimation/MountAnimationContextProvider";
 
 import type { FormState } from "@/definitions/formDefinitions";
 
 import styles from "./LoginForm.module.scss";
+import loginFormConf from "./validation.conf";
 
 // const LoginForm = ({ closePage }: { closePage: (redirectPath: string) => void }) => {
 const LoginForm = () => {
   // const [formState, formAction, isPending] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
-  const [formState, formAction] = useActionState<FormState>(authenticateSignIn, loginFormInitialState);
+  const [formState, formAction] = useActionState<FormState>(authenticateSignIn, loginFormConf.config.initialState);
   const { closePage } = useMountAnimationContext();
 
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {

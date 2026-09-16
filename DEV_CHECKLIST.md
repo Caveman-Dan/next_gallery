@@ -83,9 +83,9 @@ Last updated: 10 Sep 2026.
 
 ## 6. Rename Settings → `/admin`
 
-- [ ] Add `/admin`. Redirect `/Settings` if we want a clean break.
-- [ ] Sidebar label **Admin**, visible when `role` is `admin`.
-- [ ] Non-admins hitting `/admin` get 404 or home, not a half-rendered page.
+- [x] Add `/admin`. Redirect `/Settings` if we want a clean break.
+- [x] Sidebar label **Admin**, visible when `role` is `admin`.
+- [x] Non-admins hitting `/admin` get 404 or home, not a half-rendered page.
 
 ## 7. Admin: users
 

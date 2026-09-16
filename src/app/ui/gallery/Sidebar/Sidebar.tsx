@@ -5,7 +5,7 @@ import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 import Accordion from "@/ui/components/Accordion/Accordion";
 import UserProfileLink from "@/ui/gallery/Sidebar/UserProfileLink";
-import SettingsLink from "./SettingsLink";
+import AdminLink from "./AdminLink";
 
 import styles from "./Sidebar.module.scss";
 import { sideBar as springsConfig } from "@/style/springsConfig";
@@ -90,7 +90,7 @@ const SideBar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen, albu
         </div>
         <hr />
         <div className={styles.settingsLink}>
-          <SettingsLink onSelect={() => setIsSidebarOpen(false, { skipHistory: true })} />{" "}
+          <AdminLink onSelect={() => setIsSidebarOpen(false, { skipHistory: true })} />{" "}
         </div>
       </div>
     </animated.div>

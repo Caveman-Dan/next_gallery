@@ -1,6 +1,6 @@
 "use server";
 
-import { updateTag } from "next/cache";
+import { updateTag, revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { handleServerError } from "./errorHandling";
 import loginFormConf from "@/ui/login/validation.conf";
@@ -13,6 +13,15 @@ import { createPendingUser, getUserByEmail, updateUserPassword, updateUserProfil
 import { profileFormConf, passwordFormConf } from "@/ui/UserProfile/validation.conf";
 import { createSession, deleteSession } from "./db/dbSession";
 import { getAllowedAlbumPaths, getPrincipal } from "./db/dbAccess";
+import {
+  addUserProfile,
+  countAdmins,
+  deleteUser,
+  deleteUserSessions,
+  listAdminUsers,
+  removeUserProfile,
+  setUserStatus,
+} from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
 
 import type { DirectoryTree } from "directory-tree";
@@ -155,4 +164,63 @@ export const changePassword = async (prevState: FormState, formData?: FormData):
   await updateUserPassword(principal.user.userId, formValues.newPassword);
   formState.newPassword.messages = [...(formState.newPassword.messages ?? []), "Password updated"];
   return formState;
+};
+
+const requireAdmin = async () => {
+  const principal = await getPrincipal();
+  if (principal.kind !== "admin" || !principal.user) {
+    handleServerError({ message: "Forbidden" });
+  }
+  return principal.user;
+};
+
+const guardLastAdmin = async (userId: number) => {
+  const users = await listAdminUsers();
+  const target = users.find((user) => user.id === userId);
+  if (!target || target.role !== "admin" || target.status === "disabled") return;
+  if ((await countAdmins()) <= 1) {
+    handleServerError({ message: "Cannot remove the last admin" });
+  }
+};
+
+export const adminDeleteUser = async (formData: FormData) => {
+  const actor = await requireAdmin();
+  const userId = Number(formData.get("userId"));
+  if (!userId || userId === actor.userId) {
+    handleServerError({ message: "You cannot delete this user" });
+  }
+  await guardLastAdmin(userId);
+  await deleteUser(userId);
+  revalidatePath("/gallery/admin");
+};
+
+export const adminSetUserRevoked = async (formData: FormData) => {
+  await requireAdmin();
+  const userId = Number(formData.get("userId"));
+  const revoked = formData.get("revoked") === "true";
+  if (!userId) handleServerError({ message: "Missing user" });
+  if (revoked) {
+    await guardLastAdmin(userId);
+    await setUserStatus(userId, "disabled");
+    await deleteUserSessions(userId);
+  } else {
+    await setUserStatus(userId, "active");
+  }
+  revalidatePath("/gallery/admin");
+};
+
+export const adminSetUserProfile = async (formData: FormData) => {
+  await requireAdmin();
+  const userId = Number(formData.get("userId"));
+  const accessProfileId = Number(formData.get("accessProfileId"));
+  const granted = formData.get("granted") === "true";
+  if (!userId || !accessProfileId) handleServerError({ message: "Missing profile grant" });
+
+  const users = await listAdminUsers();
+  const target = users.find((user) => user.id === userId);
+  if (!target || target.status === "disabled") return;
+
+  if (granted) await addUserProfile(userId, accessProfileId);
+  else await removeUserProfile(userId, accessProfileId);
+  revalidatePath("/gallery/admin");
 };

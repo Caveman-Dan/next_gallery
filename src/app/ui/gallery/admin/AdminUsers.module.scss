@@ -1,0 +1,115 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  min-height: 0;
+
+  h2,
+  h3 {
+    margin: 0 0 0.75rem;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.list,
+.panel {
+  @include raisedContainer();
+  padding: 1rem;
+  background-color: var(--primary-colour-base);
+}
+
+.userList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.userButton {
+  flex: 1;
+  text-align: left;
+  border: 0;
+  border-radius: $default_border_radius;
+  padding: 0.6rem 0.75rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover,
+  &.isSelected {
+    background-color: var(--highlight-colour-base);
+  }
+}
+
+.userMeta {
+  display: block;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.deleteButton {
+  width: auto;
+  height: 2rem;
+  padding: 0 0.75rem;
+}
+
+.revoke {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.profileList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.empty {
+  margin: 0;
+  opacity: 0.8;
+}
+
+@include aboveMd {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .list,
+  .panel {
+    flex: 1;
+  }
+}

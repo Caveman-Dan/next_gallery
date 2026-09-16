@@ -1,5 +1,5 @@
 const AdminPage = () => {
-  return <h2>Settings Page</h2>;
+  return <h2>Admin Settings</h2>;
 };
 
 export default AdminPage;

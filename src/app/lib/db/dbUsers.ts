@@ -14,6 +14,7 @@ export type AccessProfileOption = {
   id: number;
   name: string;
   isPublic: boolean;
+  albumPaths: string[];
 };
 
 export const listAdminUsers = async () => {
@@ -58,11 +59,37 @@ export const listAccessProfiles = async () => {
   const rows = await dbQuery<{ id: number; name: string; public: number }[]>(
     `SELECT id, name, public FROM __PREFIX__access_profiles ORDER BY name ASC`
   );
+  const albums = await dbQuery<{ access_profile_id: number; album_path: string }[]>(
+    `SELECT access_profile_id, album_path FROM __PREFIX__access_profile_albums`
+  );
+  const albumsByProfile = new Map<number, string[]>();
+  for (const row of albums) {
+    const list = albumsByProfile.get(row.access_profile_id) ?? [];
+    list.push(row.album_path);
+    albumsByProfile.set(row.access_profile_id, list);
+  }
   return rows.map((row) => ({
     id: row.id,
     name: row.name,
     isPublic: Boolean(row.public),
+    albumPaths: albumsByProfile.get(row.id) ?? [],
   })) satisfies AccessProfileOption[];
+};
+
+export const addProfileAlbum = async (accessProfileId: number, albumPath: string) => {
+  await dbQuery(
+    `INSERT INTO __PREFIX__access_profile_albums (access_profile_id, album_path)
+     VALUES (?, ?)
+     ON DUPLICATE KEY UPDATE album_path = album_path`,
+    [accessProfileId, albumPath]
+  );
+};
+
+export const removeProfileAlbum = async (accessProfileId: number, albumPath: string) => {
+  await dbQuery(`DELETE FROM __PREFIX__access_profile_albums WHERE access_profile_id = ? AND album_path = ?`, [
+    accessProfileId,
+    albumPath,
+  ]);
 };
 
 export const countAdmins = async () => {

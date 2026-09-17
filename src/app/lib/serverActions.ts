@@ -14,14 +14,15 @@ import { profileFormConf, passwordFormConf } from "@/ui/UserProfile/validation.c
 import { createSession, deleteSession } from "./db/dbSession";
 import { getAllowedAlbumPaths, getPrincipal } from "./db/dbAccess";
 import {
+  addProfileAlbum,
   addUserProfile,
   countAdmins,
   deleteUser,
-  deleteUserSessions,
   listAdminUsers,
   removeUserProfile,
   setUserRole,
   setUserStatus,
+  removeProfileAlbum,
 } from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
 
@@ -185,7 +186,7 @@ const isLastAdminId = async (userId: number) => {
 export const adminDeleteUser = async (formData: FormData) => {
   const actor = await requireAdmin();
   const userId = Number(formData.get("userId"));
-  if (!userId || userId === actor.userId) return;
+  if (!userId || userId === actor?.userId) return;
   if (await isLastAdminId(userId)) return;
   await deleteUser(userId);
   revalidatePath("/gallery/admin");
@@ -227,5 +228,16 @@ export const adminSetUserProfile = async (formData: FormData) => {
   if (!target || target.status !== "active") return;
   if (granted) await addUserProfile(userId, accessProfileId);
   else await removeUserProfile(userId, accessProfileId);
+  revalidatePath("/gallery/admin");
+};
+
+export const adminSetProfileAlbum = async (formData: FormData) => {
+  await requireAdmin();
+  const accessProfileId = Number(formData.get("accessProfileId"));
+  const albumPath = String(formData.get("albumPath") ?? "");
+  const granted = formData.get("granted") === "true";
+  if (!accessProfileId || !albumPath) return;
+  if (granted) await addProfileAlbum(accessProfileId, albumPath);
+  else await removeProfileAlbum(accessProfileId, albumPath);
   revalidatePath("/gallery/admin");
 };

@@ -20,8 +20,15 @@
 .list,
 .panel {
   @include raisedContainer();
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   padding: 1rem;
   background-color: var(--primary-colour-base);
+}
+
+.scroll {
+  min-height: 0;
 }
 
 .userList {
@@ -91,13 +98,19 @@
 
 @include aboveLg {
   .layout {
-    flex-direction: row;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
   }
 
   .list,
   .panel {
+    height: 22rem;
+    min-width: 0;
+  }
+
+  .scroll {
+    overflow-y: auto;
     flex: 1;
-    min-width: o;
   }
 }

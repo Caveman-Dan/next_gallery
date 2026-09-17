@@ -10,6 +10,12 @@ import PrivilegesPanel from "./PrivilegesPanel";
 import type { AccessProfileOption, AdminUserListItem } from "@/lib/db/dbUsers";
 import styles from "./AdminUsers.module.scss";
 
+const isLastAdmin = (users: AdminUserListItem[], userId: number) => {
+  const target = users.find((user) => user.id === userId);
+  if (!target || target.role !== "admin") return false;
+  return users.filter((user) => user.role === "admin").length <= 1;
+};
+
 const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles: AccessProfileOption[] }) => {
   const [selectedId, setSelectedId] = useState<number | null>(users[0]?.id ?? null);
   const selected = users.find((user) => user.id === selectedId) ?? null;
@@ -50,7 +56,15 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                         Privileges Active
                       </label>
                     </form>
-                    <form action={adminDeleteUser}>
+                    <form
+                      action={adminDeleteUser}
+                      onSubmit={(event) => {
+                        if (isLastAdmin(users, user.id)) {
+                          event.preventDefault();
+                          window.alert("There must be at least one admin.");
+                        }
+                      }}
+                    >
                       <input type="hidden" name="userId" value={user.id} />
                       <div className={styles.deleteButton}>
                         <Button type="submit">Delete</Button>
@@ -66,7 +80,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
         <section className={styles.panel}>
           <h3>Privileges</h3>
           <AnimatedComponentProvider fadeMs={400} resetOnPathname={false}>
-            <PrivilegesPanel selected={selected} profiles={profiles} />
+            <PrivilegesPanel selected={selected} profiles={profiles} users={users} />{" "}
           </AnimatedComponentProvider>
         </section>
       </div>

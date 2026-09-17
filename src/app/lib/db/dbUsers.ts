@@ -72,6 +72,10 @@ export const countAdmins = async () => {
   return Number(rows[0]?.total ?? 0);
 };
 
+export const setUserRole = async (userId: number, role: AdminUserListItem["role"]) => {
+  await dbQuery(`UPDATE __PREFIX__users SET role = ? WHERE id = ?`, [role, userId]);
+};
+
 export const setUserStatus = async (userId: number, status: AdminUserListItem["status"]) => {
   await dbQuery(`UPDATE __PREFIX__users SET status = ? WHERE id = ?`, [status, userId]);
 };

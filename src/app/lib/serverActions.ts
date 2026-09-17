@@ -20,6 +20,7 @@ import {
   deleteUserSessions,
   listAdminUsers,
   removeUserProfile,
+  setUserRole,
   setUserStatus,
 } from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
@@ -174,23 +175,29 @@ const requireAdmin = async () => {
   return principal.user;
 };
 
-const guardLastAdmin = async (userId: number) => {
+const isLastAdminId = async (userId: number) => {
   const users = await listAdminUsers();
   const target = users.find((user) => user.id === userId);
-  if (!target || target.role !== "admin" || target.status === "disabled") return;
-  if ((await countAdmins()) <= 1) {
-    handleServerError({ message: "Cannot remove the last admin" });
-  }
+  if (!target || target.role !== "admin") return false;
+  return (await countAdmins()) <= 1;
 };
 
 export const adminDeleteUser = async (formData: FormData) => {
   const actor = await requireAdmin();
   const userId = Number(formData.get("userId"));
-  if (!userId || userId === actor.userId) {
-    handleServerError({ message: "You cannot delete this user" });
-  }
-  await guardLastAdmin(userId);
+  if (!userId || userId === actor.userId) return;
+  if (await isLastAdminId(userId)) return;
   await deleteUser(userId);
+  revalidatePath("/gallery/admin");
+};
+
+export const adminSetUserRole = async (formData: FormData) => {
+  await requireAdmin();
+  const userId = Number(formData.get("userId"));
+  const role = formData.get("role");
+  if (!userId || (role !== "admin" && role !== "user")) return;
+  if (role === "user" && (await isLastAdminId(userId))) return;
+  await setUserRole(userId, role);
   revalidatePath("/gallery/admin");
 };
 
@@ -200,7 +207,7 @@ export const adminSetUserRevoked = async (formData: FormData) => {
   const pending = formData.get("pending") === "true";
   if (!userId) handleServerError({ message: "Missing user" });
   if (pending) {
-    await guardLastAdmin(userId);
+    if (await isLastAdminId(userId)) return;
     await setUserStatus(userId, "pending");
   } else {
     await setUserStatus(userId, "active");

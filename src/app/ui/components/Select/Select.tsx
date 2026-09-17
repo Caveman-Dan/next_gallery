@@ -27,16 +27,17 @@ const Select: React.FC<SelectProps> = ({ children, value, onChange, overlayText 
   const thisNode = useRef<HTMLDivElement>(null);
   const [open, closing, setOpen] = useOpenModal({ delay: ANIMATION_DELAY, parentRefs: [thisNode] });
   const api = useSpringRef();
+  const closedHeight = "2rem";
+  const openHeight = `${2 * (children.length + 1)}rem`;
+
   const springs = useSpring({
     ref: api,
-    from: { height: "100%" },
+    from: { height: closedHeight },
   });
-
-  const openHeight = `${100 * children.length + 25}%`;
 
   useEffect(() => {
     api.start({
-      to: { height: open ? openHeight : "100%" },
+      to: { height: open ? openHeight : closedHeight },
       config: { ...springsConfig, clamp: !open },
     });
   }, [open, api, openHeight]);

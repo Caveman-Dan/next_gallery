@@ -95,10 +95,10 @@ Last updated: 10 Sep 2026.
 
 ## 8. Admin: access profiles
 
-- [ ] CRUD named profiles. `guest` / public profile is reserved.
-- [ ] Tick albums from the gallery tree onto a profile.
-- [ ] Assigning a profile is the v1 fast path. No per-user extra grants yet.
-- [ ] Editing a profile updates every user on it (including guest/public).
+- [x] CRUD named profiles. `guest` / public profile is reserved.
+- [x] Tick albums from the gallery tree onto a profile.
+- [x] Assigning a profile is the v1 fast path. No per-user extra grants yet.
+- [x] Editing a profile updates every user on it (including guest/public).
 
 ## 9. Image bytes (API repo, minimal)
 

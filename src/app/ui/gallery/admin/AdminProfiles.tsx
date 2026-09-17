@@ -82,7 +82,7 @@ const AdminProfiles = ({ profiles, albums }: { profiles: AccessProfileOption[]; 
                         </button>
                       )}
                       {!isReservedProfile(profile) && !renaming && (
-                        <div className={styles.rowActions}>
+                        <div className={styles.profileActions}>
                           <div className={styles.headingButton}>
                             <Button type="button" onClick={() => setRenamingId(profile.id)}>
                               Rename

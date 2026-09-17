@@ -10,7 +10,7 @@ import { fetchApiJson } from "./fetchApiJson";
 import { apiError, isApiErrorResponse, isGalleryCacheTag } from "./helpers";
 import { ALBUMS_REVALIDATE_SECONDS, IMAGES_REVALIDATE_SECONDS, REVALIDATION_TAGS } from "./apiConfig";
 import { createPendingUser, getUserByEmail, updateUserPassword, updateUserProfile } from "./db/dbAuthenticate";
-import { profileFormConf, passwordFormConf } from "@/ui/UserProfile/validation.conf";
+import { profileFormConf, passwordFormConf } from "@/ui/gallery/UserProfile/validation.conf";
 import { createSession, deleteSession } from "./db/dbSession";
 import { getAllowedAlbumPaths, getPrincipal } from "./db/dbAccess";
 import {

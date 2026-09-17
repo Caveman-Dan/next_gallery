@@ -1,8 +1,8 @@
 import { getPrincipal } from "@/lib/db/dbAccess";
 import { getUserById } from "@/lib/db/dbAuthenticate";
-import { profileFormConf, passwordFormConf } from "@/ui/UserProfile/validation.conf";
-import ProfileForm from "@/ui/UserProfile/ProfileForm";
-import PasswordForm from "@/ui/UserProfile/PasswordForm";
+import { profileFormConf, passwordFormConf } from "@/ui/gallery/UserProfile/validation.conf";
+import ProfileForm from "@/ui/gallery/UserProfile/ProfileForm";
+import PasswordForm from "@/ui/gallery/UserProfile/PasswordForm";
 
 const Page = async () => {
   const principal = await getPrincipal();

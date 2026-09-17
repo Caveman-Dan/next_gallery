@@ -2,6 +2,7 @@
 
 import { adminSetProfileAlbum } from "@/lib/serverActions";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
+import styles from "@/ui/components/Accordion/Accordion.module.scss";
 
 export const relativeAlbumPath = (nodePath: string, rootPath: string) => {
   if (nodePath === rootPath) return "";
@@ -9,10 +10,13 @@ export const relativeAlbumPath = (nodePath: string, rootPath: string) => {
   return nodePath.startsWith(prefix) ? nodePath.slice(prefix.length) : nodePath;
 };
 
+export const pathIsGranted = (albumPath: string, grants: string[]) =>
+  grants.some((grant) => albumPath === grant || albumPath.startsWith(`${grant}/`));
+
 const ProfileAlbumGrant = ({ profile, albumPath }: { profile: AccessProfileOption; albumPath: string }) => {
-  const granted = profile.albumPaths.includes(albumPath);
+  const granted = pathIsGranted(albumPath, profile.albumPaths);
   return (
-    <form action={adminSetProfileAlbum}>
+    <form action={adminSetProfileAlbum} className={styles.rowCheck}>
       <input type="hidden" name="accessProfileId" value={profile.id} />
       <input type="hidden" name="albumPath" value={albumPath} />
       <input type="hidden" name="granted" value={granted ? "false" : "true"} />

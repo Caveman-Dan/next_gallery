@@ -83,6 +83,13 @@ export const addProfileAlbum = async (accessProfileId: number, albumPath: string
      ON DUPLICATE KEY UPDATE album_path = album_path`,
     [accessProfileId, albumPath]
   );
+  // Parent grant covers descendants — drop redundant child rows
+  await dbQuery(
+    `DELETE FROM __PREFIX__access_profile_albums
+     WHERE access_profile_id = ?
+       AND album_path LIKE ?`,
+    [accessProfileId, `${albumPath}/%`]
+  );
 };
 
 export const removeProfileAlbum = async (accessProfileId: number, albumPath: string) => {
@@ -90,6 +97,12 @@ export const removeProfileAlbum = async (accessProfileId: number, albumPath: str
     accessProfileId,
     albumPath,
   ]);
+  await dbQuery(
+    `DELETE FROM __PREFIX__access_profile_albums
+     WHERE access_profile_id = ?
+       AND album_path LIKE ?`,
+    [accessProfileId, `${albumPath}/%`]
+  );
 };
 
 export const countAdmins = async () => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { capitalise } from "@/lib/helpers";
+import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
 import ProfileAlbumGrant, { relativeAlbumPath } from "./ProfileAlbumGrant";
 import type { AccordionLeafProps } from "@/ui/components/Accordion/types";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
@@ -15,7 +16,9 @@ const ProfileAlbumLeaf = ({
   <div className={`${styles.link}${isRootItem ? " baseItem" : ""}`}>
     <span className={styles.rowLabel}>{capitalise(entry.name)}</span>
     <ProfileAlbumGrant profile={profile} albumPath={relativeAlbumPath(entry.path, rootPath)} />
-    <span className={styles.rowArrowSlot} aria-hidden />
+    <span className={styles.rowArrow}>
+      <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+    </span>
   </div>
 );
 

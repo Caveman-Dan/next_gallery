@@ -13,17 +13,26 @@ import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
 
 interface AccordionProps {
   isSidebarOpen?: boolean;
-  onSelect: (options?: { skipHistory?: boolean }) => void;
+  onSelect?: (options?: { skipHistory?: boolean }) => void;
   albums?: DirectoryTree;
-  routes: AccordionRoutes;
+  routes?: AccordionRoutes;
+  renderLeaf?: AccordionState["renderLeaf"];
+  showExpandControls?: boolean;
 }
 
-const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
+const Accordion = ({
+  onSelect = () => undefined,
+  albums,
+  routes,
+  renderLeaf,
+  showExpandControls = false,
+}: AccordionProps) => {
   const pathname = usePathname();
-  const currentUri = useMemo(() => getActivePathFromPathname(pathname, routes), [pathname, routes]);
+  const currentUri = useMemo(() => (routes ? getActivePathFromPathname(pathname, routes) : ""), [pathname, routes]);
   const uriParts = useMemo(() => (currentUri ? currentUri.split("/").filter(Boolean) : []), [currentUri]);
-  const isViewingImage = useMemo(() => isImageRoute(pathname, routes), [pathname, routes]);
-  const getItemHref = useCallback((path: string) => getLeafHref(path, routes), [routes]);
+  const isViewingImage = useMemo(() => (routes ? isImageRoute(pathname, routes) : false), [pathname, routes]);
+  const getItemHref = useCallback((path: string) => (routes ? getLeafHref(path, routes) : path), [routes]);
+  const [expandMode, setExpandMode] = useState<AccordionState["expandMode"]>("manual");
 
   const urlOpenItem = useMemo(() => (albums ? findOpenItemForUri(albums, uriParts) : null), [albums, uriParts]);
 
@@ -32,7 +41,7 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   const [listHeight, setListHeight] = useState(0);
 
   useLayoutEffect(() => {
-    if (getActivePathFromPathname(pathname, routes)) return;
+    if (!routes || getActivePathFromPathname(pathname, routes)) return;
     setClickedItem(null);
     setClickedForUri(null);
     setListHeight(0);
@@ -59,8 +68,22 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
       isViewingImage,
       onSelect,
       getItemHref,
+      renderLeaf,
+      expandMode,
+      setExpandMode,
     }),
-    [openItem, setOpenItem, listHeight, currentUri, uriParts, onSelect, isViewingImage, getItemHref]
+    [
+      openItem,
+      setOpenItem,
+      listHeight,
+      currentUri,
+      uriParts,
+      onSelect,
+      isViewingImage,
+      getItemHref,
+      renderLeaf,
+      expandMode,
+    ]
   );
 
   if (!albums?.children?.length) return null;
@@ -68,6 +91,16 @@ const Accordion = ({ onSelect, albums, routes }: AccordionProps) => {
   return (
     <AccordionProvider value={state}>
       <div className={styles.root}>
+        {showExpandControls && (
+          <div className={styles.expandControls}>
+            <button type="button" onClick={() => setExpandMode("all")}>
+              Expand all
+            </button>
+            <button type="button" onClick={() => setExpandMode("none")}>
+              Collapse all
+            </button>
+          </div>
+        )}
         {albums.children.map((entry) => (
           <ExpandingLayer
             key={entry.path}

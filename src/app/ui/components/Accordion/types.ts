@@ -10,7 +10,18 @@ export interface DirectoryEntry extends DirectoryTree {
   depth: number;
 }
 
-// Shared accordion state that every ExpandingLayer needs
+export type AccordionExpandMode = "manual" | "all" | "none";
+
+export type AccordionLeafProps = {
+  entry: DirectoryEntry;
+  isSelected: boolean;
+  isRootItem: boolean;
+  entryDetails: EntryDetails;
+  onOpen: (details: EntryDetails) => void;
+  onSelect: (options?: { skipHistory?: boolean }) => void;
+  getItemHref: (path: string) => string;
+};
+
 export interface AccordionState {
   openItem: EntryDetails | null;
   setOpenItem: (item: EntryDetails | null) => void;
@@ -21,6 +32,9 @@ export interface AccordionState {
   isViewingImage: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
   getItemHref: (path: string) => string;
+  renderLeaf?: (props: AccordionLeafProps) => React.ReactNode;
+  expandMode: AccordionExpandMode;
+  setExpandMode: (mode: AccordionExpandMode) => void;
 }
 
 // Route scheme used by the accordion to open from a URL and build leaf links.

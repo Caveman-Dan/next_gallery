@@ -21,8 +21,19 @@ const ExpandingLayer = memo(function ExpandingLayer({
   parentEntryDetails,
   renderChildren,
 }: ExpandingLayerProps) {
-  const { openItem, setOpenItem, listHeight, setListHeight, currentUri, uriParts, onSelect, getItemHref } =
-    useAccordionState();
+  const {
+    openItem,
+    setOpenItem,
+    listHeight,
+    setListHeight,
+    currentUri,
+    uriParts,
+    onSelect,
+    getItemHref,
+    renderLeaf,
+    expandMode,
+    setExpandMode,
+  } = useAccordionState();
 
   const [isSectionOpen, setIsSectionOpen] = useState(false);
   const [renderNextChild, setRenderNextChild] = useState(false);
@@ -36,14 +47,22 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   const handleOpenItem = useCallback(
     (newOpenItem: EntryDetails) => {
+      setExpandMode("manual");
       setRenderNextChild(true);
       setOpenItem(newOpenItem);
     },
-    [setOpenItem]
+    [setExpandMode, setOpenItem]
   );
 
   // Spring only needed for root-level animated sections
   const springs = useSectionSpring(isSectionOpen, listHeight, entry.depth, renderChildren && isRootItem);
+
+  useLayoutEffect(() => {
+    if (expandMode === "manual") return;
+    const expand = expandMode === "all";
+    setIsSectionOpen(expand);
+    setRenderNextChild(expand);
+  }, [expandMode]);
 
   // Handle selection from URL when closed menu is reset or when accessed from link / direct load
   useLayoutEffect(() => {
@@ -104,6 +123,16 @@ const ExpandingLayer = memo(function ExpandingLayer({
   if (!renderChildren) return null;
 
   if (isLeaf) {
+    const leafProps = {
+      entry,
+      isSelected,
+      isRootItem,
+      entryDetails: currentEntryDetails,
+      onOpen: handleOpenItem,
+      onSelect,
+      getItemHref,
+    };
+    if (renderLeaf) return renderLeaf(leafProps);
     return (
       <AlbumLink
         name={entry.name}

@@ -9,7 +9,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background-color $menu_transition, color $menu_transition;
+    transition:
+      background-color $menu_transition,
+      color $menu_transition;
     text-wrap: nowrap;
 
     @include hover {
@@ -53,7 +55,9 @@
       align-items: center;
       text-wrap: nowrap;
 
-      transition: background-color $menu_transition, color $menu_transition;
+      transition:
+        background-color $menu_transition,
+        color $menu_transition;
 
       @include hover {
         // transition: unset;
@@ -97,6 +101,24 @@
       .sectionLabel {
         display: none;
       }
+    }
+  }
+}
+
+.expandControls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    color: var(--text-colour-alternate);
+    padding: 0;
+
+    &:hover {
+      color: var(--text-colour-hover);
     }
   }
 }

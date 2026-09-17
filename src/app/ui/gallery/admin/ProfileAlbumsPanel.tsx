@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import AnimatedComponent, { useAnimatedComponent } from "@/ui/components/AnimatedComponent/AnimatedComponent";
 import { adminSetProfileAlbum } from "@/lib/serverActions";
+
+import Accordion from "@/ui/components/Accordion/Accordion";
+import ProfileAlbumLeaf from "./ProfileAlbumLeaf";
+
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import type { DirectoryTree } from "directory-tree";
 import styles from "./PrivilegesPanel.module.scss";
@@ -76,9 +80,11 @@ const ProfileAlbumsPanel = ({ selected, albums }: { selected: AccessProfileOptio
       ) : (
         <>
           <p>{displayed.name}</p>
-          {albums.children?.map((child) => (
-            <AlbumNode key={child.path} node={child} rootPath={albums.path} selected={displayed} />
-          ))}
+          <Accordion
+            albums={albums}
+            showExpandControls
+            renderLeaf={(leafProps) => <ProfileAlbumLeaf {...leafProps} profile={displayed} rootPath={albums.path} />}
+          />
         </>
       )}
     </AnimatedComponent>

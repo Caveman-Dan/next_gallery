@@ -3,10 +3,12 @@
 import { usePathname } from "next/navigation";
 import React, { useState, useCallback, useMemo, useLayoutEffect } from "react";
 
-import styles from "./Accordion.module.scss";
+import Button from "@/ui/components/Button/Button";
 import ExpandingLayer from "./ExpandingLayer";
 import { AccordionProvider } from "./AccordionContext";
 import { findOpenItemForUri, getActivePathFromPathname, getLeafHref, isImageRoute } from "./helpers";
+
+import styles from "./Accordion.module.scss";
 
 import type { DirectoryTree } from "directory-tree";
 import type { EntryDetails, AccordionState, AccordionRoutes } from "./types";
@@ -17,14 +19,19 @@ interface AccordionProps {
   albums?: DirectoryTree;
   routes?: AccordionRoutes;
   renderLeaf?: AccordionState["renderLeaf"];
+  renderFolderLabel?: AccordionState["renderFolderLabel"];
   showExpandControls?: boolean;
 }
+
+const countEntries = (node: DirectoryTree): number =>
+  (node.children ?? []).reduce((total, child) => total + 1 + countEntries(child), 0);
 
 const Accordion = ({
   onSelect = () => undefined,
   albums,
   routes,
   renderLeaf,
+  renderFolderLabel,
   showExpandControls = false,
 }: AccordionProps) => {
   const pathname = usePathname();
@@ -57,6 +64,17 @@ const Accordion = ({
     [currentUri]
   );
 
+  const expandAll = () => {
+    setListHeight(albums ? countEntries(albums) : 0);
+    setExpandMode("all");
+  };
+
+  const collapseAll = () => {
+    setExpandMode("none");
+    setOpenItem(null);
+    setListHeight(0);
+  };
+
   const state: AccordionState = useMemo(
     () => ({
       openItem,
@@ -69,6 +87,7 @@ const Accordion = ({
       onSelect,
       getItemHref,
       renderLeaf,
+      renderFolderLabel,
       expandMode,
       setExpandMode,
     }),
@@ -82,6 +101,7 @@ const Accordion = ({
       isViewingImage,
       getItemHref,
       renderLeaf,
+      renderFolderLabel,
       expandMode,
     ]
   );
@@ -93,12 +113,16 @@ const Accordion = ({
       <div className={styles.root}>
         {showExpandControls && (
           <div className={styles.expandControls}>
-            <button type="button" onClick={() => setExpandMode("all")}>
-              Expand all
-            </button>
-            <button type="button" onClick={() => setExpandMode("none")}>
-              Collapse all
-            </button>
+            <div className={styles.expandButton}>
+              <Button type="button" onClick={expandAll}>
+                Expand all
+              </Button>
+            </div>
+            <div className={styles.expandButton}>
+              <Button type="button" onClick={collapseAll}>
+                Collapse all
+              </Button>
+            </div>
           </div>
         )}
         {albums.children.map((entry) => (

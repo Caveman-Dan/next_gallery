@@ -31,6 +31,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
     onSelect,
     getItemHref,
     renderLeaf,
+    renderFolderLabel,
     expandMode,
     setExpandMode,
   } = useAccordionState();
@@ -54,6 +55,8 @@ const ExpandingLayer = memo(function ExpandingLayer({
     [setExpandMode, setOpenItem]
   );
 
+  const handleToggle = () => handleOpenItem(isSectionOpen ? parentEntryDetails : currentEntryDetails);
+
   // Spring only needed for root-level animated sections
   const springs = useSectionSpring(isSectionOpen, listHeight, entry.depth, renderChildren && isRootItem);
 
@@ -66,6 +69,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   // Handle selection from URL when closed menu is reset or when accessed from link / direct load
   useLayoutEffect(() => {
+    if (expandMode !== "manual") return;
     if (!currentUri || openItem) return;
 
     if (uriParts[entry.depth] === entry.name) {
@@ -87,6 +91,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
     entry.children?.length,
     entry.depth,
     entry.name,
+    expandMode,
     openItem,
     setListHeight,
     setOpenItem,
@@ -95,6 +100,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   // Handle selection from state (user clicks or after openItem is set from URL)
   useLayoutEffect(() => {
+    if (expandMode !== "manual") return;
     if (!renderChildren) return;
     if (!openItem) {
       if (!currentUri) {
@@ -118,7 +124,16 @@ const ExpandingLayer = memo(function ExpandingLayer({
       setIsSectionOpen(false);
       setRenderNextChild(false);
     }
-  }, [entry.children?.length, entry.depth, entry.path, openItem, renderChildren, setListHeight, currentUri]);
+  }, [
+    currentUri,
+    entry.children?.length,
+    entry.depth,
+    entry.path,
+    expandMode,
+    openItem,
+    renderChildren,
+    setListHeight,
+  ]);
 
   if (!renderChildren) return null;
 
@@ -153,7 +168,13 @@ const ExpandingLayer = memo(function ExpandingLayer({
       isOpenList={isOpenList}
       isRootItem={isRootItem}
       springs={springs}
-      onToggle={() => handleOpenItem(isSectionOpen ? parentEntryDetails : currentEntryDetails)}
+      onToggle={handleToggle}
+      labelStart={renderFolderLabel?.({
+        entry,
+        isSectionOpen,
+        isRootItem,
+        onToggle: handleToggle,
+      })}
     >
       {entry.children!.map((nextEntry) => (
         <ExpandingLayer

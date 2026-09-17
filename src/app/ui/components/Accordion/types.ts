@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction, ReactNode } from "react";
 import type { DirectoryTree } from "directory-tree";
 
 export interface EntryDetails {
@@ -22,6 +22,13 @@ export type AccordionLeafProps = {
   getItemHref: (path: string) => string;
 };
 
+export type AccordionFolderProps = {
+  entry: DirectoryEntry;
+  isSectionOpen: boolean;
+  isRootItem: boolean;
+  onToggle: () => void;
+};
+
 export interface AccordionState {
   openItem: EntryDetails | null;
   setOpenItem: (item: EntryDetails | null) => void;
@@ -32,7 +39,8 @@ export interface AccordionState {
   isViewingImage: boolean;
   onSelect: (options?: { skipHistory?: boolean }) => void;
   getItemHref: (path: string) => string;
-  renderLeaf?: (props: AccordionLeafProps) => React.ReactNode;
+  renderLeaf?: (props: AccordionLeafProps) => ReactNode;
+  renderFolderLabel?: (props: AccordionFolderProps) => ReactNode;
   expandMode: AccordionExpandMode;
   setExpandMode: (mode: AccordionExpandMode) => void;
 }

@@ -6,6 +6,7 @@ import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow"
 import styles from "./Accordion.module.scss";
 
 import type { SpringValue } from "@react-spring/web";
+import type { ReactNode } from "react";
 
 interface FolderSectionProps {
   name: string;
@@ -14,7 +15,8 @@ interface FolderSectionProps {
   isRootItem: boolean;
   springs: { height: SpringValue<string> };
   onToggle: () => void;
-  children: React.ReactNode;
+  labelStart?: ReactNode;
+  children: ReactNode;
 }
 
 const FolderSection = ({
@@ -24,6 +26,7 @@ const FolderSection = ({
   isRootItem,
   springs,
   onToggle,
+  labelStart,
   children,
 }: FolderSectionProps) => (
   <div
@@ -31,29 +34,24 @@ const FolderSection = ({
       isSectionOpen && isRootItem ? ` ${styles.openRootExpandingLayer}` : ""
     }${isRootItem ? " baseItem" : ""}`}
   >
-    <div
-      className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}`}
-      onClick={onToggle}
-    >
-      {capitalise(name)}
-      <DirectionalArrow
-        direction={isSectionOpen ? "up" : "down"}
-        height={"28px"}
-        colour={!isSectionOpen ? "var(--highlight-colour-alternate4)" : undefined}
-      />
+    <div className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}`}>
+      {labelStart}
+      <button type="button" className={styles.sectionToggle} onClick={onToggle}>
+        {capitalise(name)}
+        <DirectionalArrow
+          direction={isSectionOpen ? "up" : "down"}
+          height={"28px"}
+          colour={!isSectionOpen ? "var(--highlight-colour-alternate4)" : undefined}
+        />
+      </button>
     </div>
 
     {isRootItem ? (
-      <animated.div
-        className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
-        style={springs}
-      >
+      <animated.div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`} style={springs}>
         {children}
       </animated.div>
     ) : (
-      <div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}>
-        {children}
-      </div>
+      <div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}>{children}</div>
     )}
   </div>
 );

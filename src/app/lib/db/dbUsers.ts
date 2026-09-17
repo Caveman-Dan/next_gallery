@@ -76,6 +76,10 @@ export const listAccessProfiles = async () => {
   })) satisfies AccessProfileOption[];
 };
 
+export const setProfilePublic = async (accessProfileId: number, isPublic: boolean) => {
+  await dbQuery(`UPDATE __PREFIX__access_profiles SET public = ? WHERE id = ?`, [isPublic ? 1 : 0, accessProfileId]);
+};
+
 export const addProfileAlbum = async (accessProfileId: number, albumPath: string) => {
   await dbQuery(
     `INSERT INTO __PREFIX__access_profile_albums (access_profile_id, album_path)

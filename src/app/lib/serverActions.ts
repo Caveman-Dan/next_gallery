@@ -23,6 +23,7 @@ import {
   setUserRole,
   setUserStatus,
   removeProfileAlbum,
+  setProfilePublic,
 } from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
 
@@ -239,5 +240,14 @@ export const adminSetProfileAlbum = async (formData: FormData) => {
   if (!accessProfileId || !albumPath) return;
   if (granted) await addProfileAlbum(accessProfileId, albumPath);
   else await removeProfileAlbum(accessProfileId, albumPath);
+  revalidatePath("/gallery/admin");
+};
+
+export const adminSetProfilePublic = async (formData: FormData) => {
+  await requireAdmin();
+  const accessProfileId = Number(formData.get("accessProfileId"));
+  const isPublic = formData.get("isPublic") === "true";
+  if (!accessProfileId) return;
+  await setProfilePublic(accessProfileId, isPublic);
   revalidatePath("/gallery/admin");
 };

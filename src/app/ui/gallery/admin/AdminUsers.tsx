@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Button from "@/ui/components/Button/Button";
 import Ripple from "@/ui/components/RippleComponent/RippleComponent";
 import { AnimatedComponentProvider } from "@/ui/components/AnimatedComponent/AnimatedComponent";
-import { adminDeleteUser, adminSetUserRevoked } from "@/lib/serverActions";
+import { adminDeleteUser, adminToggleUserActive } from "@/lib/serverActions";
 import PrivilegesPanel from "./PrivilegesPanel";
 import type { AccessProfileOption, AdminUserListItem } from "@/lib/db/dbUsers";
 import styles from "./AdminUsers.module.scss";
@@ -44,7 +44,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                     <Ripple />
                   </button>
                   <div className={styles.rowActions}>
-                    <form action={adminSetUserRevoked}>
+                    <form action={adminToggleUserActive}>
                       <input type="hidden" name="userId" value={user.id} />
                       <input type="hidden" name="pending" value={user.status === "pending" ? "false" : "true"} />
                       <label className={styles.revoke}>

@@ -51,7 +51,8 @@ $option_padding: 5px;
     transition: background-color $menu_transition;
 
     .option {
-      height: 1rem; // Height of option should add up to 2rem for react spring
+      font-size: 1rem; // Height of option should add up to 2rem for react spring
+      line-height: 1; // Without this the text box will be 1.2rem
       overflow: hidden;
       z-index: 1;
       padding: 0.5rem $option_padding; // Height of option should add up to 2rem for react spring

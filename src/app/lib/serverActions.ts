@@ -201,7 +201,7 @@ export const adminSetUserRole = async (formData: FormData) => {
   revalidatePath("/gallery/admin");
 };
 
-export const adminSetUserRevoked = async (formData: FormData) => {
+export const adminToggleUserActive = async (formData: FormData) => {
   await requireAdmin();
   const userId = Number(formData.get("userId"));
   const pending = formData.get("pending") === "true";

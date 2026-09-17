@@ -89,9 +89,9 @@ Last updated: 10 Sep 2026.
 
 ## 7. Admin: users
 
-- [ ] List pending signups. Approve (`active` + assign profile) or deny / disable.
-- [ ] List active users. Assign one access profile. Grant or revoke admin (last-admin guard).
-- [ ] Never display password hashes.
+- [x] List pending signups. Approve (`active` + assign profile) or deny / disable.
+- [x] List active users. Assign one access profile. Grant or revoke admin (last-admin guard).
+- [x] Never display password hashes.
 
 ## 8. Admin: access profiles
 

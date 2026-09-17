@@ -96,6 +96,14 @@ export const createAccessProfile = async (name: string) => {
   return Number(result.insertId);
 };
 
+export const deleteAccessProfile = async (accessProfileId: number) => {
+  const rows = await dbQuery<{ public: number }[]>(`SELECT public FROM __PREFIX__access_profiles WHERE id = ?`, [
+    accessProfileId,
+  ]);
+  if (!rows[0] || rows[0].public) return;
+  await dbQuery(`DELETE FROM __PREFIX__access_profiles WHERE id = ? AND public = 0`, [accessProfileId]);
+};
+
 export const renameAccessProfile = async (accessProfileId: number, name: string) => {
   const rows = await dbQuery<{ public: number }[]>(`SELECT public FROM __PREFIX__access_profiles WHERE id = ?`, [
     accessProfileId,

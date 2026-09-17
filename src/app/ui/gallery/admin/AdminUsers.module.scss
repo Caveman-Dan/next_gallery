@@ -81,6 +81,13 @@
   justify-content: space-between;
 }
 
+.userRow > .rowActions {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  height: auto;
+}
+
 .deleteButton {
   width: auto;
   height: 2rem;

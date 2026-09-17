@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Button from "@/ui/components/Button/Button";
 import { AnimatedComponentProvider } from "@/ui/components/AnimatedComponent/AnimatedComponent";
 import ProfileAlbumsPanel from "./ProfileAlbumsPanel";
-import { adminCreateProfile, adminRenameProfile } from "@/lib/serverActions";
+import { adminCreateProfile, adminRenameProfile, adminDeleteProfile } from "@/lib/serverActions";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import type { DirectoryTree } from "directory-tree";
 import styles from "./AdminUsers.module.scss";
@@ -82,10 +82,25 @@ const AdminProfiles = ({ profiles, albums }: { profiles: AccessProfileOption[]; 
                         </button>
                       )}
                       {!isReservedProfile(profile) && !renaming && (
-                        <div className={styles.headingButton}>
-                          <Button type="button" onClick={() => setRenamingId(profile.id)}>
-                            Rename
-                          </Button>
+                        <div className={styles.rowActions}>
+                          <div className={styles.headingButton}>
+                            <Button type="button" onClick={() => setRenamingId(profile.id)}>
+                              Rename
+                            </Button>
+                          </div>
+                          <form
+                            action={adminDeleteProfile}
+                            onSubmit={(event) => {
+                              if (!window.confirm(`Delete profile “${profile.name}”?`)) {
+                                event.preventDefault();
+                              }
+                            }}
+                          >
+                            <input type="hidden" name="accessProfileId" value={profile.id} />
+                            <div className={styles.headingButton}>
+                              <Button type="submit">Delete</Button>
+                            </div>
+                          </form>
                         </div>
                       )}
                     </li>

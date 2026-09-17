@@ -27,6 +27,7 @@ import {
   createAccessProfile,
   nextUnnamedProfileName,
   renameAccessProfile,
+  deleteAccessProfile,
 } from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
 
@@ -268,5 +269,13 @@ export const adminRenameProfile = async (formData: FormData) => {
   const name = String(formData.get("name") ?? "").trim();
   if (!accessProfileId || !name || name.toLowerCase() === "public") return;
   await renameAccessProfile(accessProfileId, name);
+  revalidatePath("/gallery/admin");
+};
+
+export const adminDeleteProfile = async (formData: FormData) => {
+  await requireAdmin();
+  const accessProfileId = Number(formData.get("accessProfileId"));
+  if (!accessProfileId) return;
+  await deleteAccessProfile(accessProfileId);
   revalidatePath("/gallery/admin");
 };

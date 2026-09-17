@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { useState, useCallback, useMemo, useLayoutEffect } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 import Button from "@/ui/components/Button/Button";
 import ExpandingLayer from "./ExpandingLayer";
@@ -44,12 +44,12 @@ const Accordion = ({
   const [clickedForUri, setClickedForUri] = useState<string | null>(null);
   const [listHeight, setListHeight] = useState(0);
 
-  useLayoutEffect(() => {
-    if (!routes || getActivePathFromPathname(pathname, routes)) return;
+  const onAlbumRoute = Boolean(routes && getActivePathFromPathname(pathname, routes));
+  if (!onAlbumRoute && (clickedItem || clickedForUri || listHeight)) {
     setClickedItem(null);
     setClickedForUri(null);
     setListHeight(0);
-  }, [pathname, routes]);
+  }
 
   const openItem = clickedForUri === currentUri && clickedItem ? clickedItem : urlOpenItem;
 

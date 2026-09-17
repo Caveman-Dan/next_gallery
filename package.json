@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "dotenv -c -- next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
     "migrate:down": "dotenv -c -- tsx db/migrate.ts down",
-    "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts"
+    "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@react-spring/web": "^10.1.2",
@@ -38,6 +40,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
     "sass": "^1.103.1",
     "tsx": "^4.23.13",
     "typescript": "^5"

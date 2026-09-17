@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useElementSize from "@/hooks/useElementSize";
 import ImageSequencer from "@/ui/Album/ImageSequencer/ImageSequencer";
 import AlbumSkeleton from "@/ui/skeletons/AlbumSkeleton/AlbumSkeleton";
@@ -13,12 +13,14 @@ const AlbumView = ({ albumPath, images }: { albumPath: string; images: ImageDeta
   const { ref: contentRef, clientWidth: containerWidth } = useElementSize();
   const albumName = albumPath.split("/").filter(Boolean).at(-1) ?? albumPath;
   const [showImages, setShowImages] = useState(false);
+  const [shownForPath, setShownForPath] = useState(albumPath);
   const ready = containerWidth > 0;
 
   // Reset so a reused AlbumView does not skip the load sequence on album change
-  useEffect(() => {
+  if (shownForPath !== albumPath) {
+    setShownForPath(albumPath);
     setShowImages(false);
-  }, [albumPath]);
+  }
 
   return (
     <div className={styles.imagesContainer}>

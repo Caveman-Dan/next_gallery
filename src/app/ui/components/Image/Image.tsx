@@ -1,7 +1,7 @@
 "use client";
 
 import NextImage, { ImageProps } from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import fallbackImage from "@/assets/alert-triangle.svg?url";
 

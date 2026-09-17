@@ -23,19 +23,17 @@ const PrivilegesPanel = ({
   users: AdminUserListItem[];
 }) => {
   const { hide, show } = useAnimatedComponent();
-  const [displayed, setDisplayed] = useState(selected);
+  const [held, setHeld] = useState(selected);
+  const displayed = held?.id === selected?.id ? selected : held;
   const pending = displayed?.status !== "active";
 
   useEffect(() => {
-    if (displayed?.id === selected?.id) {
-      setDisplayed(selected);
-      return;
-    }
+    if (held?.id === selected?.id) return;
     hide(() => {
-      setDisplayed(selected);
+      setHeld(selected);
       show();
     });
-  }, [displayed?.id, hide, selected, show]);
+  }, [held?.id, hide, selected, show]);
 
   return (
     <AnimatedComponent className={styles.root} fill={false}>

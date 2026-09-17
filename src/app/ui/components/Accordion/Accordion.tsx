@@ -24,6 +24,7 @@ interface AccordionProps {
 }
 
 const Accordion = ({
+  isSidebarOpen = true,
   onSelect = () => undefined,
   albums,
   routes,
@@ -43,12 +44,30 @@ const Accordion = ({
   const [clickedItem, setClickedItem] = useState<EntryDetails | null>(null);
   const [clickedForUri, setClickedForUri] = useState<string | null>(null);
   const [listHeight, setListHeight] = useState(0);
+  const [resetForPath, setResetForPath] = useState(pathname);
+  const [wasSidebarOpen, setWasSidebarOpen] = useState(isSidebarOpen);
 
-  const onAlbumRoute = Boolean(routes && getActivePathFromPathname(pathname, routes));
-  if (!onAlbumRoute && (clickedItem || clickedForUri || listHeight)) {
-    setClickedItem(null);
-    setClickedForUri(null);
-    setListHeight(0);
+  // Only clear click state when the route changes (e.g. /gallery → UserProfile).
+  // Do not clear on every render while still on /gallery or folders never stay open.
+  if (resetForPath !== pathname) {
+    setResetForPath(pathname);
+    if (!routes || !getActivePathFromPathname(pathname, routes)) {
+      setClickedItem(null);
+      setClickedForUri(null);
+      setListHeight(0);
+      setExpandMode("manual");
+    }
+  }
+
+  // Closing the sidebar drops explore clicks so openItem falls back to the URL.
+  // Do not zero listHeight here or the current album section collapses to root.
+  if (wasSidebarOpen !== isSidebarOpen) {
+    setWasSidebarOpen(isSidebarOpen);
+    if (!isSidebarOpen) {
+      setClickedItem(null);
+      setClickedForUri(null);
+      setExpandMode("manual");
+    }
   }
 
   const openItem = clickedForUri === currentUri && clickedItem ? clickedItem : urlOpenItem;

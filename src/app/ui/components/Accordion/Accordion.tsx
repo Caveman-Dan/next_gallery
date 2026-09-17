@@ -106,7 +106,7 @@ const Accordion = ({
 
   return (
     <AccordionProvider value={state}>
-      <div className={styles.root}>
+      <div className={`${styles.root}${expandMode === "all" ? ` ${styles.showAll}` : ""}`}>
         {showExpandControls && (
           <div className={styles.expandControls}>
             <div className={styles.expandButton}>

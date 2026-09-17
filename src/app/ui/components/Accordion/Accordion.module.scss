@@ -91,10 +91,11 @@
     }
   }
 
-  // Hide section labels and links when sibling label is opened:
+  // Hide section labels and links when sibling label is opened.
+  // Skip this in expand-all (.showAll) so every nested row can stay visible.
   // Target .sectionLabel if its parent .expandingLayerContainer is not .baseItem
   // and its parents's sibling has a child with .isOpenLabel
-  :not(.baseItem) {
+  &:not(.showAll) :not(.baseItem) {
     .expandingLayerContainer:has(~ .expandingLayerContainer > .isOpenLabel),  // target .expandingLayerContainer if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
     .expandingLayerContainer:has(> .isOpenLabel) ~ .expandingLayerContainer, // target .expandingLayerContainers following an .expandingLayerContainer that has child with .isOpenLabel
     .link:has(~ .expandingLayerContainer > .isOpenLabel),  // target .link if it is followed by an .expandingLayerContainer that has child with .isOpenLabel
@@ -147,6 +148,9 @@
   flex: 1;
   min-width: 0;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .rowArrow {

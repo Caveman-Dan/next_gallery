@@ -13,8 +13,9 @@ const ProfileAlbumLeaf = ({
   rootPath,
 }: AccordionLeafProps & { profile: AccessProfileOption; rootPath: string }) => (
   <div className={`${styles.link}${isRootItem ? " baseItem" : ""}`}>
+    <span className={styles.rowLabel}>{capitalise(entry.name)}</span>
     <ProfileAlbumGrant profile={profile} albumPath={relativeAlbumPath(entry.path, rootPath)} />
-    {capitalise(entry.name)}
+    <span className={styles.rowArrowSlot} aria-hidden />
   </div>
 );
 

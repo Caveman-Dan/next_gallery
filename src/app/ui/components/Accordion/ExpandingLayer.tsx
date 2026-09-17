@@ -36,8 +36,8 @@ const ExpandingLayer = memo(function ExpandingLayer({
     setExpandMode,
   } = useAccordionState();
 
-  const [isSectionOpen, setIsSectionOpen] = useState(false);
-  const [renderNextChild, setRenderNextChild] = useState(false);
+  const [isSectionOpen, setIsSectionOpen] = useState(expandMode === "all");
+  const [renderNextChild, setRenderNextChild] = useState(expandMode === "all");
 
   const isSelected = uriParts[uriParts.length - 1] === entry.name && entry.depth === uriParts.length - 1;
   const isOpenList = entry.path === openItem?.path;
@@ -57,8 +57,14 @@ const ExpandingLayer = memo(function ExpandingLayer({
 
   const handleToggle = () => handleOpenItem(isSectionOpen ? parentEntryDetails : currentEntryDetails);
 
-  // Spring only needed for root-level animated sections
-  const springs = useSectionSpring(isSectionOpen, listHeight, entry.depth, renderChildren && isRootItem);
+  // Spring only needed for root-level animated sections in manual mode.
+  // Expand-all uses height: auto — listHeight * 2em makes the box huge.
+  const springs = useSectionSpring(
+    isSectionOpen,
+    listHeight,
+    entry.depth,
+    renderChildren && isRootItem && expandMode === "manual"
+  );
 
   useLayoutEffect(() => {
     if (expandMode === "manual") return;
@@ -168,6 +174,7 @@ const ExpandingLayer = memo(function ExpandingLayer({
       isOpenList={isOpenList}
       isRootItem={isRootItem}
       springs={springs}
+      animateHeight={expandMode === "manual"}
       onToggle={handleToggle}
       labelStart={renderFolderLabel?.({
         entry,

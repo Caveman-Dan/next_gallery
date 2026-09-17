@@ -15,6 +15,7 @@ interface FolderSectionProps {
   isRootItem: boolean;
   springs: { height: SpringValue<string> };
   onToggle: () => void;
+  animateHeight?: boolean;
   labelStart?: ReactNode;
   children: ReactNode;
 }
@@ -26,6 +27,7 @@ const FolderSection = ({
   isRootItem,
   springs,
   onToggle,
+  animateHeight = true,
   labelStart,
   children,
 }: FolderSectionProps) => (
@@ -35,9 +37,11 @@ const FolderSection = ({
     }${isRootItem ? " baseItem" : ""}`}
   >
     <div className={`${styles.sectionLabel}${isSectionOpen ? ` ${styles.isOpenLabel}` : ""}`}>
-      {labelStart}
       <button type="button" className={styles.sectionToggle} onClick={onToggle}>
-        {capitalise(name)}
+        <span className={styles.rowLabel}>{capitalise(name)}</span>
+      </button>
+      {labelStart}
+      <button type="button" className={styles.rowArrow} onClick={onToggle}>
         <DirectionalArrow
           direction={isSectionOpen ? "up" : "down"}
           height={"28px"}
@@ -46,12 +50,17 @@ const FolderSection = ({
       </button>
     </div>
 
-    {isRootItem ? (
+    {isRootItem && animateHeight ? (
       <animated.div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`} style={springs}>
         {children}
       </animated.div>
     ) : (
-      <div className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}>{children}</div>
+      <div
+        className={`${styles.expandingLayer}${isOpenList ? ` ${styles.isOpenList}` : ""}`}
+        style={!isRootItem || isSectionOpen ? undefined : { height: 0, overflow: "hidden" }}
+      >
+        {children}
+      </div>
     )}
   </div>
 );

@@ -23,9 +23,6 @@ interface AccordionProps {
   showExpandControls?: boolean;
 }
 
-const countEntries = (node: DirectoryTree): number =>
-  (node.children ?? []).reduce((total, child) => total + 1 + countEntries(child), 0);
-
 const Accordion = ({
   onSelect = () => undefined,
   albums,
@@ -65,7 +62,6 @@ const Accordion = ({
   );
 
   const expandAll = () => {
-    setListHeight(albums ? countEntries(albums) : 0);
     setExpandMode("all");
   };
 

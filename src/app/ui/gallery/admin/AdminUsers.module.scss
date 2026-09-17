@@ -9,165 +9,175 @@
   h3 {
     margin: 0 0 0.75rem;
   }
-}
 
-.layout {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.list,
-.panel,
-.albumsPanel {
-  @include raisedContainer();
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 1rem;
-  background-color: var(--primary-colour-base);
-}
-
-.scroll {
-  min-height: 0;
-}
-
-.userList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.userRow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.25rem;
-  border-radius: $default_border_radius;
-  background-color: var(--primary-colour-light);
-}
-
-.userButton {
-  position: relative;
-  flex: 1;
-  text-align: left;
-  border: 0;
-  border-radius: $default_border_radius;
-  padding: 0.6rem 0.75rem;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  overflow: hidden;
-
-  &:hover,
-  &.isSelected {
-    background-color: var(--highlight-colour-base);
-  }
-}
-
-.userMeta {
-  display: block;
-  font-size: 0.85em;
-  opacity: 0.8;
-}
-
-.rowActions {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.25rem 0;
-}
-
-.profileActions {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-
-.deleteButton {
-  width: auto;
-  height: 2rem;
-  padding: 1rem 0.75rem 0;
-}
-
-.listHeading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-
-  h3 {
-    margin: 0;
-  }
-}
-
-.headingButton {
-  width: auto;
-  height: 2rem;
-}
-
-.renameForm {
-  flex: 1;
-  min-width: 0;
-}
-
-.renameInput {
-  width: 100%;
-  box-sizing: border-box;
-  border: 0;
-  border-radius: $default_border_radius;
-  padding: 0.6rem 0.75rem;
-  background-color: var(--primary-colour-base);
-  color: inherit;
-  font: inherit;
-}
-
-.isNew {
-  animation: profileRowIn 400ms ease-out;
-}
-
-@keyframes profileRowIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.active {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.85em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@include aboveLg {
   .layout {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   .list,
-  .panel {
-    height: 22rem;
-    min-width: 0;
+  .panel,
+  .albumsPanel,
+  .profilesPanel {
+    @include raisedContainer();
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 1rem;
+    background-color: var(--primary-colour-base);
   }
 
   .scroll {
-    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .listHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .headingButton {
+    width: auto;
+    height: 2rem;
+  }
+
+  .userList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .userRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem;
+    border-radius: $default_border_radius;
+    background-color: var(--primary-colour-light);
+  }
+
+  .profileRowInner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .userButton {
+    position: relative;
     flex: 1;
+    text-align: left;
+    border: 0;
+    border-radius: $default_border_radius;
+    padding: 0.6rem 0.75rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    overflow: hidden;
+
+    &:hover,
+    &.isSelected {
+      background-color: var(--highlight-colour-base);
+    }
+  }
+
+  .userMeta {
+    display: block;
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
+  .rowActions {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+  }
+
+  .profileActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .renameForm {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .renameInput {
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: $default_border_radius;
+    padding: 0.6rem 0.75rem;
+    background-color: var(--primary-colour-base);
+    color: inherit;
+    font: inherit;
+  }
+
+  .deleteButton {
+    width: auto;
+    height: 2rem;
+    padding: 1rem 0.75rem 0;
+  }
+
+  .deleteForm {
+    display: flex;
+    align-items: center;
+  }
+
+  .active {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .empty {
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  @include aboveLg {
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      align-items: stretch;
+    }
+
+    .independentCards {
+      align-items: start;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .list,
+    .panel {
+      height: 22rem;
+      min-width: 0;
+    }
+
+    .scroll {
+      overflow-y: auto;
+      flex: 1;
+    }
   }
 }

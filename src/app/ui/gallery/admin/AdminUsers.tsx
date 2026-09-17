@@ -22,7 +22,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
 
   return (
     <div className={styles.root}>
-      <h2>Admin</h2>
+      <h2>Admin - User Settings</h2>
       <div className={styles.layout}>
         <section className={styles.list}>
           <h3>Users</h3>
@@ -47,13 +47,13 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                     <form action={adminToggleUserActive}>
                       <input type="hidden" name="userId" value={user.id} />
                       <input type="hidden" name="pending" value={user.status === "pending" ? "false" : "true"} />
-                      <label className={styles.revoke}>
+                      <label className={styles.active}>
                         <input
                           type="checkbox"
                           checked={user.status !== "pending"}
                           onChange={(event) => event.currentTarget.form?.requestSubmit()}
                         />
-                        Privileges Active
+                        Profiles Active
                       </label>
                     </form>
                     <form
@@ -67,7 +67,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                     >
                       <input type="hidden" name="userId" value={user.id} />
                       <div className={styles.deleteButton}>
-                        <Button type="submit">Delete</Button>
+                        <Button type="submit">Delete User</Button>
                       </div>
                     </form>
                   </div>

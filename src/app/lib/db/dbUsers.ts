@@ -80,6 +80,30 @@ export const setProfilePublic = async (accessProfileId: number, isPublic: boolea
   await dbQuery(`UPDATE __PREFIX__access_profiles SET public = ? WHERE id = ?`, [isPublic ? 1 : 0, accessProfileId]);
 };
 
+export const nextUnnamedProfileName = async () => {
+  const rows = await dbQuery<{ name: string }[]>(`SELECT name FROM __PREFIX__access_profiles`);
+  const used = new Set(rows.map((row) => row.name.toLowerCase()));
+  let n = 1;
+  while (used.has(`un-named ${String(n).padStart(2, "0")}`)) n += 1;
+  return `un-named ${String(n).padStart(2, "0")}`;
+};
+
+export const createAccessProfile = async (name: string) => {
+  const result = await dbQuery<{ insertId: number }>(
+    `INSERT INTO __PREFIX__access_profiles (name, public) VALUES (?, 0)`,
+    [name]
+  );
+  return Number(result.insertId);
+};
+
+export const renameAccessProfile = async (accessProfileId: number, name: string) => {
+  const rows = await dbQuery<{ public: number }[]>(`SELECT public FROM __PREFIX__access_profiles WHERE id = ?`, [
+    accessProfileId,
+  ]);
+  if (!rows[0] || rows[0].public) return;
+  await dbQuery(`UPDATE __PREFIX__access_profiles SET name = ? WHERE id = ? AND public = 0`, [name, accessProfileId]);
+};
+
 export const addProfileAlbum = async (accessProfileId: number, albumPath: string) => {
   await dbQuery(
     `INSERT INTO __PREFIX__access_profile_albums (access_profile_id, album_path)

@@ -87,6 +87,52 @@
   padding: 1rem 0.75rem 0;
 }
 
+.listHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.headingButton {
+  width: auto;
+  height: 2rem;
+}
+
+.renameForm {
+  flex: 1;
+  min-width: 0;
+}
+
+.renameInput {
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: $default_border_radius;
+  padding: 0.6rem 0.75rem;
+  background-color: var(--primary-colour-base);
+  color: inherit;
+  font: inherit;
+}
+
+.isNew {
+  animation: profileRowIn 400ms ease-out;
+}
+
+@keyframes profileRowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .active {
   display: flex;
   align-items: center;

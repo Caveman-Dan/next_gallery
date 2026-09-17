@@ -1,4 +1,4 @@
-import type { FieldConfig, FormConfig, FormState, FormValues, InputState } from "@/definitions/formDefinitions";
+import type { FieldConfig, FormConfig, FormValues, InputState } from "@/definitions/formDefinitions";
 
 export const inputInitialState: InputState = {
   value: "",
@@ -6,8 +6,8 @@ export const inputInitialState: InputState = {
   messages: [],
 };
 
-export const initialFormState = (fields: Record<string, FieldConfig>): FormState =>
-  Object.fromEntries(Object.keys(fields).map((name) => [name, { ...inputInitialState }]));
+export const initialFormState = <K extends string>(fields: Record<K, FieldConfig>): Record<K, InputState> =>
+  Object.fromEntries(Object.keys(fields).map((name) => [name, { ...inputInitialState }])) as Record<K, InputState>;
 
 export const readFormValues = (formData: FormData | undefined, formConfig: FormConfig): FormValues =>
   Object.fromEntries(Object.keys(formConfig.fields).map((name) => [name, String(formData?.get(name) ?? "")]));

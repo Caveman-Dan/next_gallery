@@ -40,13 +40,11 @@ const AdminProfiles = ({ profiles, albums }: { profiles: AccessProfileOption[]; 
           </div>
         </section>
 
-        <section className={styles.panel}>
+        <section className={styles.albumsPanel}>
           <h3>Albums</h3>
-          <div className={styles.scroll}>
-            <AnimatedComponentProvider fadeMs={400} resetOnPathname={false}>
-              <ProfileAlbumsPanel selected={selected} albums={albums} />
-            </AnimatedComponentProvider>
-          </div>
+          <AnimatedComponentProvider fadeMs={400} resetOnPathname={false}>
+            <ProfileAlbumsPanel selected={selected} albums={albums} />
+          </AnimatedComponentProvider>
         </section>
       </div>
     </div>

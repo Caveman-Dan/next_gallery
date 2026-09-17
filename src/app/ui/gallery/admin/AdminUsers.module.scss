@@ -18,7 +18,8 @@
 }
 
 .list,
-.panel {
+.panel,
+.albumsPanel {
   @include raisedContainer();
   display: flex;
   flex-direction: column;

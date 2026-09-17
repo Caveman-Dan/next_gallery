@@ -14,10 +14,12 @@ const ProfileAlbumLeaf = ({
   rootPath,
 }: AccordionLeafProps & { profile: AccessProfileOption; rootPath: string }) => (
   <div className={`${styles.link}${isRootItem ? " baseItem" : ""}`}>
-    <span className={styles.rowLabel}>{capitalise(entry.name)}</span>
-    <ProfileAlbumGrant profile={profile} albumPath={relativeAlbumPath(entry.path, rootPath)} />
-    <span className={styles.rowArrow}>
-      <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+    <span className={styles.rowInner}>
+      <span className={styles.rowLabel}>{capitalise(entry.name)}</span>
+      <ProfileAlbumGrant profile={profile} albumPath={relativeAlbumPath(entry.path, rootPath)} />
+      <span className={styles.rowArrow}>
+        <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+      </span>
     </span>
   </div>
 );

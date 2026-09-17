@@ -3,13 +3,13 @@
   max-height: 80%;
 
   .link {
-    width: calc(100% - 1em - 3px);
+    width: 100%;
+    box-sizing: border-box;
     padding-left: 1em;
-    padding-right: 0.5rem;
+    padding-right: 0;
     height: 2em;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     justify-content: flex-start;
     transition:
       background-color $menu_transition,
@@ -30,7 +30,7 @@
   }
 
   :not(.baseItem) .link {
-    width: calc(100% - 2em);
+    width: 100%;
     padding-left: 2em;
   }
 
@@ -132,6 +132,15 @@
   color: inherit;
   font: inherit;
   cursor: pointer;
+}
+
+.rowInner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 8px;
 }
 
 .rowLabel {

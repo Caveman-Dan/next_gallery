@@ -38,9 +38,11 @@ const AlbumLink = ({ name, href, isSelected, isRootItem, entryDetails, onOpen, o
       onClick={handleClick}
       href={href}
     >
-      <span className={styles.rowLabel}>{capitalise(name)}</span>
-      <span className={styles.rowArrow}>
-        <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+      <span className={styles.rowInner}>
+        <span className={styles.rowLabel}>{capitalise(name)}</span>
+        <span className={styles.rowArrow}>
+          <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
+        </span>
       </span>
     </Link>
   );

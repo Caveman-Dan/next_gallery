@@ -10,6 +10,7 @@
   }
 
   input[type="checkbox"]:indeterminate {
-    // accent-color: #7a7a7a;
+    // muted tick/dash — text.muted from $theme-colours
+    // accent-color: var(--text-colour-muted);
   }
 }

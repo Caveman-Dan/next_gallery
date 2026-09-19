@@ -2,7 +2,8 @@
 
 import { capitalise } from "@/lib/helpers";
 import DirectionalArrow from "@/ui/components/DirectionalArrow/DirectionalArrow";
-import ProfileAlbumGrant, { relativeAlbumPath } from "./ProfileAlbumGrant";
+import ProfileAlbumGrant from "./ProfileAlbumGrant";
+import { relativeAlbumPath } from "@/lib/profileAlbumPaths";
 import type { AccordionLeafProps } from "@/ui/components/Accordion/types";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import type { DirectoryTree } from "directory-tree";

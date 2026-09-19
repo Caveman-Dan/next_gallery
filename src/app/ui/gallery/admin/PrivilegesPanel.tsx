@@ -8,38 +8,16 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { adminSetUserProfile, adminSetUserRole } from "@/lib/serverActions";
 import { accordion as springsConfig } from "@/style/springsConfig";
 import type { AccessProfileOption, AdminUserListItem } from "@/lib/db/dbUsers";
+import PrivilegeProfileItem from "./PrivilegeProfileItem";
+import { syncKnownProfiles, visiblePrivilegeProfiles } from "./privilegesList";
 import styles from "./PrivilegesPanel.module.scss";
+
+const PRIVILEGES_PROFILES_BOTTOM_GAP = 6;
 
 const isLastAdmin = (users: AdminUserListItem[], userId: number) => {
   const target = users.find((user) => user.id === userId);
   if (!target || target.role !== "admin") return false;
   return users.filter((user) => user.role === "admin").length <= 1;
-};
-
-const PrivilegeProfileItem = ({
-  exiting,
-  onExited,
-  children,
-}: {
-  exiting: boolean;
-  onExited: () => void;
-  children: React.ReactNode;
-}) => {
-  const started = useRef(false);
-  const [spring, api] = useSpring(() => ({ opacity: 1, config: springsConfig }));
-
-  useLayoutEffect(() => {
-    if (!exiting || started.current) return;
-    started.current = true;
-    api.start({
-      opacity: 0,
-      onRest: ({ finished }) => {
-        if (finished) onExited();
-      },
-    });
-  }, [api, exiting, onExited]);
-
-  return <animated.li style={spring}>{children}</animated.li>;
 };
 
 const PrivilegesPanel = ({
@@ -64,21 +42,13 @@ const PrivilegesPanel = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const [boxSpring, boxApi] = useSpring(() => ({ height: 0, config: springsConfig }));
-  const justRemoved = knownProfiles.filter((profile) => !profiles.some((item) => item.id === profile.id));
-  if (justRemoved.length) {
-    setKnownProfiles(profiles);
-    setLeaving((current) => [
-      ...current,
-      ...justRemoved.filter((profile) => !current.some((item) => item.id === profile.id)),
-    ]);
-  } else if (knownProfiles.length !== profiles.length) {
-    setKnownProfiles(profiles);
+  const synced = syncKnownProfiles(knownProfiles, profiles, leaving);
+  if (synced) {
+    setKnownProfiles(synced.knownProfiles);
+    setLeaving(synced.leaving);
   }
 
-  const visibleProfiles = [
-    ...profiles,
-    ...leaving.filter((profile) => !profiles.some((item) => item.id === profile.id)),
-  ];
+  const visibleProfiles = visiblePrivilegeProfiles(profiles, leaving);
 
   useEffect(() => {
     if (held?.id === selected?.id) return;
@@ -101,8 +71,7 @@ const PrivilegesPanel = ({
       });
       return;
     }
-    const bottomGap = 6;
-    const available = root.clientHeight - (header?.offsetHeight ?? 0) - bottomGap;
+    const available = root.clientHeight - (header?.offsetHeight ?? 0) - PRIVILEGES_PROFILES_BOTTOM_GAP;
     const target = Math.max(0, Math.min(natural, available));
     boxApi.start({
       height: target,

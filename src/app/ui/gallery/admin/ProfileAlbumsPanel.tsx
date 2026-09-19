@@ -56,6 +56,7 @@ const ProfileAlbumsPanel = ({ selected, albums }: { selected: AccessProfileOptio
                 <ProfileAlbumLeaf
                   {...leafProps}
                   profile={profile}
+                  albums={albums}
                   rootPath={albums.path}
                   onAlbumPathsChange={setAlbumPaths}
                 />
@@ -64,6 +65,8 @@ const ProfileAlbumsPanel = ({ selected, albums }: { selected: AccessProfileOptio
                 <ProfileAlbumGrant
                   profile={profile}
                   albumPath={relativeAlbumPath(entry.path, albums.path)}
+                  albums={albums}
+                  rootPath={albums.path}
                   onAlbumPathsChange={setAlbumPaths}
                 />
               )}

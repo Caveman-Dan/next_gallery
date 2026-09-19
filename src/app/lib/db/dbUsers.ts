@@ -112,6 +112,16 @@ export const renameAccessProfile = async (accessProfileId: number, name: string)
   await dbQuery(`UPDATE __PREFIX__access_profiles SET name = ? WHERE id = ? AND public = 0`, [name, accessProfileId]);
 };
 
+export const setProfileAlbums = async (accessProfileId: number, albumPaths: string[]) => {
+  await dbQuery(`DELETE FROM __PREFIX__access_profile_albums WHERE access_profile_id = ?`, [accessProfileId]);
+  for (const albumPath of albumPaths) {
+    await dbQuery(`INSERT INTO __PREFIX__access_profile_albums (access_profile_id, album_path) VALUES (?, ?)`, [
+      accessProfileId,
+      albumPath,
+    ]);
+  }
+};
+
 export const addProfileAlbum = async (accessProfileId: number, albumPath: string) => {
   await dbQuery(
     `INSERT INTO __PREFIX__access_profile_albums (access_profile_id, album_path)

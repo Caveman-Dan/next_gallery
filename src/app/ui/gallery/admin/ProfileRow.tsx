@@ -10,12 +10,16 @@ const ProfileRow = ({
   exiting,
   onEntered,
   onExited,
+  className,
+  innerClassName,
   children,
 }: {
   isNew: boolean;
   exiting: boolean;
   onEntered: () => void;
   onExited: () => void;
+  className?: string;
+  innerClassName?: string;
   children: React.ReactNode;
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
@@ -49,8 +53,8 @@ const ProfileRow = ({
   }, [api, exiting, onExited]);
 
   return (
-    <animated.li className={styles.userRow} style={{ ...springs, overflow: "hidden" }}>
-      <div ref={innerRef} className={styles.profileRowInner}>
+    <animated.li className={className ?? styles.userRow} style={{ ...springs, overflow: "hidden" }}>
+      <div ref={innerRef} className={innerClassName ?? styles.profileRowInner}>
         {children}
       </div>
     </animated.li>

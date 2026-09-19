@@ -26,6 +26,11 @@
     min-height: 0;
     padding: 1rem;
     background-color: var(--primary-colour-base);
+
+    > *:last-child {
+      flex: 1;
+      min-height: 0;
+    }
   }
 
   .scroll {
@@ -171,7 +176,7 @@
 
     .list,
     .panel {
-      height: 22rem;
+      height: calc(22rem + 6px);
       min-width: 0;
     }
 

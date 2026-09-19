@@ -12,11 +12,20 @@ const ProfileAlbumLeaf = ({
   isRootItem,
   profile,
   rootPath,
-}: AccordionLeafProps & { profile: AccessProfileOption; rootPath: string }) => (
+  onAlbumPathsChange,
+}: AccordionLeafProps & {
+  profile: AccessProfileOption;
+  rootPath: string;
+  onAlbumPathsChange: (albumPaths: string[]) => void;
+}) => (
   <div className={`${styles.link}${isRootItem ? " baseItem" : ""}`}>
     <span className={styles.rowInner}>
       <span className={styles.rowLabel}>{capitalise(entry.name)}</span>
-      <ProfileAlbumGrant profile={profile} albumPath={relativeAlbumPath(entry.path, rootPath)} />
+      <ProfileAlbumGrant
+        profile={profile}
+        albumPath={relativeAlbumPath(entry.path, rootPath)}
+        onAlbumPathsChange={onAlbumPathsChange}
+      />
       <span className={styles.rowArrow}>
         <DirectionalArrow direction="right" height="28px" colour={"var(--highlight-colour-alternate4)"} />
       </span>

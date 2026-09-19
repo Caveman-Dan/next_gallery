@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { adminSetProfileAlbum } from "@/lib/serverActions";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import styles from "@/ui/components/Accordion/Accordion.module.scss";
@@ -11,22 +10,31 @@ export const relativeAlbumPath = (nodePath: string, rootPath: string) => {
   return nodePath.startsWith(prefix) ? nodePath.slice(prefix.length) : nodePath;
 };
 
+/** True when this path is stored, covered by a parent grant, or has a granted child. */
 export const pathIsGranted = (albumPath: string, grants: string[]) =>
-  grants.some((grant) => albumPath === grant || albumPath.startsWith(`${grant}/`));
+  grants.some((grant) => grant === albumPath || albumPath.startsWith(`${grant}/`) || grant.startsWith(`${albumPath}/`));
 
-const ProfileAlbumGrant = ({ profile, albumPath }: { profile: AccessProfileOption; albumPath: string }) => {
-  const grantedFromServer = pathIsGranted(albumPath, profile.albumPaths);
-  const [profileId, setProfileId] = useState(profile.id);
-  const [checked, setChecked] = useState(grantedFromServer);
-
-  if (profile.id !== profileId) {
-    setProfileId(profile.id);
-    setChecked(pathIsGranted(albumPath, profile.albumPaths));
+export const nextAlbumPaths = (albumPaths: string[], albumPath: string, granted: boolean) => {
+  if (granted) {
+    return [...albumPaths.filter((path) => path !== albumPath && !path.startsWith(`${albumPath}/`)), albumPath];
   }
+  return albumPaths.filter((path) => path !== albumPath && !path.startsWith(`${albumPath}/`));
+};
+
+const ProfileAlbumGrant = ({
+  profile,
+  albumPath,
+  onAlbumPathsChange,
+}: {
+  profile: AccessProfileOption;
+  albumPath: string;
+  onAlbumPathsChange: (albumPaths: string[]) => void;
+}) => {
+  const checked = pathIsGranted(albumPath, profile.albumPaths);
 
   const handleChange = () => {
     const next = !checked;
-    setChecked(next);
+    onAlbumPathsChange(nextAlbumPaths(profile.albumPaths, albumPath, next));
     const formData = new FormData();
     formData.set("accessProfileId", String(profile.id));
     formData.set("albumPath", albumPath);

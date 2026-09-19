@@ -57,20 +57,27 @@ const PrivilegesPanel = ({
   const [held, setHeld] = useState(selected);
   const [capped, setCapped] = useState(false);
   const [leaving, setLeaving] = useState<AccessProfileOption[]>([]);
-  const previousProfiles = useRef(profiles);
+  const [knownProfiles, setKnownProfiles] = useState(profiles);
   const displayed = held?.id === selected?.id ? selected : held;
   const pending = displayed?.status !== "active";
   const rootRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const [boxSpring, boxApi] = useSpring(() => ({ height: 0, config: springsConfig }));
-  const justRemoved = previousProfiles.current.filter((profile) => !profiles.some((item) => item.id === profile.id));
+  const justRemoved = knownProfiles.filter((profile) => !profiles.some((item) => item.id === profile.id));
+  if (justRemoved.length) {
+    setKnownProfiles(profiles);
+    setLeaving((current) => [
+      ...current,
+      ...justRemoved.filter((profile) => !current.some((item) => item.id === profile.id)),
+    ]);
+  } else if (knownProfiles.length !== profiles.length) {
+    setKnownProfiles(profiles);
+  }
+
   const visibleProfiles = [
     ...profiles,
     ...leaving.filter((profile) => !profiles.some((item) => item.id === profile.id)),
-    ...justRemoved.filter(
-      (profile) => !profiles.some((item) => item.id === profile.id) && !leaving.some((item) => item.id === profile.id)
-    ),
   ];
 
   useEffect(() => {
@@ -80,15 +87,6 @@ const PrivilegesPanel = ({
       show();
     });
   }, [held?.id, hide, selected, show]);
-
-  useLayoutEffect(() => {
-    if (!justRemoved.length) return;
-    setLeaving((current) => [
-      ...current,
-      ...justRemoved.filter((profile) => !current.some((item) => item.id === profile.id)),
-    ]);
-    previousProfiles.current = profiles;
-  }, [justRemoved, profiles]);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -154,9 +152,7 @@ const PrivilegesPanel = ({
                 <ul className={styles.profileList}>
                   {visibleProfiles.map((profile) => {
                     const granted = displayed.profileIds.includes(profile.id);
-                    const exiting =
-                      leaving.some((item) => item.id === profile.id) ||
-                      justRemoved.some((item) => item.id === profile.id);
+                    const exiting = leaving.some((item) => item.id === profile.id);
                     return (
                       <PrivilegeProfileItem
                         key={profile.id}

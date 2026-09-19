@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { adminReplaceProfileAlbums } from "@/lib/serverActions";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import type { DirectoryTree } from "directory-tree";
@@ -20,7 +20,7 @@ const parentPath = (albumPath: string) => {
   return albumPath.split("/").slice(0, -1).join("/");
 };
 
-const nodeAt = (root: DirectoryTree, albumPath: string, rootPath: string) => {
+const nodeAt = (root: DirectoryTree, albumPath: string) => {
   if (!albumPath) return root;
   let node: DirectoryTree | undefined = root;
   for (const part of albumPath.split("/")) {
@@ -44,7 +44,7 @@ export const collectDescendantPaths = (entry: DirectoryTree, rootPath: string) =
 };
 
 const descendantsOf = (albums: DirectoryTree, rootPath: string, albumPath: string) => {
-  const node = nodeAt(albums, albumPath, rootPath);
+  const node = nodeAt(albums, albumPath);
   return node ? collectDescendantPaths(node, rootPath) : [];
 };
 
@@ -122,9 +122,9 @@ const ProfileAlbumGrant = ({
   const partial = !inDb && !inherited && profile.albumPaths.some((grant) => grant.startsWith(`${albumPath}/`));
   const checked = inDb || inherited || partial;
 
-  if (checkboxRef.current) {
-    checkboxRef.current.indeterminate = partial;
-  }
+  useLayoutEffect(() => {
+    if (checkboxRef.current) checkboxRef.current.indeterminate = partial;
+  }, [partial]);
 
   const handleChange = () => {
     const albumPaths = nextAlbumPaths(profile.albumPaths, albumPath, !checked, albums, rootPath);

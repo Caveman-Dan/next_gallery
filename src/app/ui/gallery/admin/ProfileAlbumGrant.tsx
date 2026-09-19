@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { adminSetProfileAlbum } from "@/lib/serverActions";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
 import styles from "@/ui/components/Accordion/Accordion.module.scss";
@@ -14,21 +15,31 @@ export const pathIsGranted = (albumPath: string, grants: string[]) =>
   grants.some((grant) => albumPath === grant || albumPath.startsWith(`${grant}/`));
 
 const ProfileAlbumGrant = ({ profile, albumPath }: { profile: AccessProfileOption; albumPath: string }) => {
-  const granted = pathIsGranted(albumPath, profile.albumPaths);
+  const grantedFromServer = pathIsGranted(albumPath, profile.albumPaths);
+  const [profileId, setProfileId] = useState(profile.id);
+  const [checked, setChecked] = useState(grantedFromServer);
+
+  if (profile.id !== profileId) {
+    setProfileId(profile.id);
+    setChecked(pathIsGranted(albumPath, profile.albumPaths));
+  }
+
+  const handleChange = () => {
+    const next = !checked;
+    setChecked(next);
+    const formData = new FormData();
+    formData.set("accessProfileId", String(profile.id));
+    formData.set("albumPath", albumPath);
+    formData.set("granted", next ? "true" : "false");
+    void adminSetProfileAlbum(formData);
+  };
+
   return (
-    <form action={adminSetProfileAlbum} className={styles.rowCheck}>
-      <input type="hidden" name="accessProfileId" value={profile.id} />
-      <input type="hidden" name="albumPath" value={albumPath} />
-      <input type="hidden" name="granted" value={granted ? "false" : "true"} />
+    <div className={styles.rowCheck}>
       <label>
-        <input
-          type="checkbox"
-          checked={granted}
-          onChange={(event) => event.currentTarget.form?.requestSubmit()}
-          onClick={(event) => event.stopPropagation()}
-        />
+        <input type="checkbox" checked={checked} onChange={handleChange} onClick={(event) => event.stopPropagation()} />
       </label>
-    </form>
+    </div>
   );
 };
 

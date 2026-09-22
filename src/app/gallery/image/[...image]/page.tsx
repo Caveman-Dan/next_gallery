@@ -25,7 +25,7 @@ const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }
   }
 
   const imagePath = `${albumPath}/${fileName}`;
-  const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
+  const imageUrl = image.src ?? `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
 
   return (
     <div className={styles.root}>

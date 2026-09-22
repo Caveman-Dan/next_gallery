@@ -13,6 +13,7 @@ export type ApiErrorResponse = {
 
 export type ImageDetails = {
   fileName: string;
+  src?: string;
   details: {
     height: number;
     orientation: number;

@@ -22,7 +22,7 @@ const ImageRow = ({ row: { images, rowHeight, spacing }, albumPath }: ImageRowPr
         const { width, height } = image.details;
         const imageWidth = (width / height) * rowHeight;
 
-        const imageUrl = `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${image.fileName}`;
+        const imageUrl = image.src ?? `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${albumPath}/${image.fileName}`;
 
         return (
           <div className={styles.thumbContainer} key={image.fileName} style={{ width: imageWidth }}>

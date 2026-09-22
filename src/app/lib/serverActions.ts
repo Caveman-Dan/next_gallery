@@ -31,6 +31,7 @@ import {
   setProfileAlbums,
 } from "./db/dbUsers";
 import { albumPathAllowed, filterAlbumTree } from "./albumAccess";
+import { signedImageSrc } from "@/lib/imageToken";
 
 import type { DirectoryTree } from "directory-tree";
 import type { FormState } from "@/definitions/formDefinitions";
@@ -78,12 +79,17 @@ export const getImages = async (imageDirectory: string): Promise<ImageDetails[] 
   const requestUrl = new URL(
     `${process.env.API}${process.env.API_GET_IMAGES}/${imageDirectory.split("/").map(encodeURIComponent).join("/")}`
   );
-  return fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
+  const images = await fetchApiJson<ImageDetails[]>(requestUrl, "CDN is missing in environment config!", {
     next: {
       revalidate: IMAGES_REVALIDATE_SECONDS,
       tags: [REVALIDATION_TAGS.albums, `${REVALIDATION_TAGS.albumPrefix}${imageDirectory}`],
     },
   });
+  if (isApiErrorResponse(images) || !Array.isArray(images)) return images;
+  return images.map((image) => ({
+    ...image,
+    src: signedImageSrc(`${imageDirectory}/${image.fileName}`),
+  }));
 };
 
 export const revalidateGalleryCache = async (tags: string[]) => {

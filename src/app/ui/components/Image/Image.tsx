@@ -57,7 +57,10 @@ const Image = ({
         loading="lazy"
         placeholder="empty"
         className={`${styles.image}${fit === "contain" ? ` ${styles.contain}` : ""}${showImage ? ` ${styles.isLoaded}` : ""}${className ? ` ${className}` : ""}`}
-        onLoad={() => setLoaded(true)}
+        onLoad={() => {
+          setLoaded(true);
+          setIntroDone(true);
+        }}
         onTransitionEnd={(event) => {
           if (event.target !== event.currentTarget) return;
           if (event.propertyName !== "opacity") return;

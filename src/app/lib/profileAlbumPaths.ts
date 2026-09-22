@@ -54,6 +54,24 @@ const nearestStoredAncestor = (albumPath: string, grants: string[]) => {
   return null;
 };
 
+// Folders/albums that should stay granted after removing exceptPath from a stored ancestor.
+const siblingSubtreesToKeep = (albums: DirectoryTree, rootPath: string, ancestor: string, exceptPath: string) => {
+  const kept: string[] = [];
+  const suffix = ancestor && exceptPath.startsWith(`${ancestor}/`) ? exceptPath.slice(ancestor.length + 1) : exceptPath;
+  const parts = suffix.split("/").filter(Boolean);
+  let prefix = ancestor;
+  for (const part of parts) {
+    const node = nodeAt(albums, prefix);
+    const nextPrefix = prefix ? `${prefix}/${part}` : part;
+    for (const child of node?.children ?? []) {
+      const relative = relativeAlbumPath(child.path, rootPath);
+      if (relative && relative !== nextPrefix) kept.push(relative);
+    }
+    prefix = nextPrefix;
+  }
+  return kept;
+};
+
 const promoteAncestors = (grants: string[], startPath: string, albums: DirectoryTree, rootPath: string) => {
   let next = [...grants];
   let current = startPath;
@@ -87,9 +105,7 @@ export const nextAlbumPaths = (
 
   const ancestor = nearestStoredAncestor(albumPath, grants);
   if (ancestor) {
-    const kept = descendantsOf(albums, rootPath, ancestor).filter(
-      (path) => path !== albumPath && !path.startsWith(`${albumPath}/`)
-    );
+    const kept = siblingSubtreesToKeep(albums, rootPath, ancestor, albumPath);
     const rest = grants.filter((path) => path !== ancestor && !path.startsWith(`${ancestor}/`));
     return minimalCover([...rest, ...kept]);
   }

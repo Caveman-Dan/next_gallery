@@ -1,4 +1,4 @@
-// import base64url from "base64url";
+import { notFound } from "next/navigation";
 import { getImages } from "@/lib/serverActions";
 import { isApiErrorResponse } from "@/lib/helpers";
 import Image from "@/ui/components/Image/Image";
@@ -11,21 +11,23 @@ const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }
   const albumPath = segments.slice(0, -1).join("/");
 
   if (!fileName || !albumPath) {
-    throw new Error("There was a problem retrieving the image.");
+    notFound();
   }
 
   const response = await getImages(albumPath);
   if (isApiErrorResponse(response) || !Array.isArray(response)) {
-    throw new Error("There was a problem retrieving the image.");
+    notFound();
   }
 
   const image = response.find((entry) => entry.fileName === fileName);
-  if (!image) {
-    throw new Error("There was a problem retrieving the image.");
+  if (!image || !image.src) {
+    notFound();
   }
 
-  const imagePath = `${albumPath}/${fileName}`;
-  const imageUrl = image.src ?? `${process.env.NEXT_PUBLIC_API_GET_IMAGE}/${imagePath}`;
+  const imageUrl = image.src;
+  if (!imageUrl) {
+    throw new Error("There was a problem retrieving the image.");
+  }
 
   return (
     <div className={styles.root}>
@@ -40,6 +42,7 @@ const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }
           // height={height as number}
           fit="contain"
           fill
+          sizes="100vw"
           alt={`Image of ${fileName}`}
           placeholder="blur"
           blurDataURL={image.placeholder.blurData}

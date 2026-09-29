@@ -11,7 +11,7 @@ import styles from "./ProjectOverview.module.scss";
 
 const ProjectOverview = () => (
   <article className={styles.root}>
-    <SpringSection index={0} className={styles.hero}>
+    <SpringSection className={styles.hero}>
       <p className={styles.kicker}>Personal project · Next.js 16</p>
       <h1>Next Gallery</h1>
       <p className={styles.lede}>
@@ -37,7 +37,7 @@ const ProjectOverview = () => (
       </ul>
     </SpringSection>
 
-    <SpringSection index={1}>
+    <SpringSection>
       <h2>What it does</h2>
       <ul className={styles.bullets}>
         <li>Justified album thumbs and a full-image view, with a custom accordion sidebar.</li>
@@ -48,7 +48,7 @@ const ProjectOverview = () => (
       </ul>
     </SpringSection>
 
-    <SpringSection index={2}>
+    <SpringSection>
       <h2>Stack</h2>
       <ul className={styles.chips}>
         <li>Next.js App Router</li>
@@ -68,7 +68,7 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
-    <SpringSection index={3}>
+    <SpringSection>
       <h2>Two processes</h2>
       <p>
         Next owns people and grants. The API owns files. Apache can terminate TLS and reverse-proxy both. Next never
@@ -77,7 +77,7 @@ const ProjectOverview = () => (
       <Architecture className={styles.figure} />
     </SpringSection>
 
-    <SpringSection index={4}>
+    <SpringSection>
       <h2>Who can see what</h2>
       <div className={styles.tableWrap}>
         <table>

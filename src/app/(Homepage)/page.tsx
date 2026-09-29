@@ -1,6 +1,5 @@
 import React from "react";
 
-import Section1 from "@/ui/Home/Section1/Section1";
 import ProjectOverview from "@/ui/Home/ProjectOverview/ProjectOverview";
 
 import type { NextPage } from "next";

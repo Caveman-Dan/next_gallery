@@ -42,7 +42,7 @@ const SingleImageView = async ({ params }: { params: Promise<{ image: string[] }
           // height={height as number}
           fit="contain"
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) calc(100vw - 2 * var(--nav-spacing)), var(--page-width)"
           alt={`Image of ${fileName}`}
           placeholder="blur"
           blurDataURL={image.placeholder.blurData}

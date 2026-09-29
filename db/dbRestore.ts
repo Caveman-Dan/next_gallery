@@ -2,6 +2,8 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import mysql from "mysql2/promise";
+import { backupAppTables } from "./dbBackup";
 
 const BACKUP_DIR = path.join(process.cwd(), "db", "backups");
 
@@ -57,6 +59,19 @@ const restoreDump = (filePath: string) => {
 
 const main = async () => {
   const filePath = resolveBackupFile(process.argv[2]);
+  const { host, user, password, database, port } = dbEnv();
+  const connection = await mysql.createConnection({
+    host,
+    user,
+    password,
+    database,
+    port: Number(port),
+  });
+  try {
+    await backupAppTables(connection, "before-restore");
+  } finally {
+    await connection.end();
+  }
   console.log(`Restoring ${filePath}`);
   await restoreDump(filePath);
   console.log("Restore complete.");

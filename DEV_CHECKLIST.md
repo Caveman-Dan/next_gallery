@@ -104,9 +104,9 @@ Last updated: 10 Sep 2026.
 
 Call this out as an API change before writing it. Keep it small.
 
-- [ ] Next issues a short-lived signed URL (or token) only for allowed paths.
-- [ ] `next_gallery_api` `get_image` rejects unsigned, expired, or wrong-path requests.
-- [ ] Guest-allowed albums work with no login.
+- [x] Next issues a short-lived signed URL (or token) only for allowed paths.
+- [x] `next_gallery_api` `get_image` rejects unsigned, expired, or wrong-path requests.
+- [x] Guest-allowed albums work with no login.
 
 ## 10. Deploy + harden
 

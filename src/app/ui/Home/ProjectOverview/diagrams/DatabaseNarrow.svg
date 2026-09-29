@@ -1,0 +1,109 @@
+<svg viewBox="0 0 480 1760" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Stacked entity relationship diagram for the Next Gallery database">
+  <defs>
+    <marker id="dbn-one" viewBox="0 0 12 18" refX="6" refY="9" markerWidth="12" markerHeight="18" orient="auto-start-reverse">
+      <path d="M2 1 V17 M8 1 V17" stroke="var(--text-colour-alternate)" stroke-width="1.6"></path>
+    </marker>
+    <marker id="dbn-many" viewBox="0 0 22 18" refX="20" refY="9" markerWidth="22" markerHeight="18" orient="auto">
+      <circle cx="6" cy="9" r="3.2" fill="var(--background-colour-textBox)" stroke="var(--text-colour-alternate)" stroke-width="1.4"></circle>
+      <path d="M12 9 L20 2 M12 9 L20 9 M12 9 L20 16" stroke="var(--text-colour-alternate)" stroke-width="1.6"></path>
+    </marker>
+  </defs>
+
+  <rect x="12" y="12" width="456" height="400" rx="16" fill="var(--background-colour-textBox)"></rect>
+  <rect x="12" y="12" width="456" height="48" rx="16" fill="var(--primary-colour-lighter)"></rect>
+  <rect x="12" y="40" width="456" height="20" fill="var(--primary-colour-lighter)"></rect>
+  <text x="28" y="44" fill="var(--text-colour-base)" font-size="22">users</text>
+  <text x="28" y="84" fill="var(--text-colour-alternate)" font-size="15">type</text>
+  <text x="140" y="84" fill="var(--text-colour-alternate)" font-size="15">attribute</text>
+  <text x="390" y="84" fill="var(--text-colour-alternate)" font-size="15">key</text>
+  <path d="M28 96 H452" stroke="var(--border-colour-base)"></path>
+  <text x="28" y="126" fill="currentColor" font-size="18">int</text><text x="140" y="126" fill="currentColor" font-size="18">id</text><text x="390" y="126" fill="var(--text-colour-alternate)" font-size="18">PK</text>
+  <text x="28" y="156" fill="currentColor" font-size="18">varchar</text><text x="140" y="156" fill="currentColor" font-size="18">email</text><text x="390" y="156" fill="var(--text-colour-alternate)" font-size="18">UK</text>
+  <text x="28" y="186" fill="currentColor" font-size="18">varchar</text><text x="140" y="186" fill="currentColor" font-size="18">password_hash</text>
+  <text x="28" y="216" fill="currentColor" font-size="18">varchar</text><text x="140" y="216" fill="currentColor" font-size="18">first_name</text>
+  <text x="28" y="246" fill="currentColor" font-size="18">varchar</text><text x="140" y="246" fill="currentColor" font-size="18">last_name</text>
+  <text x="28" y="276" fill="currentColor" font-size="18">varchar</text><text x="140" y="276" fill="currentColor" font-size="18">phone</text>
+  <text x="28" y="306" fill="currentColor" font-size="18">enum</text><text x="140" y="306" fill="currentColor" font-size="18">role</text>
+  <text x="28" y="336" fill="currentColor" font-size="18">enum</text><text x="140" y="336" fill="currentColor" font-size="18">status</text>
+  <text x="28" y="366" fill="currentColor" font-size="18">datetime</text><text x="140" y="366" fill="currentColor" font-size="18">created_at</text>
+  <text x="28" y="396" fill="currentColor" font-size="18">datetime</text><text x="140" y="396" fill="currentColor" font-size="18">updated_at</text>
+  <path d="M124 102 V396" stroke="var(--border-colour-base)"></path>
+  <path d="M372 102 V396" stroke="var(--border-colour-base)"></path>
+  <rect x="12" y="12" width="456" height="400" rx="16" fill="none" stroke="var(--border-colour-base)"></rect>
+
+  <path d="M240 412 V500" stroke="var(--text-colour-alternate)" stroke-width="1.6" marker-start="url(#dbn-one)" marker-end="url(#dbn-many)"></path>
+  <text x="256" y="462" fill="var(--text-colour-alternate)" font-size="16">sessions.user_id</text>
+
+  <rect x="12" y="500" width="456" height="196" rx="16" fill="var(--background-colour-textBox)"></rect>
+  <rect x="12" y="500" width="456" height="48" rx="16" fill="var(--primary-colour-lighter)"></rect>
+  <rect x="12" y="528" width="456" height="20" fill="var(--primary-colour-lighter)"></rect>
+  <text x="28" y="532" fill="var(--text-colour-base)" font-size="22">sessions</text>
+  <text x="28" y="572" fill="var(--text-colour-alternate)" font-size="15">type</text>
+  <text x="140" y="572" fill="var(--text-colour-alternate)" font-size="15">attribute</text>
+  <text x="390" y="572" fill="var(--text-colour-alternate)" font-size="15">key</text>
+  <path d="M28 584 H452" stroke="var(--border-colour-base)"></path>
+  <text x="28" y="612" fill="currentColor" font-size="18">char</text><text x="140" y="612" fill="currentColor" font-size="18">id</text><text x="390" y="612" fill="var(--text-colour-alternate)" font-size="18">PK</text>
+  <text x="28" y="640" fill="currentColor" font-size="18">int</text><text x="140" y="640" fill="currentColor" font-size="18">user_id</text><text x="390" y="640" fill="var(--text-colour-alternate)" font-size="18">FK</text>
+  <text x="28" y="668" fill="currentColor" font-size="18">datetime</text><text x="140" y="668" fill="currentColor" font-size="18">expires_at</text>
+  <path d="M124 590 V676" stroke="var(--border-colour-base)"></path>
+  <path d="M372 590 V676" stroke="var(--border-colour-base)"></path>
+  <rect x="12" y="500" width="456" height="196" rx="16" fill="none" stroke="var(--border-colour-base)"></rect>
+
+  <path d="M240 696 V784" stroke="var(--text-colour-alternate)" stroke-width="1.6" marker-start="url(#dbn-one)" marker-end="url(#dbn-many)"></path>
+  <text x="256" y="746" fill="var(--text-colour-alternate)" font-size="16">user_id</text>
+
+  <rect x="12" y="784" width="456" height="230" rx="16" fill="var(--background-colour-textBox)"></rect>
+  <rect x="12" y="784" width="456" height="48" rx="16" fill="var(--primary-colour-lighter)"></rect>
+  <rect x="12" y="812" width="456" height="20" fill="var(--primary-colour-lighter)"></rect>
+  <text x="28" y="816" fill="var(--text-colour-base)" font-size="20">user_access_profiles</text>
+  <text x="28" y="856" fill="var(--text-colour-alternate)" font-size="15">type</text>
+  <text x="120" y="856" fill="var(--text-colour-alternate)" font-size="15">attribute</text>
+  <text x="370" y="856" fill="var(--text-colour-alternate)" font-size="15">key</text>
+  <path d="M28 868 H452" stroke="var(--border-colour-base)"></path>
+  <text x="28" y="896" fill="currentColor" font-size="18">int</text><text x="120" y="896" fill="currentColor" font-size="18">id</text><text x="370" y="896" fill="var(--text-colour-alternate)" font-size="18">PK</text>
+  <text x="28" y="924" fill="currentColor" font-size="18">int</text><text x="120" y="924" fill="currentColor" font-size="18">user_id</text><text x="350" y="924" fill="var(--text-colour-alternate)" font-size="16">FK UK</text>
+  <text x="28" y="952" fill="currentColor" font-size="16">int</text><text x="120" y="952" fill="currentColor" font-size="16">access_profile_id</text><text x="360" y="952" fill="var(--text-colour-alternate)" font-size="16">FK UK</text>
+  <path d="M108 874 V990" stroke="var(--border-colour-base)"></path>
+  <path d="M340 874 V990" stroke="var(--border-colour-base)"></path>
+  <rect x="12" y="784" width="456" height="230" rx="16" fill="none" stroke="var(--border-colour-base)"></rect>
+
+  <path d="M240 1014 V1148" stroke="var(--text-colour-alternate)" stroke-width="1.6" marker-start="url(#dbn-many)" marker-end="url(#dbn-one)"></path>
+  <text x="256" y="1090" fill="var(--text-colour-alternate)" font-size="16">access_profiles.id</text>
+
+  <rect x="12" y="1148" width="456" height="250" rx="16" fill="var(--background-colour-textBox)"></rect>
+  <rect x="12" y="1148" width="456" height="48" rx="16" fill="var(--primary-colour-lighter)"></rect>
+  <rect x="12" y="1176" width="456" height="20" fill="var(--primary-colour-lighter)"></rect>
+  <text x="28" y="1180" fill="var(--text-colour-base)" font-size="22">access_profiles</text>
+  <text x="28" y="1220" fill="var(--text-colour-alternate)" font-size="15">type</text>
+  <text x="140" y="1220" fill="var(--text-colour-alternate)" font-size="15">attribute</text>
+  <text x="390" y="1220" fill="var(--text-colour-alternate)" font-size="15">key</text>
+  <path d="M28 1232 H452" stroke="var(--border-colour-base)"></path>
+  <text x="28" y="1260" fill="currentColor" font-size="18">int</text><text x="140" y="1260" fill="currentColor" font-size="18">id</text><text x="390" y="1260" fill="var(--text-colour-alternate)" font-size="18">PK</text>
+  <text x="28" y="1288" fill="currentColor" font-size="18">varchar</text><text x="140" y="1288" fill="currentColor" font-size="18">name</text>
+  <text x="28" y="1316" fill="currentColor" font-size="18">tinyint</text><text x="140" y="1316" fill="currentColor" font-size="18">public</text>
+  <text x="28" y="1344" fill="currentColor" font-size="18">datetime</text><text x="140" y="1344" fill="currentColor" font-size="18">created_at</text>
+  <text x="28" y="1372" fill="currentColor" font-size="18">datetime</text><text x="140" y="1372" fill="currentColor" font-size="18">updated_at</text>
+  <path d="M124 1238 V1380" stroke="var(--border-colour-base)"></path>
+  <path d="M372 1238 V1380" stroke="var(--border-colour-base)"></path>
+  <rect x="12" y="1148" width="456" height="250" rx="16" fill="none" stroke="var(--border-colour-base)"></rect>
+
+  <path d="M240 1398 V1486" stroke="var(--text-colour-alternate)" stroke-width="1.6" marker-start="url(#dbn-one)" marker-end="url(#dbn-many)"></path>
+  <text x="256" y="1448" fill="var(--text-colour-alternate)" font-size="16">access_profile_id</text>
+
+  <rect x="12" y="1486" width="456" height="200" rx="16" fill="var(--background-colour-textBox)"></rect>
+  <rect x="12" y="1486" width="456" height="48" rx="16" fill="var(--primary-colour-lighter)"></rect>
+  <rect x="12" y="1514" width="456" height="20" fill="var(--primary-colour-lighter)"></rect>
+  <text x="28" y="1518" fill="var(--text-colour-base)" font-size="20">access_profile_albums</text>
+  <text x="28" y="1556" fill="var(--text-colour-alternate)" font-size="15">type</text>
+  <text x="130" y="1556" fill="var(--text-colour-alternate)" font-size="15">attribute</text>
+  <text x="370" y="1556" fill="var(--text-colour-alternate)" font-size="15">key</text>
+  <path d="M28 1568 H452" stroke="var(--border-colour-base)"></path>
+  <text x="28" y="1596" fill="currentColor" font-size="18">int</text><text x="130" y="1596" fill="currentColor" font-size="18">id</text><text x="370" y="1596" fill="var(--text-colour-alternate)" font-size="18">PK</text>
+  <text x="28" y="1624" fill="currentColor" font-size="16">int</text><text x="120" y="1624" fill="currentColor" font-size="16">access_profile_id</text><text x="350" y="1624" fill="var(--text-colour-alternate)" font-size="16">FK UK</text>
+  <text x="28" y="1652" fill="currentColor" font-size="18">varchar</text><text x="130" y="1652" fill="currentColor" font-size="18">album_path</text><text x="370" y="1652" fill="var(--text-colour-alternate)" font-size="18">UK</text>
+  <path d="M112 1574 V1664" stroke="var(--border-colour-base)"></path>
+  <path d="M340 1574 V1664" stroke="var(--border-colour-base)"></path>
+  <rect x="12" y="1486" width="456" height="200" rx="16" fill="none" stroke="var(--border-colour-base)"></rect>
+
+  <text x="12" y="1736" fill="currentColor" font-size="15">One to zero-or-more. PK, FK, UK. role: admin or user. status: pending, active, or disabled.</text>
+</svg>

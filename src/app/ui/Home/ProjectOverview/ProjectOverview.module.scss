@@ -77,7 +77,7 @@
     padding: 0.25rem 0.6rem;
     border: 1px solid var(--border-colour-base);
     border-radius: $default_border_radius;
-    background: var(--primary-colour-darker);
+    background: var(--background-colour-textBox);
     color: var(--text-colour-base);
     font-size: 0.85rem;
   }
@@ -98,40 +98,24 @@
   height: auto;
   margin: 0.85rem 0 1rem;
   color: var(--text-colour-base);
-
-  :global(.panel) {
-    fill: var(--background-colour-textBox);
-    stroke: var(--border-colour-base);
-  }
-
-  :global(.accent) {
-    fill: var(--primary-colour-lighter);
-    stroke: var(--border-colour-base);
-  }
-
-  :global(.kicker) {
-    fill: var(--text-colour-alternate);
-  }
-
-  :global(.title) {
-    fill: var(--text-colour-base);
-  }
-
-  :global(.muted) {
-    fill: color-mix(in srgb, var(--text-colour-base) 72%, transparent);
-  }
-
-  :global(.line) {
-    stroke: var(--text-colour-alternate);
-    fill: none;
-  }
-
-  :global(.arrowHead) {
-    fill: var(--text-colour-alternate);
-  }
+  font-family: inherit;
 
   text {
     font-family: inherit;
+  }
+}
+
+.figureWide {
+  @include belowLg {
+    display: none;
+  }
+}
+
+.figureNarrow {
+  display: none;
+
+  @include belowLg {
+    display: block;
   }
 }
 
@@ -156,7 +140,7 @@
   }
 
   th {
-    background: var(--primary-colour-darker);
+    background: var(--background-colour-textBox);
     color: var(--text-colour-alternate);
     font-weight: 600;
   }

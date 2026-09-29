@@ -1,12 +1,12 @@
 <svg viewBox="0 0 920 250" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="What is cached and what is not">
-  <rect x="16" y="24" width="286" height="190" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="16" y="24" width="286" height="190" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <text x="36" y="58" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">FOLDER TREE</text>
   <text x="36" y="96" fill="currentColor" font-size="18">galleryData</text>
   <text x="36" y="128" fill="var(--text-colour-muted)" font-size="14">galleryData:{path}</text>
   <text x="36" y="164" fill="var(--text-colour-muted)" font-size="14">Tagged per principal</text>
   <text x="36" y="188" fill="var(--text-colour-alternate)" font-size="13">guest ≠ admin cache</text>
 
-  <rect x="318" y="24" width="286" height="190" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="318" y="24" width="286" height="190" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <text x="338" y="58" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">FILE LIST</text>
   <text x="338" y="96" fill="currentColor" font-size="18">albums</text>
   <text x="338" y="128" fill="var(--text-colour-muted)" font-size="14">album:{path}</text>

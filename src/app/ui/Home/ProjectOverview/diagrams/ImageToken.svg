@@ -5,7 +5,7 @@
     </marker>
   </defs>
 
-  <rect x="16" y="36" width="200" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="16" y="36" width="200" height="168" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <circle cx="48" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
   <text x="43" y="73" fill="var(--text-colour-alternate)" font-size="14">1</text>
   <text x="72" y="73" fill="currentColor" font-size="16">Grant check</text>
@@ -15,7 +15,7 @@
 
   <path d="M216 120 H248" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
 
-  <rect x="248" y="36" width="210" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="248" y="36" width="210" height="168" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <circle cx="280" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
   <text x="275" y="73" fill="var(--text-colour-alternate)" font-size="14">2</text>
   <text x="304" y="73" fill="currentColor" font-size="16">Sign</text>
@@ -25,7 +25,7 @@
 
   <path d="M458 120 H490" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
 
-  <rect x="490" y="36" width="200" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="490" y="36" width="200" height="168" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <circle cx="522" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
   <text x="517" y="73" fill="var(--text-colour-alternate)" font-size="14">3</text>
   <text x="546" y="73" fill="currentColor" font-size="16">img src</text>
@@ -36,7 +36,7 @@
   <path d="M690 120 H722" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
 
   <rect x="722" y="36" width="182" height="168" rx="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
-  <circle cx="754" cy="68" r="14" fill="var(--primary-colour-darker)" stroke="var(--text-colour-alternate)" />
+  <circle cx="754" cy="68" r="14" fill="var(--background-colour-textBox)" stroke="var(--text-colour-alternate)" />
   <text x="749" y="73" fill="var(--text-colour-alternate)" font-size="14">4</text>
   <text x="778" y="73" fill="currentColor" font-size="16">API</text>
   <text x="742" y="112" fill="var(--text-colour-muted)" font-size="13">match or 401</text>

@@ -5,13 +5,13 @@
     </marker>
   </defs>
 
-  <rect x="28" y="28" width="250" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="28" y="28" width="250" height="168" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <text x="48" y="64" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.4">BROWSER</text>
   <text x="48" y="100" fill="currentColor" font-size="20">Gallery UI</text>
   <text x="48" y="132" fill="var(--text-colour-muted)" font-size="14">Session cookie</text>
   <text x="48" y="156" fill="var(--text-colour-muted)" font-size="14">or none (guest)</text>
 
-  <rect x="520" y="28" width="372" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <rect x="520" y="28" width="372" height="168" rx="14" fill="var(--background-colour-textBox)" stroke="var(--border-colour-base)" />
   <text x="544" y="64" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.4">NEXT GALLERY</text>
   <text x="544" y="100" fill="currentColor" font-size="20">Auth and grants</text>
   <text x="544" y="132" fill="var(--text-colour-muted)" font-size="14">MariaDB · principals</text>

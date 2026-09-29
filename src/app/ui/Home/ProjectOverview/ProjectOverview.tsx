@@ -3,6 +3,7 @@ import Link from "next/link";
 import Architecture from "./diagrams/Architecture.svg";
 import Caching from "./diagrams/Caching.svg";
 import Database from "./diagrams/Database.svg";
+import DatabaseNarrow from "./diagrams/DatabaseNarrow.svg";
 import ImageToken from "./diagrams/ImageToken.svg";
 import SpringSection from "./SpringSection";
 
@@ -117,20 +118,21 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
-    <SpringSection index={5}>
+    <SpringSection>
       <h2>Database</h2>
       <p>
         Tables can live in their own schema or share a host database via <code>DATABASE_PREFIX</code>. Migrations are
         versioned <code>.up.sql</code> / <code>.down.sql</code>. Each migrate writes a mysqldump of Gallery tables only.
       </p>
-      <Database className={styles.figure} />
+      <Database className={`${styles.figure} ${styles.figureWide}`} />
+      <DatabaseNarrow className={`${styles.figure} ${styles.figureNarrow}`} />{" "}
       <p>
         Stored album paths are a cover set: a parent grant implies every descendant. The admin accordion explodes a
         parent into sibling paths when a child is unchecked.
       </p>
     </SpringSection>
 
-    <SpringSection index={6}>
+    <SpringSection>
       <h2>Image tokens</h2>
       <p>
         <code>{"<img>"}</code> cannot send the session cookie to another origin. Next therefore signs a path after the
@@ -139,7 +141,7 @@ const ProjectOverview = () => (
       <ImageToken className={styles.figure} />
     </SpringSection>
 
-    <SpringSection index={7}>
+    <SpringSection>
       <h2>Caching</h2>
       <Caching className={styles.figure} />
       <p>
@@ -147,7 +149,7 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
-    <SpringSection index={8}>
+    <SpringSection>
       <h2>UI</h2>
       <p>
         The gallery chrome, homepage, and admin screens share theme tokens from SCSS colour profiles (light / dark via
@@ -156,7 +158,7 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
-    <SpringSection index={9}>
+    <SpringSection>
       <h2>Operations</h2>
       <ul className={styles.bullets}>
         <li>

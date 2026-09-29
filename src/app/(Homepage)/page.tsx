@@ -1,6 +1,6 @@
 import React from "react";
 
-import Section1 from "@/ui/Home/HomeTopBar/Section1/Section1";
+import Section1 from "@/ui/Home/Section1/Section1";
 
 import type { NextPage } from "next";
 

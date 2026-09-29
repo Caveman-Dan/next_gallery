@@ -110,10 +110,10 @@ Call this out as an API change before writing it. Keep it small.
 
 ## 10. Deploy + harden
 
-- [ ] Production: empty MariaDB → `migrate up` → seed admin + guest profile.
-- [ ] Backup the database before `up` in production. Know how to `down` one version.
-- [ ] HTTPS so `Secure` cookies work.
-- [ ] Do not commit `.env` or seed passwords.
+- [ ] ~~Production: empty MariaDB → `migrate up` → seed admin + guest profile.~~
+- [x] Backup the database before `up` in production. Know how to `down` one version.
+- [x] HTTPS so `Secure` cookies work.
+- [x] Do not commit `.env` or seed passwords.
 
 ---
 

@@ -3,6 +3,7 @@ import path from "node:path";
 import mysql from "mysql2/promise";
 
 import { applyTablePrefix, tableName } from "@/lib/db/dbHelpers";
+import { backupAppTables } from "./dbBackup";
 
 const MIGRATIONS_DIR = path.join(process.cwd(), "db", "migrations");
 
@@ -107,6 +108,7 @@ const main = async () => {
   const connection = await getConnection();
   try {
     await ensureMigrationsTable(connection);
+    await backupAppTables(connection, `before-${direction}`);
     if (direction === "up") {
       await migrateUp(connection);
     } else {

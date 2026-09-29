@@ -11,6 +11,8 @@
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
     "migrate:down": "dotenv -c -- tsx db/migrate.ts down",
     "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts",
+    "db:backup": "dotenv -c -- tsx db/dbBackup.ts",
+    "db:restore": "dotenv -c -- tsx db/dbRestore.ts",
     "prepare": "husky"
   },
   "dependencies": {

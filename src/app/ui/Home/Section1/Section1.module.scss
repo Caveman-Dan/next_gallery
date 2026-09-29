@@ -1,0 +1,15 @@
+.root {
+  h1 {
+    font-size: 3rem;
+  }
+
+  a {
+    transition: unset;
+    color: var(--text-colour-alternate);
+  }
+
+  a:hover {
+    transition: unset;
+    color: var(--text-colour-hover);
+  }
+}

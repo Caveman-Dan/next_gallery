@@ -1,0 +1,44 @@
+<svg viewBox="0 0 920 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gallery database relationships">
+  <rect x="24" y="24" width="250" height="176" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="44" y="56" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">USERS</text>
+  <text x="44" y="88" fill="currentColor" font-size="15">id · email</text>
+  <text x="44" y="114" fill="var(--text-colour-muted)" font-size="14">password_hash</text>
+  <text x="44" y="140" fill="var(--text-colour-muted)" font-size="14">role · status</text>
+  <text x="44" y="170" fill="var(--text-colour-muted)" font-size="13">admin | user</text>
+
+  <rect x="334" y="24" width="250" height="150" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="354" y="56" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">SESSIONS</text>
+  <text x="354" y="90" fill="currentColor" font-size="15">id · user_id</text>
+  <text x="354" y="118" fill="var(--text-colour-muted)" font-size="14">expires_at</text>
+  <text x="354" y="148" fill="var(--text-colour-muted)" font-size="13">httpOnly cookie</text>
+
+  <rect x="644" y="24" width="252" height="176" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="664" y="56" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">USER PROFILES</text>
+  <text x="664" y="90" fill="currentColor" font-size="15">user_id</text>
+  <text x="664" y="118" fill="currentColor" font-size="15">access_profile_id</text>
+  <text x="664" y="152" fill="var(--text-colour-muted)" font-size="13">many profiles / user</text>
+
+  <rect x="334" y="250" width="250" height="176" rx="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
+  <text x="354" y="282" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">ACCESS PROFILES</text>
+  <text x="354" y="316" fill="currentColor" font-size="15">id · name</text>
+  <text x="354" y="344" fill="var(--text-colour-muted)" font-size="14">public flag</text>
+  <text x="354" y="376" fill="var(--text-colour-muted)" font-size="13">Public is reserved</text>
+
+  <rect x="24" y="250" width="250" height="176" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="44" y="282" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">PROFILE ALBUMS</text>
+  <text x="44" y="316" fill="currentColor" font-size="15">album_path</text>
+  <text x="44" y="344" fill="var(--text-colour-muted)" font-size="14">parent covers children</text>
+  <text x="44" y="376" fill="var(--text-colour-muted)" font-size="13">unique per profile</text>
+
+  <rect x="644" y="292" width="252" height="92" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="664" y="328" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.2">SCHEMA MIGRATIONS</text>
+  <text x="664" y="358" fill="var(--text-colour-muted)" font-size="14">version · applied_at</text>
+
+  <path d="M274 100 H334" stroke="var(--border-colour-base)" stroke-width="1.5" />
+  <path d="M584 112 H644" stroke="var(--border-colour-base)" stroke-width="1.5" />
+  <path d="M770 200 V292" stroke="var(--border-colour-base)" stroke-width="1.5" />
+  <path d="M149 250 V200" stroke="var(--border-colour-base)" stroke-width="1.5" />
+  <path d="M274 338 H334" stroke="var(--text-colour-alternate)" stroke-width="1.5" />
+
+  <text x="24" y="490" fill="var(--text-colour-muted)" font-size="13">Prefix empty = this database. Prefix set = only NEXT_GALLERY_* tables.</text>
+</svg>

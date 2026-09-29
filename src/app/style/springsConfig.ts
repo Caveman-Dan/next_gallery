@@ -28,6 +28,13 @@ export const accordion = {
   precision: 0.0,
 } as SpringConf;
 
+export const homeReveal = {
+  mass: 2,
+  tension: 150,
+  friction: 22,
+  precision: 0.01,
+} as SpringConf;
+
 export const modalAppear = {
   open: {
     mass: 7,

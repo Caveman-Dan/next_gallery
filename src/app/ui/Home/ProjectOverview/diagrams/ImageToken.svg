@@ -1,0 +1,47 @@
+<svg viewBox="0 0 920 280" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signed image URL exchange">
+  <defs>
+    <marker id="tok-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="var(--text-colour-alternate)" />
+    </marker>
+  </defs>
+
+  <rect x="16" y="36" width="200" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <circle cx="48" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
+  <text x="43" y="73" fill="var(--text-colour-alternate)" font-size="14">1</text>
+  <text x="72" y="73" fill="currentColor" font-size="16">Grant check</text>
+  <text x="36" y="112" fill="var(--text-colour-muted)" font-size="13">cookie or guest</text>
+  <text x="36" y="136" fill="var(--text-colour-muted)" font-size="13">album allowed?</text>
+  <text x="36" y="168" fill="var(--text-colour-alternate)" font-size="13">else 403</text>
+
+  <path d="M216 120 H248" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
+
+  <rect x="248" y="36" width="210" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <circle cx="280" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
+  <text x="275" y="73" fill="var(--text-colour-alternate)" font-size="14">2</text>
+  <text x="304" y="73" fill="currentColor" font-size="16">Sign</text>
+  <text x="268" y="112" fill="var(--text-colour-muted)" font-size="13">HMAC-SHA256</text>
+  <text x="268" y="136" fill="var(--text-colour-muted)" font-size="13">exp + path</text>
+  <text x="268" y="168" fill="var(--text-colour-alternate)" font-size="13">~10 minutes</text>
+
+  <path d="M458 120 H490" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
+
+  <rect x="490" y="36" width="200" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <circle cx="522" cy="68" r="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
+  <text x="517" y="73" fill="var(--text-colour-alternate)" font-size="14">3</text>
+  <text x="546" y="73" fill="currentColor" font-size="16">img src</text>
+  <text x="510" y="112" fill="var(--text-colour-muted)" font-size="13">?exp= sig=</text>
+  <text x="510" y="136" fill="var(--text-colour-muted)" font-size="13">no session</text>
+  <text x="510" y="168" fill="var(--text-colour-alternate)" font-size="13">unoptimized</text>
+
+  <path d="M690 120 H722" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#tok-arrow)" />
+
+  <rect x="722" y="36" width="182" height="168" rx="14" fill="var(--primary-colour-base)" stroke="var(--text-colour-alternate)" />
+  <circle cx="754" cy="68" r="14" fill="var(--primary-colour-darker)" stroke="var(--text-colour-alternate)" />
+  <text x="749" y="73" fill="var(--text-colour-alternate)" font-size="14">4</text>
+  <text x="778" y="73" fill="currentColor" font-size="16">API</text>
+  <text x="742" y="112" fill="var(--text-colour-muted)" font-size="13">match or 401</text>
+  <text x="742" y="136" fill="var(--text-colour-muted)" font-size="13">reject ..</text>
+  <text x="742" y="168" fill="var(--text-colour-alternate)" font-size="13">bytes</text>
+
+  <text x="16" y="248" fill="var(--text-colour-muted)" font-size="14">A gallery page URL stays shareable. A copied get_image URL dies at exp.</text>
+</svg>

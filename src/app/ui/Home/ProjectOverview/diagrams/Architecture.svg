@@ -1,0 +1,33 @@
+<svg viewBox="0 0 920 430" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Browser, Next Gallery, and the image API">
+  <defs>
+    <marker id="arch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="var(--text-colour-alternate)" />
+    </marker>
+  </defs>
+
+  <rect x="28" y="28" width="250" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="48" y="64" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.4">BROWSER</text>
+  <text x="48" y="100" fill="currentColor" font-size="20">Gallery UI</text>
+  <text x="48" y="132" fill="var(--text-colour-muted)" font-size="14">Session cookie</text>
+  <text x="48" y="156" fill="var(--text-colour-muted)" font-size="14">or none (guest)</text>
+
+  <rect x="520" y="28" width="372" height="168" rx="14" fill="var(--primary-colour-darker)" stroke="var(--border-colour-base)" />
+  <text x="544" y="64" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.4">NEXT GALLERY</text>
+  <text x="544" y="100" fill="currentColor" font-size="20">Auth and grants</text>
+  <text x="544" y="132" fill="var(--text-colour-muted)" font-size="14">MariaDB · principals</text>
+  <text x="544" y="156" fill="var(--text-colour-muted)" font-size="14">profiles · sessions</text>
+
+  <path d="M278 96 H500" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#arch-arrow)" />
+  <text x="318" y="84" fill="var(--text-colour-alternate)" font-size="12">HTML · actions</text>
+
+  <rect x="28" y="248" width="864" height="150" rx="14" fill="var(--primary-colour-base)" stroke="var(--border-colour-base)" />
+  <text x="52" y="286" fill="var(--text-colour-alternate)" font-size="13" letter-spacing="1.4">NEXT GALLERY API</text>
+  <text x="52" y="322" fill="currentColor" font-size="20">Files and sharp</text>
+  <text x="52" y="356" fill="var(--text-colour-muted)" font-size="14">HMAC on get_image only · no users · no sessions · no MariaDB</text>
+
+  <path d="M153 196 V228" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#arch-arrow)" />
+  <text x="168" y="222" fill="var(--text-colour-alternate)" font-size="12">get_image ?exp sig</text>
+
+  <path d="M706 196 V228" stroke="var(--text-colour-alternate)" stroke-width="1.5" marker-end="url(#arch-arrow)" />
+  <text x="490" y="222" fill="var(--text-colour-alternate)" font-size="12">get_albums / get_images (server)</text>
+</svg>

@@ -1,0 +1,167 @@
+.root {
+  color: var(--text-colour-base);
+  line-height: 1.55;
+
+  section {
+    margin-top: 2.25rem;
+  }
+
+  h1 {
+    margin: 0.15rem 0 0.75rem;
+    font-size: 2.1rem;
+    letter-spacing: 0.02em;
+  }
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+    color: var(--text-colour-alternate);
+  }
+
+  p,
+  li {
+    color: var(--text-colour-base);
+  }
+
+  a {
+    color: var(--text-colour-alternate);
+
+    &:hover {
+      color: var(--text-colour-hover);
+    }
+  }
+
+  code {
+    font-size: 0.92em;
+    color: var(--text-colour-alternate);
+  }
+}
+
+.hero {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-colour-base);
+}
+
+.kicker,
+.byline {
+  margin: 0;
+  color: var(--text-colour-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.lede {
+  max-width: 42rem;
+  font-size: 1.05rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  padding: 0;
+  margin: 1rem 0 0;
+  list-style: none;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0;
+  margin: 0 0 1rem;
+  list-style: none;
+
+  li {
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border-colour-base);
+    border-radius: $default_border_radius;
+    background: var(--primary-colour-darker);
+    color: var(--text-colour-base);
+    font-size: 0.85rem;
+  }
+}
+
+.bullets {
+  padding-left: 1.15rem;
+  max-width: 46rem;
+
+  li + li {
+    margin-top: 0.45rem;
+  }
+}
+
+.figure {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.85rem 0 1rem;
+  color: var(--text-colour-base);
+
+  :global(.panel) {
+    fill: var(--background-colour-textBox);
+    stroke: var(--border-colour-base);
+  }
+
+  :global(.accent) {
+    fill: var(--primary-colour-lighter);
+    stroke: var(--border-colour-base);
+  }
+
+  :global(.kicker) {
+    fill: var(--text-colour-alternate);
+  }
+
+  :global(.title) {
+    fill: var(--text-colour-base);
+  }
+
+  :global(.muted) {
+    fill: color-mix(in srgb, var(--text-colour-base) 72%, transparent);
+  }
+
+  :global(.line) {
+    stroke: var(--text-colour-alternate);
+    fill: none;
+  }
+
+  :global(.arrowHead) {
+    fill: var(--text-colour-alternate);
+  }
+
+  text {
+    font-family: inherit;
+  }
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin: 0.75rem 0 1rem;
+  border: 1px solid var(--border-colour-base);
+  border-radius: $default_border_radius;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  th,
+  td {
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-colour-base);
+  }
+
+  th {
+    background: var(--primary-colour-darker);
+    color: var(--text-colour-alternate);
+    font-weight: 600;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}

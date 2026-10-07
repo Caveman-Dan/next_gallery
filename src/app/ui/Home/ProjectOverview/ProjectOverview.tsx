@@ -36,20 +36,24 @@ const ProjectOverview = () => (
       </ul>
     </SpringSection>
 
+    <br />
+
     <SpringSection>
       <h2>What it does</h2>
       <ul className={styles.bullets}>
-        <li>Justified album thumbs and a full-image view, with a custom accordion sidebar.</li>
+        <li>Album pages lay thumbnails out in even rows, then open a full image. The sidebar is a custom accordion.</li>
         <li>Guests see only albums on the reserved Public profile without logging in.</li>
         <li>Signup creates a pending user. An admin activates them and assigns an access profile.</li>
+        <li>Admins activate or remove users, set them as user or admin, and choose which album profiles they get.</li>
+        <li>Admins can add, rename, update, and delete those profiles, then assign them to people.</li>
         <li>
-          Admins manage users, (delete, authorise), assign their role (user or admin) and allocate album access
-          profiles.
+          The gallery list is filtered in Next before it is shown. Each image URL is signed here and checked by the API,
+          so a copied link expires.
         </li>
-        <li>Admins can add, delete, rename and update access profiles and assign them to users</li>
-        <li>Image bytes are signed by Next and checked by the API. Listings stay grant-filtered in Next.</li>
       </ul>
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Stack</h2>
@@ -68,23 +72,27 @@ const ProjectOverview = () => (
       </ul>
       <p>Components are hand-written rather than pulled from a kit:</p>
       <ul className={styles.bullets}>
-        <li>A bespoke accordion</li>
-        <li>A select box with bounce physics</li>
-        <li>Buttons that ripple when clicked</li>
-        <li>Component mount animations</li>
-        <li>A bespoke image justification sequencer</li>
+        <li>An accordion sidebar</li>
+        <li>A select menu with a little bounce</li>
+        <li>Buttons that ripple on click</li>
+        <li>Short animations when panels open</li>
+        <li>An image layout that unevenly aligns thumbnails for better aesthetics</li>
       </ul>
-      <p>Auth lives in Next js and the image API/CDN is for the images.</p>
+      <p>Accounts and permissions live in this Next.js app. The API only stores and serves the pictures.</p>
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Two processes</h2>
       <p>
-        Next owns people and grants. The API/CDN owns files. Apache can terminate TLS and reverse-proxy both. Next never
-        streams originals through a Route Handler.
+        This app knows who you are and which albums you may open. The API holds the files and sends them straight to the
+        browser. Apache handles HTTPS and forwards traffic to both. Originals are never piped through a Next route.
       </p>
       <Architecture className={styles.figure} />
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Who can see what</h2>
@@ -92,7 +100,7 @@ const ProjectOverview = () => (
         <table>
           <thead>
             <tr>
-              <th>Principal</th>
+              <th>Who</th>
               <th>Login</th>
               <th>Albums</th>
             </tr>
@@ -123,30 +131,19 @@ const ProjectOverview = () => (
       </div>
     </SpringSection>
 
+    <br />
+
     <SpringSection>
       <h2>Essential Security</h2>
       <p>
         <strong>Session cookie:</strong> httpOnly, Secure in production, SameSite=Lax, path includes{" "}
-        <code>BASE_PATH</code>. Passwords are encrypted using Argon2id. The first admin is created by an interactive
-        seed script, not values in <code>.env</code>.
+        <code>BASE_PATH</code>. Passwords are hashed with Argon2id. The first admin is created by an interactive seed
+        script, not by values in <code>.env</code>.
       </p>
       <p>
-        <strong>
-          <code>SameSite=Lax</code>
-        </strong>{" "}
-        tells the browser to send the cookie on same-site requests and on cross-site top-level navigations using safe
-        (read-only) HTTP methods — primarily GET requests initiated by the user, like clicking a link.
-      </p>
-      <p>
-        <strong>What it blocks:</strong> the cookie is not attached to cross-site sub-resource requests,{" "}
-        <code>{"<img>"}</code>,<code>{"<iframe>"}</code>, <code>{"<script>"}</code>, AJAX/fetch calls, or cross-site
-        form POST submissions. This is the key CSRF protection: a malicious page can&apos;t silently fire a POST to your
-        site and have the session cookie ride along.
-      </p>
-      <p>
-        <strong>What it allows:</strong> if a user clicks a link to your site from a search engine, social media post,
-        or any other external page, the browser follows that as a top-level GET navigation and does include the session
-        cookie. So the user arrives still logged in.
+        SameSite=Lax means the browser sends your login cookie when you click a link here, including from another site,
+        but not when some other page quietly loads an image, a form post, or a fetch against this app. That is the CSRF
+        (Cross-Site Request Forgery) guard. The table is the short version.
       </p>
 
       <div className={styles.tableWrap}>
@@ -181,6 +178,8 @@ const ProjectOverview = () => (
       </div>
     </SpringSection>
 
+    <br />
+
     <SpringSection>
       <h2>Database</h2>
       <p>
@@ -190,20 +189,25 @@ const ProjectOverview = () => (
       </p>
       <Database />
       <p>
-        Stored album paths are a cover set: In the user profiles, a grant for a parent album implies every descendant.
-        In the admin settings, a parent album is exploded into sibling paths when a child is unchecked, and likewise
-        when all children are checked the siblings are replaced by the parent album.
+        Adding a parent album to a profile will also grant access to every album inside it, so the database stores that
+        one path instead of every child. If a child is unchecked, that parent is exploded into the remaining siblings.
+        Tick them all again and they collapse back to the parent.
       </p>
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Image tokens</h2>
       <p>
-        <code>{"<img>"}</code> cannot send the session cookie to another origin. Next therefore signs a path after the
-        grant check. The API only verifies the auth code in the query parameters.
+        The pictures are served from a different host, and an <code>{"<img>"}</code> tag cannot attach the login cookie
+        there. After Next has checked you are allowed to see the album, it signs the path. The API only checks that
+        signature.
       </p>
       <ImageToken className={styles.figure} />
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Caching</h2>
@@ -213,6 +217,8 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
+    <br />
+
     <SpringSection>
       <h2>Styling</h2>
       <p>
@@ -221,6 +227,8 @@ const ProjectOverview = () => (
       </p>
       <p>Height changes, menus and animated components are animated using react-spring for a subtle bouncy feel.</p>
     </SpringSection>
+
+    <br />
 
     <SpringSection>
       <h2>Operations</h2>
@@ -235,8 +243,7 @@ const ProjectOverview = () => (
           <code>npm run db:seed-admin</code> — prompt for email and password; refuses if an admin already exists.
         </li>
         <li>
-          Production sits behind HTTPS (Apache). <code>src/proxy.ts</code> is a fallback 308 when{" "}
-          <code>x-forwarded-proto</code> is not https.
+          Production sits behind HTTPS. Apache forces https, then reverse-proxies the app. There is no Next proxy file.
         </li>
       </ul>
     </SpringSection>

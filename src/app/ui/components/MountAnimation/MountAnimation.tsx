@@ -5,8 +5,8 @@
 // the close animation and accept a redirect url if required.
 // const closePage = useMountAnimationContext();
 
-import React, { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useCallback, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 
 import MountAnimationContextProvider, { MountAnimationReturnToType } from "./MountAnimationContextProvider";
@@ -33,6 +33,7 @@ export type ClosePageInput = {
 
 const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [isClosing, setIsClosing] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
   const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
@@ -89,6 +90,12 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
 
     setIsClosing(true);
   }, []);
+
+  // Same provider covers every /gallery route, so a push to /gallery does not remount.
+  // Reopen once the pathname actually changes, otherwise the close spring stays at opacity 0.
+  useEffect(() => {
+    setIsClosing(false);
+  }, [pathname]);
 
   return (
     <main className={`${styles.root}${isAnimating ? ` ${styles.isAnimating}` : ""}`}>

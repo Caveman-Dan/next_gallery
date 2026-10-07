@@ -3,7 +3,6 @@ import Link from "next/link";
 import Architecture from "./diagrams/Architecture.svg";
 import Caching from "./diagrams/Caching.svg";
 import Database from "./diagrams/Database.svg";
-import DatabaseNarrow from "./diagrams/DatabaseNarrow.svg";
 import ImageToken from "./diagrams/ImageToken.svg";
 import SpringSection from "./SpringSection";
 
@@ -141,8 +140,8 @@ const ProjectOverview = () => (
       <p>
         <strong>What it blocks:</strong> the cookie is not attached to cross-site sub-resource requests,{" "}
         <code>{"<img>"}</code>,<code>{"<iframe>"}</code>, <code>{"<script>"}</code>, AJAX/fetch calls, or cross-site
-        form POST submissions. This is the key CSRF protection: a malicious page can't silently fire a POST to your site
-        and have the session cookie ride along.
+        form POST submissions. This is the key CSRF protection: a malicious page can&apos;t silently fire a POST to your
+        site and have the session cookie ride along.
       </p>
       <p>
         <strong>What it allows:</strong> if a user clicks a link to your site from a search engine, social media post,

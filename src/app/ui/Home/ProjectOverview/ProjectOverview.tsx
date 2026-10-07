@@ -36,8 +36,6 @@ const ProjectOverview = () => (
       </ul>
     </SpringSection>
 
-    <br />
-
     <SpringSection>
       <h2>What it does</h2>
       <ul className={styles.bullets}>
@@ -52,8 +50,6 @@ const ProjectOverview = () => (
         </li>
       </ul>
     </SpringSection>
-
-    <br />
 
     <SpringSection>
       <h2>Stack</h2>
@@ -81,8 +77,6 @@ const ProjectOverview = () => (
       <p>Accounts and permissions live in this Next.js app. The API only stores and serves the pictures.</p>
     </SpringSection>
 
-    <br />
-
     <SpringSection>
       <h2>Two processes</h2>
       <p>
@@ -91,8 +85,6 @@ const ProjectOverview = () => (
       </p>
       <Architecture className={styles.figure} />
     </SpringSection>
-
-    <br />
 
     <SpringSection>
       <h2>Who can see what</h2>
@@ -131,8 +123,6 @@ const ProjectOverview = () => (
       </div>
     </SpringSection>
 
-    <br />
-
     <SpringSection>
       <h2>Essential Security</h2>
       <p>
@@ -148,37 +138,39 @@ const ProjectOverview = () => (
 
       <div className={styles.tableWrap}>
         <table>
-          <tr>
-            <th>Request type</th>
-            <th>Cookie sent?</th>
-          </tr>
-          <tr>
-            <td>Same-site navigation / AJAX</td>
-            <td>✅</td>
-          </tr>
-          <tr>
-            <td>Cross-site top-level GET (link click)</td>
-            <td>✅</td>
-          </tr>
-          <tr>
-            <td>Cross-site top-level POST (form submit)</td>
-            <td>❌</td>
-          </tr>
-          <tr>
-            <td>
-              Cross-site <code>{"<iframe>"}</code> / <code>{"<img>"}</code> / <code>{"<script>"}</code>
-            </td>
-            <td>❌</td>
-          </tr>
-          <tr>
-            <td>Cross-site AJAX / fetch</td>
-            <td>❌</td>
-          </tr>
+          <thead>
+            <tr>
+              <th>Request type</th>
+              <th>Cookie sent?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Same-site navigation / AJAX</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td>Cross-site top-level GET (link click)</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td>Cross-site top-level POST (form submit)</td>
+              <td>❌</td>
+            </tr>
+            <tr>
+              <td>
+                Cross-site <code>{"<iframe>"}</code> / <code>{"<img>"}</code> / <code>{"<script>"}</code>
+              </td>
+              <td>❌</td>
+            </tr>
+            <tr>
+              <td>Cross-site AJAX / fetch</td>
+              <td>❌</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </SpringSection>
-
-    <br />
 
     <SpringSection>
       <h2>Database</h2>
@@ -195,8 +187,6 @@ const ProjectOverview = () => (
       </p>
     </SpringSection>
 
-    <br />
-
     <SpringSection>
       <h2>Image tokens</h2>
       <p>
@@ -207,8 +197,6 @@ const ProjectOverview = () => (
       <ImageToken className={styles.figure} />
     </SpringSection>
 
-    <br />
-
     <SpringSection>
       <h2>Caching</h2>
       <Caching className={styles.figure} />
@@ -216,8 +204,6 @@ const ProjectOverview = () => (
         Admin edits call <code>revalidatePath</code> / tag updates so a changed grant does not sit in a shared list.
       </p>
     </SpringSection>
-
-    <br />
 
     <SpringSection>
       <h2>Styling</h2>
@@ -227,8 +213,6 @@ const ProjectOverview = () => (
       </p>
       <p>Height changes, menus and animated components are animated using react-spring for a subtle bouncy feel.</p>
     </SpringSection>
-
-    <br />
 
     <SpringSection>
       <h2>Operations</h2>

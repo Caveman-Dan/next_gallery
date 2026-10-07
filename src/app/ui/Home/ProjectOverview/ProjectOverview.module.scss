@@ -105,20 +105,6 @@
   }
 }
 
-.figureWide {
-  @include belowLg {
-    display: none;
-  }
-}
-
-.figureNarrow {
-  display: none;
-
-  @include belowLg {
-    display: block;
-  }
-}
-
 .tableWrap {
   overflow-x: auto;
   margin: 0.75rem 0 1rem;

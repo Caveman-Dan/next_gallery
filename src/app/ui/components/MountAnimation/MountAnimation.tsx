@@ -5,7 +5,7 @@
 // the close animation and accept a redirect url if required.
 // const closePage = useMountAnimationContext();
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { animated, useSpring } from "@react-spring/web";
 
@@ -34,11 +34,14 @@ export type ClosePageInput = {
 const MountAnimation = ({ children, mountAnimationConf }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [isClosing, setIsClosing] = useState(false);
+  const [closingFrom, setClosingFrom] = useState<string | null>(null);
   const [redirectPath, setRedirectPath] = useState<string | undefined>(undefined);
   const [returnToState, setReturnToState] = useState<MountAnimationReturnToType | undefined>(undefined);
   const [isAnimating, setIsAnimating] = useState(true);
 
+  // True only until the route changes. A /gallery push stays on this provider, so this
+  // reopens the spring without setState in an effect.
+  const isClosing = closingFrom !== null && closingFrom === pathname;
   const fadeTimeIn = mountAnimationConf.open.fadeTime;
   const fadeTimeOut = mountAnimationConf.close.fadeTime;
   const targetStyle = isClosing ? mountAnimationConf.close.style : mountAnimationConf.open.style;
@@ -63,39 +66,36 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
     },
   });
 
-  const handleClose = useCallback(({ redirectPath: nextPath, returnTo, returnIndex }: ClosePageInput) => {
-    if (returnTo && returnIndex) {
-      // Scenario 1: remember where we were, then navigate to the link href
-      setReturnToState((prev) => ({
-        ...prev,
-        [returnIndex]: returnTo,
-      }));
-      setRedirectPath(nextPath);
-    } else if (!returnTo && returnIndex) {
-      // Scenario 2: consume a previously stored path, or fall back to the href
-      setReturnToState((prev) => {
-        if (!prev?.[returnIndex]) {
-          setRedirectPath(nextPath);
-          return prev;
-        }
-        setRedirectPath(prev[returnIndex]);
-        const nextState = { ...prev };
-        delete nextState[returnIndex];
-        return nextState;
-      });
-    } else {
-      // Scenario 3: plain redirect
-      setRedirectPath(nextPath);
-    }
+  const handleClose = useCallback(
+    ({ redirectPath: nextPath, returnTo, returnIndex }: ClosePageInput) => {
+      if (returnTo && returnIndex) {
+        // Scenario 1: remember where we were, then navigate to the link href
+        setReturnToState((prev) => ({
+          ...prev,
+          [returnIndex]: returnTo,
+        }));
+        setRedirectPath(nextPath);
+      } else if (!returnTo && returnIndex) {
+        // Scenario 2: consume a previously stored path, or fall back to the href
+        setReturnToState((prev) => {
+          if (!prev?.[returnIndex]) {
+            setRedirectPath(nextPath);
+            return prev;
+          }
+          setRedirectPath(prev[returnIndex]);
+          const nextState = { ...prev };
+          delete nextState[returnIndex];
+          return nextState;
+        });
+      } else {
+        // Scenario 3: plain redirect
+        setRedirectPath(nextPath);
+      }
 
-    setIsClosing(true);
-  }, []);
-
-  // Same provider covers every /gallery route, so a push to /gallery does not remount.
-  // Reopen once the pathname actually changes, otherwise the close spring stays at opacity 0.
-  useEffect(() => {
-    setIsClosing(false);
-  }, [pathname]);
+      setClosingFrom(pathname);
+    },
+    [pathname]
+  );
 
   return (
     <main className={`${styles.root}${isAnimating ? ` ${styles.isAnimating}` : ""}`}>

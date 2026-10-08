@@ -11,6 +11,7 @@ import type { AccessProfileOption, AdminUserListItem } from "@/lib/db/dbUsers";
 import PrivilegeProfileItem from "./PrivilegeProfileItem";
 import { syncKnownProfiles, visiblePrivilegeProfiles } from "./privilegesList";
 import styles from "./PrivilegesPanel.module.scss";
+import { capitalise } from "@/lib/helpers";
 
 const PRIVILEGES_PROFILES_BOTTOM_GAP = 6;
 
@@ -91,12 +92,12 @@ const PrivilegesPanel = ({
             <div className={styles.userNameContainer} ref={headerRef}>
               <p>
                 {displayed.firstName} {displayed.lastName}
-                {pending ? " — pending" : ""}
+                {pending ? " — Pending" : ` — ${capitalise(displayed.role)}`}
               </p>
               <div className={styles.roleSelect}>
                 <Select
                   value={displayed.role}
-                  overlayText="Role"
+                  overlayText={pending ? " Pending" : `${capitalise(displayed.role)}`}
                   onChange={(role) => {
                     if (role === displayed.role) return;
                     if (role === "user" && isLastAdmin(users, displayed.id)) {

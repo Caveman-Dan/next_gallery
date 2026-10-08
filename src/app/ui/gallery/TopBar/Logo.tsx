@@ -13,11 +13,7 @@ const Logo = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const onGalleryIndex = pathname === "/gallery" || pathname === "/gallery/";
-
-  console.log("HERE: ", { searchParams, pathname, onGalleryIndex });
-
   const href = onGalleryIndex ? "/" : "/gallery";
-  // const href = "/gallery";
   const returnTo = searchParams?.toString() ? `${pathname}?${searchParams.toString()}` : pathname;
 
   return (

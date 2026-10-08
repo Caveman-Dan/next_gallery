@@ -58,10 +58,12 @@ export const listAlbumNodes = (tree: DirectoryTree): AlbumNode[] => {
   const albums: AlbumNode[] = [];
 
   const walk = (node: DirectoryTree, isRoot: boolean) => {
-    if (!isRoot && node.type !== "file") {
+    const childDirs = node.children?.filter((child) => child.type !== "file") ?? [];
+    // no child folders means this directory is an album.
+    if (!isRoot && childDirs.length === 0) {
       albums.push({ path: node.path, name: node.name });
     }
-    node.children?.forEach((child) => walk(child, false));
+    childDirs.forEach((child) => walk(child, false));
   };
 
   walk(tree, true);

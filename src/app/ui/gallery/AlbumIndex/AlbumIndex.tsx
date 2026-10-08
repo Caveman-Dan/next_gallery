@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { useAnimatedComponent } from "@/ui/components/AnimatedComponent/AnimatedComponent";
+import Image from "@/ui/components/Image/Image";
 
 import styles from "./AlbumIndex.module.scss";
 
@@ -27,8 +28,12 @@ const AlbumTile = ({ album }: { album: AlbumCover }) => {
         push(album.href);
       }}
     >
-      <span className={styles.cover} style={album.blurData ? { backgroundImage: `url(${album.blurData})` } : undefined}>
-        {album.src ? <img src={album.src} alt="" /> : <span className={styles.noCover}>No pictures yet</span>}
+      <span className={styles.cover}>
+        {album.src ? (
+          <Image src={album.src} alt="" fill sizes="(max-width: 768px) 50vw, 16rem" blurDataURL={album.blurData} />
+        ) : (
+          <span className={styles.noCover}>No pictures yet</span>
+        )}
       </span>
       <span className={styles.name}>{album.name}</span>
       {album.parent ? <span className={styles.parent}>{album.parent}</span> : null}

@@ -18,7 +18,12 @@ const isLastAdmin = (users: AdminUserListItem[], userId: number) => {
 
 const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles: AccessProfileOption[] }) => {
   const [selectedId, setSelectedId] = useState<number | null>(users[0]?.id ?? null);
+  const [statusById, setStatusById] = useState<Record<number, AdminUserListItem["status"]>>(() =>
+    Object.fromEntries(users.map((user) => [user.id, user.status]))
+  );
   const selected = users.find((user) => user.id === selectedId) ?? null;
+  const statusOf = (user: AdminUserListItem) => statusById[user.id] ?? user.status;
+  const selectedForPanel = selected ? { ...selected, status: statusOf(selected) } : null;
 
   return (
     <div className={styles.root}>
@@ -39,19 +44,33 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
                   >
                     {user.firstName} {user.lastName}
                     <span className={styles.userMeta}>
-                      {user.email} · {user.status}
+                      {user.email} · {statusOf(user)}
                     </span>
                     <Ripple />
                   </button>
                   <div className={styles.rowActions}>
-                    <form action={adminToggleUserActive}>
-                      <input type="hidden" name="userId" value={user.id} />
-                      <input type="hidden" name="pending" value={user.status === "pending" ? "false" : "true"} />
+                    <form>
                       <label className={styles.active}>
                         <input
                           type="checkbox"
-                          checked={user.status !== "pending"}
-                          onChange={(event) => event.currentTarget.form?.requestSubmit()}
+                          checked={statusOf(user) !== "pending"}
+                          onChange={(event) => {
+                            const nextActive = event.currentTarget.checked;
+                            if (!nextActive && isLastAdmin(users, user.id)) {
+                              window.alert("There must be at least one admin.");
+                              return;
+                            }
+                            const previous = statusOf(user);
+                            const nextStatus = nextActive ? "active" : "pending";
+                            setStatusById((current) => ({ ...current, [user.id]: nextStatus }));
+                            const formData = new FormData();
+                            formData.set("userId", String(user.id));
+                            formData.set("pending", nextActive ? "false" : "true");
+                            void adminToggleUserActive(formData).then((result) => {
+                              if (result.ok) return;
+                              setStatusById((current) => ({ ...current, [user.id]: previous }));
+                            });
+                          }}
                         />
                         Profiles Active
                       </label>
@@ -80,7 +99,7 @@ const AdminUsers = ({ users, profiles }: { users: AdminUserListItem[]; profiles:
         <section className={styles.panel}>
           <h3>Privileges</h3>
           <AnimatedComponentProvider fadeMs={400} resetOnPathname={false}>
-            <PrivilegesPanel selected={selected} profiles={profiles} users={users} />{" "}
+            <PrivilegesPanel selected={selectedForPanel} profiles={profiles} users={users} />{" "}
           </AnimatedComponentProvider>
         </section>
       </div>

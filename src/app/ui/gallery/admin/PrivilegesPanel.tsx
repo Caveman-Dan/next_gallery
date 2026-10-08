@@ -33,6 +33,7 @@ const PrivilegesPanel = ({
   const windowSize = useWindowSize();
   const aboveLg = windowSize.aboveLg;
   const [held, setHeld] = useState(selected);
+  const [profileIds, setProfileIds] = useState(selected?.profileIds ?? []);
   const [capped, setCapped] = useState(false);
   const [leaving, setLeaving] = useState<AccessProfileOption[]>([]);
   const [knownProfiles, setKnownProfiles] = useState(profiles);
@@ -54,6 +55,7 @@ const PrivilegesPanel = ({
     if (held?.id === selected?.id) return;
     hide(() => {
       setHeld(selected);
+      setProfileIds(selected?.profileIds ?? []);
       show();
     });
   }, [held?.id, hide, selected, show]);
@@ -120,7 +122,7 @@ const PrivilegesPanel = ({
                 <div className={styles.profilesCaption}>User Access Profiles</div>
                 <ul className={styles.profileList}>
                   {visibleProfiles.map((profile) => {
-                    const granted = displayed.profileIds.includes(profile.id);
+                    const granted = profileIds.includes(profile.id);
                     const exiting = leaving.some((item) => item.id === profile.id);
                     return (
                       <PrivilegeProfileItem
@@ -128,21 +130,30 @@ const PrivilegesPanel = ({
                         exiting={exiting}
                         onExited={() => setLeaving((current) => current.filter((item) => item.id !== profile.id))}
                       >
-                        <form action={adminSetUserProfile}>
-                          <input type="hidden" name="userId" value={displayed.id} />
-                          <input type="hidden" name="accessProfileId" value={profile.id} />
-                          <input type="hidden" name="granted" value={granted ? "false" : "true"} />
-                          <label className={styles.profileRow}>
-                            {profile.name}
-                            {profile.isPublic ? " (public)" : ""}
-                            <input
-                              type="checkbox"
-                              checked={granted}
-                              disabled={pending}
-                              onChange={(event) => event.currentTarget.form?.requestSubmit()}
-                            />
-                          </label>
-                        </form>
+                        <label className={styles.profileRow}>
+                          {profile.name}
+                          {profile.isPublic ? " (public)" : ""}
+                          <input
+                            type="checkbox"
+                            checked={granted}
+                            disabled={pending}
+                            onChange={(event) => {
+                              if (pending) return;
+                              const nextGranted = event.currentTarget.checked;
+                              const previous = profileIds;
+                              setProfileIds((current) =>
+                                nextGranted ? [...current, profile.id] : current.filter((id) => id !== profile.id)
+                              );
+                              const formData = new FormData();
+                              formData.set("userId", String(displayed.id));
+                              formData.set("accessProfileId", String(profile.id));
+                              formData.set("granted", nextGranted ? "true" : "false");
+                              void adminSetUserProfile(formData).then((result) => {
+                                if (!result.ok) setProfileIds(previous);
+                              });
+                            }}
+                          />
+                        </label>
                       </PrivilegeProfileItem>
                     );
                   })}

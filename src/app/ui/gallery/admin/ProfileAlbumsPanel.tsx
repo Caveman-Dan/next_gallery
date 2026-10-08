@@ -15,14 +15,16 @@ const ProfileAlbumsPanel = ({ selected, albums }: { selected: AccessProfileOptio
   const { hide, show } = useAnimatedComponent();
   const [held, setHeld] = useState(selected);
   const [albumPaths, setAlbumPaths] = useState(selected?.albumPaths ?? []);
+  const [isPublic, setIsPublic] = useState(selected?.isPublic ?? false);
   const displayed = held?.id === selected?.id ? selected : held;
-  const profile = displayed ? { ...displayed, albumPaths } : null;
+  const profile = displayed ? { ...displayed, albumPaths, isPublic } : null;
 
   useEffect(() => {
     if (held?.id === selected?.id) return;
     hide(() => {
       setHeld(selected);
       setAlbumPaths(selected?.albumPaths ?? []);
+      setIsPublic(selected?.isPublic ?? false);
       show();
     });
   }, [held?.id, hide, selected, show]);
@@ -37,14 +39,21 @@ const ProfileAlbumsPanel = ({ selected, albums }: { selected: AccessProfileOptio
             <span className={styles.caption}>Profile</span>
             <span className={styles.caption}>Public</span>
             <p className={styles.name}>{profile.name}</p>
-            <form action={adminSetProfilePublic} className={styles.publicForm}>
-              <input type="hidden" name="accessProfileId" value={profile.id} />
-              <input type="hidden" name="isPublic" value={profile.isPublic ? "false" : "true"} />
+            <form className={styles.publicForm}>
               <label>
                 <input
                   type="checkbox"
-                  checked={profile.isPublic}
-                  onChange={(event) => event.currentTarget.form?.requestSubmit()}
+                  checked={isPublic}
+                  onChange={(event) => {
+                    const nextPublic = event.currentTarget.checked;
+                    setIsPublic(nextPublic);
+                    const formData = new FormData();
+                    formData.set("accessProfileId", String(profile.id));
+                    formData.set("isPublic", nextPublic ? "true" : "false");
+                    void adminSetProfilePublic(formData).then((result) => {
+                      if (!result.ok) setIsPublic(!nextPublic);
+                    });
+                  }}
                 />
               </label>
             </form>

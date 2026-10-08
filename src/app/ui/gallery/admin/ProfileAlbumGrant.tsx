@@ -31,9 +31,12 @@ const ProfileAlbumGrant = ({
   }, [partial]);
 
   const handleChange = () => {
+    const previous = profile.albumPaths;
     const albumPaths = nextAlbumPaths(profile.albumPaths, albumPath, !checked, albums, rootPath);
     onAlbumPathsChange(albumPaths);
-    void adminReplaceProfileAlbums(profile.id, albumPaths);
+    void adminReplaceProfileAlbums(profile.id, albumPaths).then((result) => {
+      if (!result.ok) onAlbumPathsChange(previous);
+    });
   };
 
   return (

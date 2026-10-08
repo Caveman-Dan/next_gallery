@@ -218,14 +218,11 @@ export const adminToggleUserActive = async (formData: FormData) => {
   await requireAdmin();
   const userId = Number(formData.get("userId"));
   const pending = formData.get("pending") === "true";
-  if (!userId) handleServerError({ message: "Missing user" });
-  if (pending) {
-    if (await isLastAdminId(userId)) return;
-    await setUserStatus(userId, "pending");
-  } else {
-    await setUserStatus(userId, "active");
-  }
+  if (!userId) return { ok: false };
+  if (pending && (await isLastAdminId(userId))) return { ok: false };
+  await setUserStatus(userId, pending ? "pending" : "active");
   revalidatePath("/gallery/admin");
+  return { ok: true };
 };
 
 export const adminSetUserProfile = async (formData: FormData) => {
@@ -233,14 +230,15 @@ export const adminSetUserProfile = async (formData: FormData) => {
   const userId = Number(formData.get("userId"));
   const accessProfileId = Number(formData.get("accessProfileId"));
   const granted = formData.get("granted") === "true";
-  if (!userId || !accessProfileId) handleServerError({ message: "Missing profile grant" });
+  if (!userId || !accessProfileId) return { ok: false };
 
   const users = await listAdminUsers();
   const target = users.find((user) => user.id === userId);
-  if (!target || target.status !== "active") return;
+  if (!target || target.status !== "active") return { ok: false };
   if (granted) await addUserProfile(userId, accessProfileId);
   else await removeUserProfile(userId, accessProfileId);
   revalidatePath("/gallery/admin");
+  return { ok: true };
 };
 
 export const adminSetProfileAlbum = async (formData: FormData) => {
@@ -256,18 +254,20 @@ export const adminSetProfileAlbum = async (formData: FormData) => {
 
 export const adminReplaceProfileAlbums = async (accessProfileId: number, albumPaths: string[]) => {
   await requireAdmin();
-  if (!accessProfileId) return;
+  if (!accessProfileId) return { ok: false };
   await setProfileAlbums(accessProfileId, albumPaths);
   revalidatePath("/gallery/admin");
+  return { ok: true };
 };
 
 export const adminSetProfilePublic = async (formData: FormData) => {
   await requireAdmin();
   const accessProfileId = Number(formData.get("accessProfileId"));
   const isPublic = formData.get("isPublic") === "true";
-  if (!accessProfileId) return;
+  if (!accessProfileId) return { ok: false };
   await setProfilePublic(accessProfileId, isPublic);
   revalidatePath("/gallery/admin");
+  return { ok: true };
 };
 
 export const adminCreateProfile = async () => {

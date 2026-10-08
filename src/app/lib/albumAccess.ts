@@ -1,6 +1,11 @@
 import type { DirectoryTree } from "directory-tree";
 import type { AlbumAccess } from "@/lib/db/dbAccess";
 
+export type AlbumNode = {
+  path: string;
+  name: string;
+};
+
 const normalise = (path: string) => path.replace(/^\/+|\/+$/g, "");
 
 const relativePath = (nodePath: string, rootPath: string) => {
@@ -47,4 +52,18 @@ export const filterAlbumTree = (tree: DirectoryTree, access: AlbumAccess): Direc
     .filter((child): child is DirectoryTree => child !== null);
 
   return { ...tree, children };
+};
+
+export const listAlbumNodes = (tree: DirectoryTree): AlbumNode[] => {
+  const albums: AlbumNode[] = [];
+
+  const walk = (node: DirectoryTree, isRoot: boolean) => {
+    if (!isRoot && node.type !== "file") {
+      albums.push({ path: node.path, name: node.name });
+    }
+    node.children?.forEach((child) => walk(child, false));
+  };
+
+  walk(tree, true);
+  return albums.sort((a, b) => a.path.localeCompare(b.path));
 };

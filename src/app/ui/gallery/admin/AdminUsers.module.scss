@@ -90,6 +90,7 @@
     color: inherit;
     cursor: pointer;
     overflow: hidden;
+    transition: background-color 200ms ease-in-out;
 
     &:hover,
     &.isSelected {

@@ -12,6 +12,7 @@ export type AlbumCover = {
   name: string;
   href: string;
   parent: string;
+  category: string;
   src?: string;
   blurData?: string;
 };
@@ -46,14 +47,28 @@ const AlbumIndex = ({ albums }: { albums: AlbumCover[] }) => {
     return null;
   }
 
+  const groups = albums.reduce<{ category: string; albums: AlbumCover[] }[]>((sections, album) => {
+    const current = sections[sections.length - 1];
+    if (current?.category === album.category) current.albums.push(album);
+    else sections.push({ category: album.category, albums: [album] });
+    return sections;
+  }, []);
+
   return (
-    <ul className={styles.grid}>
-      {albums.map((album) => (
-        <li key={album.path}>
-          <AlbumTile album={album} />
-        </li>
+    <div className={styles.groups}>
+      {groups.map((group) => (
+        <section key={group.category} className={styles.group}>
+          <h2 className={styles.groupHeading}>{group.category}</h2>
+          <ul className={styles.grid}>
+            {group.albums.map((album) => (
+              <li key={album.path}>
+                <AlbumTile album={album} />
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
-    </ul>
+    </div>
   );
 };
 

@@ -26,13 +26,16 @@ const GalleryPage = async () => {
     albums.map(async (album): Promise<AlbumCover> => {
       const images = await getImages(album.path);
       const first = !isApiErrorResponse(images) && images.length ? images[0] : undefined;
-      const parent = album.path.includes("/") ? album.path.slice(0, album.path.lastIndexOf("/")) : "";
+      const parts = album.path.split("/");
+      const category = parts[0];
+      const parent = parts.length > 2 ? parts.slice(1, -1).join(" / ") : "";
 
       return {
         path: album.path,
         name: album.name,
-        href: `/gallery/album/${album.path.split("/").map(encodeURIComponent).join("/")}`,
+        href: `/gallery/album/${parts.map(encodeURIComponent).join("/")}`,
         parent,
+        category,
         src: first?.src,
         blurData: first?.placeholder?.blurData,
       };

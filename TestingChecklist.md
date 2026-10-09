@@ -13,7 +13,7 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 
 ## 0. Decisions (lock these before writing tests)
 
-- [ ] Runner for unit and component tests: Vitest (not Jest). Native ECMAScript modules (ESM), works with the `@/*` path alias (`src/app/*`).
+- [x] Runner for unit and component tests: Vitest (not Jest). Native ECMAScript modules (ESM), works with the `@/*` path alias (`src/app/*`).
 - [ ] Component tests: Vitest + React Testing Library + jsdom.
 - [ ] Browser integration: Playwright, separate script, local app only. Never against production (`https://www.waxworlds.org/dan/next_gallery/gallery`).
 - [ ] Colocate tests as `*.test.ts` / `*.test.tsx` next to the source file.

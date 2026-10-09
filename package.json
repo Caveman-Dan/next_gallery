@@ -8,7 +8,7 @@
     "start": "dotenv -c -- next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --reporter=verbose",
+    "test": "vitest run",
     "test:watch": "vitest",
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
     "migrate:down": "dotenv -c -- tsx db/migrate.ts down",

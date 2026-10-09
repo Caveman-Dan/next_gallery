@@ -4,7 +4,7 @@ import {
   isEmailUnusedByOthers,
   isCurrentPassword,
   isMatchingPassword,
-} from "@/lib/formValidation/validatorTests";
+} from "@/lib/formValidation/validators";
 import { initialFormState } from "@/lib/formValidation/formHelpers";
 import type { FormConfig } from "@/definitions/formDefinitions";
 

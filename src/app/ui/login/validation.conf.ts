@@ -1,4 +1,4 @@
-import { isFieldEmpty, isValidEmail, isValidLogin } from "@/lib/formValidation/validatorTests";
+import { isFieldEmpty, isValidEmail, isValidLogin } from "@/lib/formValidation/validators";
 import type { FormConfig } from "@/definitions/formDefinitions";
 import { initialFormState } from "@/lib/formValidation/formHelpers";
 

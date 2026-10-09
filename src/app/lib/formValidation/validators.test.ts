@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isFieldEmpty, isMatchingPassword, isValidEmail } from "./validatorTests";
+import { isFieldEmpty, isMatchingPassword, isValidEmail } from "./validators";
 
 const options = { errorMessage: "nope" };
 

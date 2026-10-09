@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
-import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { DirectoryTree } from "directory-tree";
 import type { AccessProfileOption } from "@/lib/db/dbUsers";
@@ -28,6 +28,10 @@ const profile = (albumPaths: string[]): AccessProfileOption => ({
 });
 
 describe("ProfileAlbumGrant", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it("checks a stored grant without the indeterminate dash", () => {
     render(
       <ProfileAlbumGrant

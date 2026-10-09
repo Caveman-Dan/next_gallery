@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
     "migrate:down": "dotenv -c -- tsx db/migrate.ts down",
     "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.64.0",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",

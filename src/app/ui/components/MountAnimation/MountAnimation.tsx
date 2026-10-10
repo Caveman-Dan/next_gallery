@@ -49,11 +49,11 @@ const MountAnimation = ({ children, mountAnimationConf }: Props) => {
 
   const spring = useSpring({
     from: {
-      ...mountAnimationConf.close.style,
+      // ...mountAnimationConf.close.style,
       opacity: 0,
     },
     to: {
-      ...targetStyle,
+      // ...targetStyle,
       opacity: isClosing ? 0 : 1,
     },
     config: targetConfig,

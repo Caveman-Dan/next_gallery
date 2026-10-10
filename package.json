@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
+    "test:e2e": "dotenv -c -- playwright test",
     "migrate:up": "dotenv -c -- tsx db/migrate.ts up",
     "migrate:down": "dotenv -c -- tsx db/migrate.ts down",
     "db:seed-admin": "dotenv -c -- tsx db/seed-admin.ts",

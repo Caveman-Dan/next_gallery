@@ -51,7 +51,7 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   basePath: process.env.BASE_PATH,
-  allowedDevOrigins: ["192.168.1.10"],
+  allowedDevOrigins: ["192.168.1.10", "127.0.0.1", "localhost"],
   outputFileTracingRoot: path.join(__dirname),
   images: {
     localPatterns: [

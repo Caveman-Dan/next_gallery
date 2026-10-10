@@ -95,6 +95,8 @@ Serve production over HTTPS (Hypertext Transfer Protocol Secure) so the `Secure`
 | `npm run dev` | Next dev server, `.env` loaded |
 | `npm run build` / `npm start` | Production build and server |
 | `npm run lint` / `npm run typecheck` | ESLint and `tsc --noEmit` |
+| `npm test` / `npm run test:watch` | Vitest once, or watch mode |
+| `npm run test:e2e` | Playwright against the local app. Loads `.env` |
 | `npm run migrate:up` | Apply pending `db/migrations/*.up.sql` |
 | `npm run migrate:down` | Roll back one version with the matching `*.down.sql` |
 | `npm run db:seed-admin` | Create the first admin, if none exists |
@@ -111,9 +113,22 @@ src/app
   lib/              server actions, sessions, grants, API fetch
   style/            theme colours, breakpoints, global SCSS imports
 db/migrations       one up/down pair per version
+e2e/                Playwright browser specs
 ```
 
 `@/*` maps to `src/app/*`.
+
+## Testing
+
+Unit tests sit next to the file they cover (`*.test.ts`, and `*.test.tsx` for a component). They use Vitest. Database, Argon2id, and Next.js navigation are mocked, so `npm test` does not need MariaDB or the image API. The pre-push hook runs lint, the typecheck, Vitest, and the browser suite.
+
+Browser tests live in `e2e/` and use Playwright. They drive the real app, so they need `.env`, MariaDB, and the image API. `npm run test:e2e` loads `.env` and reuses a dev server already on `PORT`. If that port is not serving the login page, it starts one on port 3000. Next.js 16 will not run two `next dev` processes in this repo, so do not expect a second dev server beside the one on `8984`.
+
+Playwright uses the installed Google Chrome (`channel: "chrome"`). Its bundled Chromium does not run on macOS 12. A path in `page.goto` must not start with `/`, or it drops `BASE_PATH`.
+
+Sign-up specs insert a pending user at `e2e-…@example.com`. `e2e/global-teardown.ts` deletes those rows after the suite. Sessions cascade. It does not touch any other user.
+
+`E2E_ADMIN_EMAIL` and `E2E_ADMIN_PASSWORD` in `.env` enable the admin browser spec. Leave them empty and that spec is skipped. The last-admin rule is already covered by the mocked server-action test.
 
 ## Access model
 

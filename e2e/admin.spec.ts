@@ -25,8 +25,14 @@ test("an admin can open profile settings", async ({ page }) => {
   await page.getByLabel("Email").fill(email!);
   await page.getByRole("textbox", { name: "Password", exact: true }).fill(password!);
   await page.locator("button", { hasText: "Login" }).click();
-  await expect(page.getByText("Invalid email or password")).toHaveCount(0);
-  await expect(page).toHaveURL(/\/gallery\/?$/);
+  const reachedGallery = page.waitForURL(/\/gallery\/?$/, { timeout: 20_000 });
+  const rejected = page
+    .getByText("Invalid email or password")
+    .waitFor({ timeout: 20_000 })
+    .then(() => {
+      throw new Error("Admin login was rejected. Check E2E_ADMIN_EMAIL and E2E_ADMIN_PASSWORD.");
+    });
+  await Promise.race([reachedGallery, rejected]);
   await page.goto("gallery/admin");
   await expect(page.getByText("This page could not be found.")).toHaveCount(0);
   await expect(page.locator("h2", { hasText: "Admin - Profile Settings" })).toBeVisible();

@@ -26,6 +26,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? origin(port);
 
 export default defineConfig({
   testDir: "e2e",
+  globalTeardown: "./e2e/global-teardown.ts",
   use: {
     baseURL,
     channel: "chrome",

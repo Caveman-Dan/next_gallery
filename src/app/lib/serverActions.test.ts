@@ -27,6 +27,10 @@ vi.mock("./db/dbSession", () => ({
 
 vi.mock("./db/dbUsers", () => ({
   setProfileAlbums: vi.fn(),
+  listAdminUsers: vi.fn(),
+  countAdmins: vi.fn(),
+  deleteUser: vi.fn(),
+  setUserRole: vi.fn(),
 }));
 
 vi.mock("./formValidation/formValidation", () => ({
@@ -46,13 +50,15 @@ import { revalidatePath } from "next/cache";
 import { getUserByEmail, createPendingUser } from "./db/dbAuthenticate";
 import { getPrincipal } from "./db/dbAccess";
 import { createSession, deleteSession } from "./db/dbSession";
-import { setProfileAlbums } from "./db/dbUsers";
+import { setProfileAlbums, listAdminUsers, countAdmins, deleteUser, setUserRole } from "./db/dbUsers";
 import { validateForm } from "./formValidation/formValidation";
 import { fetchApiJson } from "./fetchApiJson";
 import { getAllowedAlbumPaths } from "./db/dbAccess";
 import { updateUserProfile } from "./db/dbAuthenticate";
 import {
+  adminDeleteUser,
   adminReplaceProfileAlbums,
+  adminSetUserRole,
   authenticateSignIn,
   authenticateSignup,
   getGalleryData,
@@ -171,5 +177,27 @@ describe("serverActions", () => {
     await expect(updateProfile({}, new FormData())).rejects.toThrow("REDIRECT");
     expect(redirect).toHaveBeenCalledWith("/login");
     expect(updateUserProfile).not.toHaveBeenCalled();
+  });
+
+  it("refuses to delete or demote the last admin", async () => {
+    vi.mocked(getPrincipal).mockResolvedValue({
+      kind: "admin",
+      user: { id: "s", userId: 1, email: "a@b.co", role: "admin", status: "active", expiresAt: new Date() },
+    });
+    vi.mocked(listAdminUsers).mockResolvedValue([
+      { id: 2, email: "other@b.co", role: "admin", status: "active" } as never,
+    ]);
+    vi.mocked(countAdmins).mockResolvedValue(1);
+
+    const deleteForm = new FormData();
+    deleteForm.set("userId", "2");
+    await adminDeleteUser(deleteForm);
+    expect(deleteUser).not.toHaveBeenCalled();
+
+    const roleForm = new FormData();
+    roleForm.set("userId", "2");
+    roleForm.set("role", "user");
+    await adminSetUserRole(roleForm);
+    expect(setUserRole).not.toHaveBeenCalled();
   });
 });

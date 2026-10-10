@@ -18,9 +18,6 @@ $theme-colours: (
       base: #000,
       textBox: #272334,
     ),
-    foreground: (
-      base: #bbe7ff,
-    ),
     border: (
       base: #a2a2c2,
     ),
@@ -33,7 +30,6 @@ $theme-colours: (
       alternate1: #5b5470,
       alternate1-opaque1: #5b5470c0,
       alternate2: #484171,
-      alternate2-opaque1: #372a80c0,
       alternate3: #8176c0,
       alternate4: #151519,
     ),
@@ -46,13 +42,6 @@ $theme-colours: (
       dark-opaque1: #323043c0,
       darker: #1c1c28,
     ),
-    secondary: (
-      lighter: #201f26,
-      light: #201f26,
-      base: #201f26,
-      dark: #201f26,
-      darker: #201f26,
-    ),
     error: (
       background: #3e1010,
       border: #c40000,
@@ -62,8 +51,6 @@ $theme-colours: (
     success: (
       background: #336200,
       text: #abff9e,
-      border: #1bb600,
-      shading: #238720,
     ),
   ),
   light: (
@@ -81,9 +68,6 @@ $theme-colours: (
       base: #fff,
       textBox: #e7f5f2,
     ),
-    foreground: (
-      base: #bbe7ff,
-    ),
     border: (
       base: darkslategray,
     ),
@@ -96,7 +80,6 @@ $theme-colours: (
       alternate1: #3e8b7a,
       alternate1-opaque1: #3e8b7a80,
       alternate2: #48766c,
-      alternate2-opaque1: #48766c80,
       alternate3: #b3f8e9,
       alternate4: #151519,
     ),
@@ -109,13 +92,6 @@ $theme-colours: (
       dark-opaque1: #406f6580,
       darker: #151519,
     ),
-    secondary: (
-      lighter: #9dc1d3,
-      light: #9dc1d3,
-      base: #9dc1d3,
-      dark: #9dc1d3,
-      darker: #9dc1d3,
-    ),
     error: (
       background: #fddfdf,
       text: #510000,
@@ -125,8 +101,160 @@ $theme-colours: (
     success: (
       background: #daffb3,
       text: #183813,
-      border: #20d800,
-      shading: #49ff43,
+    ),
+  ),
+  midnight: (
+    blurTint: (
+      base: #050a1428,
+    ),
+    text: (
+      base: #e0e7ff,
+      alternate: #7dd3fc,
+      hover: #22d3ee,
+      ghost: #475569,
+      muted: #475569,
+    ),
+    background: (
+      base: #0a0f1e,
+      textBox: #111827,
+    ),
+    border: (
+      base: #334155,
+    ),
+    shadow: (
+      base: #02061780,
+    ),
+    highlight: (
+      base: #1e293b,
+      base-opaque1: #1e293bc0,
+      alternate1: #0f766e,
+      alternate1-opaque1: #0f766ec0,
+      alternate2: #155e75,
+      alternate3: #67e8f9,
+      alternate4: #020617,
+    ),
+    primary: (
+      lighter: #67e8f9,
+      light: #22d3ee,
+      base: #06b6d4,
+      base-opaque1: #06b6d4c0,
+      dark: #0e7490,
+      dark-opaque1: #0e7490c0,
+      darker: #083344,
+    ),
+    error: (
+      background: #450a0a,
+      border: #dc2626,
+      shading: #991b1b,
+      text: #fecaca,
+    ),
+    success: (
+      background: #14532d,
+      text: #86efac,
+    ),
+  ),
+  sand: (
+    blurTint: (
+      base: #f5f0e670,
+    ),
+    text: (
+      base: #3f2e1e,
+      alternate: #b45309,
+      hover: #d97706,
+      ghost: #a8a29e,
+      muted: #a8a29e,
+    ),
+    background: (
+      base: #faf6f0,
+      textBox: #f3eadf,
+    ),
+    border: (
+      base: #d6d3d1,
+    ),
+    shadow: (
+      base: #78716c40,
+    ),
+    highlight: (
+      base: #e7d5b8,
+      base-opaque1: #e7d5b880,
+      alternate1: #c2410c,
+      alternate1-opaque1: #c2410c80,
+      alternate2: #9a3412,
+      alternate3: #fed7aa,
+      alternate4: #1c1917,
+    ),
+    primary: (
+      lighter: #fed7aa,
+      light: #fdba74,
+      base: #f97316,
+      base-opaque1: #f9731680,
+      dark: #c2410c,
+      dark-opaque1: #c2410c80,
+      darker: #7c2d12,
+    ),
+    error: (
+      background: #fee2e2,
+      border: #ef4444,
+      shading: #dc2626,
+      text: #7f1d1d,
+    ),
+    success: (
+      background: #dcfce7,
+      text: #14532d,
+    ),
+  ),
+  damson: (
+    blurTint: (
+      base: #f6f3f870,
+    ),
+    text: (
+      base: #1a1225,
+      // deep, high contrast on pale surfaces
+      alternate: #f8e8ec,
+      // light rose – high contrast on the maroon bar
+      hover: #e8c8d0,
+      ghost: #b5aeb8,
+      muted: #8d8592,
+    ),
+    background: (
+      base: #fcfafc,
+      textBox: #f5f0f4,
+    ),
+    border: (
+      base: #e8e2e6,
+    ),
+    shadow: (
+      base: #2a1a221a,
+    ),
+    highlight: (
+      base: #b8c7d4,
+      base-opaque1: #b8c7d480,
+      alternate1: #c47a88,
+      alternate1-opaque1: #c47a8880,
+      alternate2: #6b3a46,
+      // deeper soft maroon (open bar)
+      alternate3: #f6eef2,
+      alternate4: #1a1225,
+    ),
+    primary: (
+      lighter: #f0dce2,
+      light: #d4a8b2,
+      base: #b06a7a,
+      // soft maroon accent
+      base-opaque1: #b06a7a80,
+      dark: #8f4d5c,
+      dark-opaque1: #8f4d5c80,
+      darker: #5a3038,
+    ),
+    error: (
+      background: #fef2f2,
+      border: #ef4444,
+      shading: #dc2626,
+      text: #7f1d1d,
+    ),
+    success: (
+      background: #f0fdf4,
+      text: #166534,
     ),
   ),
 );

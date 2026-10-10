@@ -18,6 +18,9 @@ const ThemeSelector = () => {
           <Select value={theme || "system"} onChange={setTheme} overlayText="Theme">
             <div data-value="light">Light</div>
             <div data-value="dark">Dark</div>
+            <div data-value="midnight">Midnight</div>
+            <div data-value="sand">Sand</div>
+            <div data-value="damson">damson</div>
             <div data-value="system">System</div>
           </Select>
         </>
